@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Code, Database, Server, Brain, Wrench } from "lucide-react"
+import { motion, useInView, Variants } from "framer-motion";
+import { useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Code, Database, Server, Brain, Wrench } from "lucide-react";
 
 export default function Skills() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
 
   const skillCategories = [
     {
@@ -22,7 +22,14 @@ export default function Skills() {
     {
       title: "Frameworks & Libraries",
       icon: Server,
-      skills: ["Express.js", "Node.js", "Django", "Django Rest Framework", "React.js", "Next.js"],
+      skills: [
+        "Express.js",
+        "Node.js",
+        "Django",
+        "Django Rest Framework",
+        "React.js",
+        "Next.js",
+      ],
       color: "bg-green-500",
       gradient: "from-green-500 to-green-600",
       shadowColor: "rgba(34, 197, 94, 0.3)",
@@ -54,12 +61,19 @@ export default function Skills() {
     {
       title: "Emerging Technologies",
       icon: Brain,
-      skills: ["Machine Learning Basics", "DevOps Tools", "AI Agents", "AWS", "Azure", "GCP"],
+      skills: [
+        "Machine Learning Basics",
+        "DevOps Tools",
+        "AI Agents",
+        "AWS",
+        "Azure",
+        "GCP",
+      ],
       color: "bg-indigo-500",
       gradient: "from-indigo-500 to-indigo-600",
       shadowColor: "rgba(99, 102, 241, 0.3)",
     },
-  ]
+  ];
 
   // Animation variants
   const containerVariants = {
@@ -71,9 +85,9 @@ export default function Skills() {
         delayChildren: 0.2,
       },
     },
-  }
+  };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 80,
@@ -93,9 +107,9 @@ export default function Skills() {
         stiffness: 100,
       },
     }),
-  }
+  };
 
-  const badgeVariants = {
+  const badgeVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0,
@@ -113,28 +127,22 @@ export default function Skills() {
         stiffness: 200,
       },
     }),
-  }
-
-  const titleVariants = {
-    hidden: {
-      opacity: 0,
-      y: 50,
-      scale: 0.9,
-    },
+  };
+  const titleVariants: Variants = {
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        duration: 0.8,
         ease: "easeOut",
         type: "spring",
-        stiffness: 120,
+        stiffness: 100,
       },
     },
-  }
+  };
 
-  const iconFloat = {
+  const iconFloat: Variants = {
     animate: {
       y: [0, -8, 0],
       rotate: [0, 5, -5, 0],
@@ -144,9 +152,9 @@ export default function Skills() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
-  const pulseAnimation = {
+  const pulseAnimation: Variants = {
     animate: {
       scale: [1, 1.05, 1],
       transition: {
@@ -155,7 +163,7 @@ export default function Skills() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
   return (
     <section
@@ -246,7 +254,8 @@ export default function Skills() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
             >
-              A comprehensive overview of my technical skills and expertise across various domains
+              A comprehensive overview of my technical skills and expertise
+              across various domains
             </motion.p>
           </motion.div>
 
@@ -293,7 +302,9 @@ export default function Skills() {
                       <motion.span
                         className="text-gray-800 font-semibold"
                         whileHover={{
-                          color: category.color.replace("bg-", "#").replace("-500", ""),
+                          color: category.color
+                            .replace("bg-", "#")
+                            .replace("-500", ""),
                           transition: { duration: 0.3 },
                         }}
                       >
@@ -379,14 +390,24 @@ export default function Skills() {
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                transition={{
+                  duration: 15,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
               >
                 <Brain className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">Always Learning New Technologies</span>
+              <span className="text-gray-700 font-semibold text-lg">
+                Always Learning New Technologies
+              </span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
               >
                 <Code className="h-6 w-6 text-purple-500" />
               </motion.div>
@@ -395,5 +416,5 @@ export default function Skills() {
         </div>
       </div>
     </section>
-  )
+  );
 }
