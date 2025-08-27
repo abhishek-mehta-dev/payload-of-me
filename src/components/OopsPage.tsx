@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Shield, ArrowLeft, Home, Info, Github, Lock } from "lucide-react";
+import { Shield, ArrowLeft, Home, Info, Lock } from "lucide-react";
 import FloatingParticles from "./FloatingParticles";
 
 const Index = () => {

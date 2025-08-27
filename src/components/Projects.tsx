@@ -15,7 +15,7 @@ import Image from "next/image";
 import OopsPage from "./OopsPage";
 export default function Projects() {
   const ref = useRef(null);
-  const [showOops, setShowOops] = useState(false);
+  const [showOops] = useState(false);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   if (showOops) {
     return <OopsPage />;

@@ -17,7 +17,6 @@ import {
   Briefcase,
   FolderOpen,
   Mail,
-  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
@@ -240,21 +239,6 @@ export default function Navbar() {
         type: "spring",
         stiffness: 300,
         damping: 20,
-      },
-    },
-  };
-
-  const glowVariants: Variants = {
-    animate: {
-      boxShadow: [
-        "0 0 20px rgba(59, 130, 246, 0.3)",
-        "0 0 30px rgba(147, 51, 234, 0.4)",
-        "0 0 20px rgba(59, 130, 246, 0.3)",
-      ],
-      transition: {
-        duration: 3,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
       },
     },
   };
