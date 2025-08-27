@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { motion, useInView, Variants } from "framer-motion"
-import { useRef } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { GraduationCap, Code, Target } from "lucide-react"
+import { motion, useInView, Variants } from "framer-motion";
+import { useRef } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { GraduationCap, Code, Target } from "lucide-react";
 
 export default function About() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   // Animation variants
-  const containerVariants :Variants= {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -19,7 +19,7 @@ export default function About() {
         delayChildren: 0.1,
       },
     },
-  }
+  };
 
   const fadeInUp: Variants = {
     hidden: {
@@ -37,7 +37,7 @@ export default function About() {
         stiffness: 120,
       },
     },
-  }
+  };
 
   const slideInLeft: Variants = {
     hidden: {
@@ -56,9 +56,9 @@ export default function About() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const slideInRight : Variants= {
+  const slideInRight: Variants = {
     hidden: {
       opacity: 0,
       x: 100,
@@ -75,9 +75,9 @@ export default function About() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const cardVariants :Variants= {
+  const cardVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 50,
@@ -97,9 +97,9 @@ export default function About() {
         stiffness: 150,
       },
     }),
-  }
+  };
 
-  const textReveal :Variants= {
+  const textReveal: Variants = {
     hidden: {
       opacity: 0,
       y: 30,
@@ -113,9 +113,9 @@ export default function About() {
         ease: "easeOut",
       },
     }),
-  }
+  };
 
-  const iconFloat:Variants = {
+  const iconFloat: Variants = {
     animate: {
       y: [0, -8, 0],
       rotate: [0, 5, 0],
@@ -125,10 +125,13 @@ export default function About() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
   return (
-    <section id="about" className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
+    <section
+      id="about"
+      className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden"
+    >
       {/* Animated background elements */}
       <motion.div
         className="absolute top-10 left-10 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"
@@ -166,11 +169,13 @@ export default function About() {
             className="text-center mb-16"
           >
             <motion.h2
-  className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
-  variants={fadeInUp}
-  initial="hidden"
-  animate={isInView ? "visible" : "hidden"}
->  <motion.span
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+              variants={fadeInUp}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
+              {" "}
+              <motion.span
                 className="inline-block"
                 whileHover={{
                   scale: 1.05,
@@ -234,9 +239,11 @@ export default function About() {
                     transition: { duration: 0.3 },
                   }}
                 >
-                  As a dedicated software developer with a strong foundation in backend and full-stack development, I
-                  bring expertise in building scalable and efficient web applications. I completed my Master&apos;s in
-                  Computer Applications in 2024 from Chandigarh University.
+                  As a dedicated software developer with a strong foundation in
+                  backend and full-stack development, I bring expertise in
+                  building scalable and efficient web applications. I completed
+                  my Master&apos;s in Computer Applications in 2024 from
+                  Chandigarh University.
                 </motion.p>
 
                 <motion.p
@@ -248,9 +255,11 @@ export default function About() {
                     transition: { duration: 0.3 },
                   }}
                 >
-                  Since graduation, I have been working as a MERN Stack Developer, sharpening my skills in dynamic and
-                  challenging environments. With a strong focus on backend development, I am passionate about leveraging
-                  my skills to create innovative solutions and enhance system performance.
+                  Since graduation, I have been working as a MERN Stack
+                  Developer, sharpening my skills in dynamic and challenging
+                  environments. With a strong focus on backend development, I am
+                  passionate about leveraging my skills to create innovative
+                  solutions and enhance system performance.
                 </motion.p>
 
                 <motion.p
@@ -262,8 +271,9 @@ export default function About() {
                     transition: { duration: 0.3 },
                   }}
                 >
-                  I am continuously expanding my knowledge in DevOps practices and cloud technologies to stay at the
-                  forefront of modern software development.
+                  I am continuously expanding my knowledge in AI development,
+                  DevOps practices, and cloud technologies to stay at the
+                  forefront of modern software development
                 </motion.p>
               </motion.div>
             </motion.div>
@@ -288,7 +298,10 @@ export default function About() {
                       <motion.div variants={iconFloat} animate="animate">
                         <GraduationCap className="h-6 w-6 text-blue-500 mr-3" />
                       </motion.div>
-                      <motion.h4 className="font-semibold text-gray-900" whileHover={{ color: "#3B82F6" }}>
+                      <motion.h4
+                        className="font-semibold text-gray-900"
+                        whileHover={{ color: "#3B82F6" }}
+                      >
                         Education
                       </motion.h4>
                     </motion.div>
@@ -327,10 +340,17 @@ export default function About() {
                 <Card className="border-l-4 border-l-green-500 hover:border-l-green-600 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl">
                   <CardContent className="p-6">
                     <motion.div className="flex items-center mb-3">
-                      <motion.div variants={iconFloat} animate="animate" transition={{ delay: 0.5 }}>
+                      <motion.div
+                        variants={iconFloat}
+                        animate="animate"
+                        transition={{ delay: 0.5 }}
+                      >
                         <Code className="h-6 w-6 text-green-500 mr-3" />
                       </motion.div>
-                      <motion.h4 className="font-semibold text-gray-900" whileHover={{ color: "#22C55E" }}>
+                      <motion.h4
+                        className="font-semibold text-gray-900"
+                        whileHover={{ color: "#22C55E" }}
+                      >
                         Current Role
                       </motion.h4>
                     </motion.div>
@@ -369,10 +389,17 @@ export default function About() {
                 <Card className="border-l-4 border-l-purple-500 hover:border-l-purple-600 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl">
                   <CardContent className="p-6">
                     <motion.div className="flex items-center mb-3">
-                      <motion.div variants={iconFloat} animate="animate" transition={{ delay: 1 }}>
+                      <motion.div
+                        variants={iconFloat}
+                        animate="animate"
+                        transition={{ delay: 1 }}
+                      >
                         <Target className="h-6 w-6 text-purple-500 mr-3" />
                       </motion.div>
-                      <motion.h4 className="font-semibold text-gray-900" whileHover={{ color: "#9333EA" }}>
+                      <motion.h4
+                        className="font-semibold text-gray-900"
+                        whileHover={{ color: "#9333EA" }}
+                      >
                         Focus Areas
                       </motion.h4>
                     </motion.div>
@@ -414,15 +441,21 @@ export default function About() {
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                transition={{
+                  duration: 20,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
               >
                 <Code className="h-5 w-5 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-medium">Always Learning, Always Growing</span>
+              <span className="text-gray-700 font-medium">
+                Always Learning, Always Growing
+              </span>
             </motion.div>
           </motion.div>
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,25 +1,39 @@
-"use client"
+"use client";
 
-import { motion, TargetAndTransition, useInView, Variants } from "framer-motion"
-import { useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Github, Star, Eye, Code2, Zap } from "lucide-react"
-import Image from "next/image"
-
+import {
+  motion,
+  TargetAndTransition,
+  useInView,
+  Variants,
+} from "framer-motion";
+import { useRef, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ExternalLink, Github, Star, Eye, Code2, Zap } from "lucide-react";
+import Image from "next/image";
+import OopsPage from "./OopsPage";
 export default function Projects() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.1 })
-  
-
+  const ref = useRef(null);
+  const [showOops, setShowOops] = useState(false);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  if (showOops) {
+    return <OopsPage />;
+  }
   const projects = [
     {
       title: "DAHN – Hospice Nurse Documentation Support App",
       description:
         "Full-stack Hospice Nurse Documentation application built with MERN stack featuring user authentication, payment integration, and admin dashboard.",
-      image: "/assets/images/dahnai.png",
-      technologies: ["React.js", "Next.js", "Node.js", "Express.js", "MongoDB", "Stripe API"],
+      image: "/assets/images/dahnai.png?height=200&width=300",
+      technologies: [
+        "React.js",
+        "Next.js",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Stripe API",
+      ],
       liveUrl: "https://www.dahn.ai",
       githubUrl: "#",
       featured: true,
@@ -29,37 +43,52 @@ export default function Projects() {
       shadowColor: "rgba(59, 130, 246, 0.3)",
     },
     {
-      title: "Task Management API",
+      title: "DocuAI Pro",
       description:
-        "RESTful API for task management with user authentication, CRUD operations, and real-time notifications using Django REST Framework.",
-      image: "/placeholder.svg?height=200&width=300",
-      technologies: ["Django", "Django REST Framework", "PostgreSQL", "Redis"],
-      liveUrl: "#",
-      githubUrl: "#",
-      featured: false,
+        "An AI-powered document chatbot with Retrieval-Augmented Generation (RAG). Features include OAuth authentication, PayPal subscription management, and a ChatGPT-like UI.",
+      image: "/assets/images/docuaipro.jpeg",
+      technologies: [
+        "FastAPI",
+        "Next.js",
+        "PostgreSQL",
+        "PayPal",
+        "PyMuPDF",
+        "FAISS",
+        "LangChain",
+        "Hugging Face",
+      ],
+      liveUrl: "/comming-soon",
+      githubUrl: "https://github.com/abhishek-mehta-dev/DocuAI-Pro",
+      featured: true,
       status: "Development",
-      category: "Backend",
-      gradient: "from-green-500 to-emerald-500",
-      shadowColor: "rgba(34, 197, 94, 0.3)",
+      category: "Fullstack",
+      gradient: "from-purple-500 to-indigo-500",
+      shadowColor: "rgba(139, 92, 246, 0.3)",
     },
     {
-      title: "Real-time Chat Application",
+      title: "Stripe Connect Integration",
       description:
-        "Real-time messaging application with Socket.io, featuring group chats, file sharing, and message encryption.",
-      image: "/placeholder.svg?height=200&width=300",
-      technologies: ["React.js", "Node.js", "Socket.io", "MongoDB", "JWT"],
-      liveUrl: "#",
-      githubUrl: "#",
-      featured: false,
+        "Full-featured Stripe Connect application built with Next.js, enabling seamless onboarding, account management, and secure payment flows for multi-vendor platforms.",
+      image: "/assets/images/stripe_connect.png",
+      technologies: [
+        "Next.js",
+        "React",
+        "Stripe Connect",
+        "Node.js",
+        "MongoDB",
+      ],
+      liveUrl: "/comming-soon",
+      githubUrl: "https://github.com/abhishek-mehta-dev/stripe_connect",
+      featured: true,
       status: "Completed",
       category: "Full-Stack",
-      gradient: "from-purple-500 to-pink-500",
-      shadowColor: "rgba(147, 51, 234, 0.3)",
+      gradient: "from-blue-500 to-indigo-500",
+      shadowColor: "rgba(59, 130, 246, 0.3)",
     },
-  ]
+  ];
 
   // Animation variants
-  const containerVariants :Variants= {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -68,9 +97,9 @@ export default function Projects() {
         delayChildren: 0.1,
       },
     },
-  }
+  };
 
-  const cardVariants :Variants= {
+  const cardVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 80,
@@ -90,9 +119,9 @@ export default function Projects() {
         stiffness: 100,
       },
     }),
-  }
+  };
 
-  const imageVariants :Variants= {
+  const imageVariants: Variants = {
     hidden: {
       scale: 1.2,
       opacity: 0,
@@ -105,9 +134,9 @@ export default function Projects() {
         ease: "easeOut",
       },
     },
-  }
+  };
 
-  const badgeVariants :Variants= {
+  const badgeVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0,
@@ -125,9 +154,9 @@ export default function Projects() {
         stiffness: 200,
       },
     }),
-  }
+  };
 
-  const titleVariants :Variants= {
+  const titleVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 50,
@@ -144,9 +173,9 @@ export default function Projects() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const buttonVariants :Variants= {
+  const buttonVariants: Variants = {
     hidden: {
       opacity: 0,
       x: -20,
@@ -160,29 +189,29 @@ export default function Projects() {
         ease: "easeOut",
       },
     }),
-  }
+  };
 
-  const floatingAnimation :TargetAndTransition= {
+  const floatingAnimation: TargetAndTransition = {
     y: [0, -10, 0],
     transition: {
       duration: 3,
       repeat: Number.POSITIVE_INFINITY,
       ease: "easeInOut",
     },
-  }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Live":
-        return "bg-green-100 text-green-700 border-green-200"
+        return "bg-green-100 text-green-700 border-green-200";
       case "Development":
-        return "bg-yellow-100 text-yellow-700 border-yellow-200"
+        return "bg-yellow-100 text-yellow-700 border-yellow-200";
       case "Completed":
-        return "bg-blue-100 text-blue-700 border-blue-200"
+        return "bg-blue-100 text-blue-700 border-blue-200";
       default:
-        return "bg-gray-100 text-gray-700 border-gray-200"
+        return "bg-gray-100 text-gray-700 border-gray-200";
     }
-  }
+  };
 
   return (
     <section
@@ -260,7 +289,8 @@ export default function Projects() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
             >
-              A showcase of my recent work and technical projects demonstrating full-stack development skills
+              A showcase of my recent work and technical projects demonstrating
+              full-stack development skills
             </motion.p>
           </motion.div>
 
@@ -282,7 +312,9 @@ export default function Projects() {
                   boxShadow: `0 25px 50px ${project.shadowColor}`,
                 }}
                 whileTap={{ scale: 0.98 }}
-                className={project.featured ? "md:col-span-2 lg:col-span-1" : ""}
+                className={
+                  project.featured ? "md:col-span-2 lg:col-span-1" : ""
+                }
               >
                 <Card className="h-full hover:shadow-2xl transition-all duration-500 overflow-hidden bg-white/90 backdrop-blur-sm border-0 shadow-lg relative group">
                   {/* Featured badge */}
@@ -310,7 +342,13 @@ export default function Projects() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.15 + 0.7 }}
                   >
-                    <Badge className={`${getStatusColor(project.status)} border font-medium`}>{project.status}</Badge>
+                    <Badge
+                      className={`${getStatusColor(
+                        project.status
+                      )} border font-medium`}
+                    >
+                      {project.status}
+                    </Badge>
                   </motion.div>
 
                   {/* Project Image */}
@@ -381,7 +419,9 @@ export default function Projects() {
                     <motion.p
                       className="text-gray-700 mb-4 leading-relaxed"
                       initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                      animate={
+                        isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                      }
                       transition={{ delay: index * 0.15 + 1.1 }}
                       whileHover={{
                         scale: 1.01,
@@ -439,10 +479,17 @@ export default function Projects() {
                           className={`w-full bg-gradient-to-r ${project.gradient} hover:shadow-lg transition-all duration-300 border-0`}
                           asChild
                         >
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             <motion.div
                               animate={{ x: [0, 3, 0] }}
-                              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                              transition={{
+                                duration: 2,
+                                repeat: Number.POSITIVE_INFINITY,
+                              }}
                             >
                               <ExternalLink className="h-4 w-4 mr-2" />
                             </motion.div>
@@ -457,22 +504,48 @@ export default function Projects() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300"
-                          asChild
-                        >
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                            <motion.div
-                              animate={{ rotate: [0, 360] }}
-                              transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                        {project.githubUrl === "#" ? (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300"
+                            asChild
+                          >
+                            <a
+                              href="/oops"
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
-                              <Github className="h-4 w-4 mr-2" />
-                            </motion.div>
-                            Code
-                          </a>
-                        </Button>
+                              <Code2 className="h-4 w-4 mr-2" />
+                              Code
+                            </a>
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300"
+                            asChild
+                          >
+                            <a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <motion.div
+                                animate={{ rotate: [0, 360] }}
+                                transition={{
+                                  duration: 20,
+                                  repeat: Number.POSITIVE_INFINITY,
+                                  ease: "linear",
+                                }}
+                              >
+                                <Github className="h-4 w-4 mr-2" />
+                              </motion.div>
+                              Code
+                            </a>
+                          </Button>
+                        )}
                       </motion.div>
                     </motion.div>
 
@@ -532,14 +605,24 @@ export default function Projects() {
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                transition={{
+                  duration: 15,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
               >
                 <Code2 className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">More Projects Coming Soon</span>
+              <span className="text-gray-700 font-semibold text-lg">
+                More Projects Coming Soon
+              </span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
               >
                 <Github className="h-6 w-6 text-purple-500" />
               </motion.div>
@@ -548,5 +631,5 @@ export default function Projects() {
         </div>
       </div>
     </section>
-  )
+  );
 }

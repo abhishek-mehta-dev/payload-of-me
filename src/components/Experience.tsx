@@ -1,14 +1,26 @@
-"use client"
+"use client";
 
-import { motion, TargetAndTransition, useInView, Variants } from "framer-motion"
-import { useRef } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Briefcase, Calendar, GraduationCap, Code, Award, TrendingUp } from "lucide-react"
+import {
+  motion,
+  TargetAndTransition,
+  useInView,
+  Variants,
+} from "framer-motion";
+import { useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Briefcase,
+  Calendar,
+  GraduationCap,
+  Code,
+  Award,
+  TrendingUp,
+} from "lucide-react";
 
 export default function Experience() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
 
   const experiences = [
     {
@@ -17,7 +29,15 @@ export default function Experience() {
       period: "2024 - Present",
       description:
         "Working as a full-stack developer, building scalable web applications using the MERN stack. Focusing on backend development, API design, and system performance optimization.",
-      technologies: ["React.js", "Next.js", "Node.js", "Express.js", "MongoDB", "JavaScript", "RESTful APIs"],
+      technologies: [
+        "React.js",
+        "Next.js",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "JavaScript",
+        "RESTful APIs",
+      ],
       type: "work",
       icon: Briefcase,
       color: "blue",
@@ -31,7 +51,14 @@ export default function Experience() {
       period: "2022 - 2024",
       description:
         "Completed advanced studies in computer applications with focus on software development, algorithms, and system design. Gained strong foundation in programming and software engineering principles.",
-      technologies: ["Python", "Data Structures", "Algorithms", "Software Engineering", "Database Systems"],
+      technologies: [
+        "Python",
+        "Data Structures",
+        "Algorithms",
+        "Software Engineering",
+        "Database Systems",
+        "Machine Learning",
+      ],
       type: "education",
       icon: GraduationCap,
       color: "purple",
@@ -39,10 +66,10 @@ export default function Experience() {
       shadowColor: "rgba(147, 51, 234, 0.3)",
       status: "completed",
     },
-  ]
+  ];
 
   // Animation variants
-  const containerVariants :Variants= {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -51,9 +78,9 @@ export default function Experience() {
         delayChildren: 0.2,
       },
     },
-  }
+  };
 
-  const cardVariants :Variants= {
+  const cardVariants: Variants = {
     hidden: {
       opacity: 0,
       x: -100,
@@ -73,9 +100,9 @@ export default function Experience() {
         stiffness: 100,
       },
     }),
-  }
+  };
 
-  const timelineVariants :Variants= {
+  const timelineVariants: Variants = {
     hidden: {
       height: 0,
       opacity: 0,
@@ -89,9 +116,9 @@ export default function Experience() {
         delay: 0.5,
       },
     },
-  }
+  };
 
-  const badgeVariants :Variants= {
+  const badgeVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0,
@@ -109,9 +136,9 @@ export default function Experience() {
         stiffness: 200,
       },
     }),
-  }
+  };
 
-  const titleVariants :Variants= {
+  const titleVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 50,
@@ -128,9 +155,9 @@ export default function Experience() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const iconFloat :Variants= {
+  const iconFloat: Variants = {
     animate: {
       y: [0, -8, 0],
       rotate: [0, 5, -5, 0],
@@ -140,7 +167,7 @@ export default function Experience() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
   const pulseAnimation: TargetAndTransition = {
     scale: [1, 1.1, 1],
@@ -150,8 +177,7 @@ export default function Experience() {
       repeat: Infinity,
       ease: "easeInOut",
     },
-  }
-
+  };
 
   return (
     <section
@@ -239,7 +265,8 @@ export default function Experience() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
             >
-              My professional journey and educational background in software development
+              My professional journey and educational background in software
+              development
             </motion.p>
           </motion.div>
 
@@ -277,7 +304,6 @@ export default function Experience() {
                       boxShadow: `0 0 30px ${exp.shadowColor}`,
                     }}
                     animate={pulseAnimation}
-                    
                   >
                     <motion.div
                       className="w-full h-full flex items-center justify-center"
@@ -314,11 +340,7 @@ export default function Experience() {
                           <motion.div
                             className="w-2 h-2 bg-green-500 rounded-full"
                             animate={pulseAnimation}
-                            
                           />
-                          <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                            Current
-                          </span>
                         </motion.div>
                       )}
 
@@ -339,7 +361,10 @@ export default function Experience() {
                               <motion.span
                                 className="text-gray-800 font-bold"
                                 whileHover={{
-                                  color: exp.color === "blue" ? "#3B82F6" : "#7C3AED",
+                                  color:
+                                    exp.color === "blue"
+                                      ? "#3B82F6"
+                                      : "#7C3AED",
                                   transition: { duration: 0.3 },
                                 }}
                               >
@@ -378,7 +403,11 @@ export default function Experience() {
                         <motion.p
                           className="text-gray-700 mb-6 leading-relaxed text-base"
                           initial={{ opacity: 0, y: 20 }}
-                          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                          animate={
+                            isInView
+                              ? { opacity: 1, y: 0 }
+                              : { opacity: 0, y: 20 }
+                          }
                           transition={{ delay: index * 0.2 + 0.8 }}
                           whileHover={{
                             scale: 1.01,
@@ -426,7 +455,11 @@ export default function Experience() {
                           <motion.div className="flex items-center space-x-2">
                             <motion.div
                               animate={{ rotate: 360 }}
-                              transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                              transition={{
+                                duration: 20,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: "linear",
+                              }}
                             >
                               {exp.type === "work" ? (
                                 <TrendingUp className="h-4 w-4 text-green-500" />
@@ -435,13 +468,14 @@ export default function Experience() {
                               )}
                             </motion.div>
                             <span className="text-xs text-gray-500 font-medium">
-                              {exp.type === "work" ? "Professional Experience" : "Academic Achievement"}
+                              {exp.type === "work"
+                                ? "Professional Experience"
+                                : "Academic Achievement"}
                             </span>
                           </motion.div>
                           <motion.div
                             className={`w-2 h-2 rounded-full bg-gradient-to-r ${exp.gradient}`}
                             animate={pulseAnimation}
-                            
                           />
                         </motion.div>
                       </CardContent>
@@ -478,14 +512,24 @@ export default function Experience() {
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                transition={{
+                  duration: 15,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
               >
                 <Briefcase className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">Ready for New Challenges</span>
+              <span className="text-gray-700 font-semibold text-lg">
+                Ready for New Challenges
+              </span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
               >
                 <Code className="h-6 w-6 text-purple-500" />
               </motion.div>
@@ -494,5 +538,5 @@ export default function Experience() {
         </div>
       </div>
     </section>
-  )
+  );
 }
