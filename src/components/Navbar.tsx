@@ -1,10 +1,27 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, Variants } from "framer-motion"
-import { Menu, X, Home, User, Code, Briefcase, FolderOpen, Mail, Sparkles } from "lucide-react"
-import Link from "next/link"
-import clsx from "clsx"
+import { useState, useEffect } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+  Variants,
+} from "framer-motion";
+import {
+  Menu,
+  X,
+  Home,
+  User,
+  Code,
+  Briefcase,
+  FolderOpen,
+  Mail,
+  Sparkles,
+} from "lucide-react";
+import Link from "next/link";
+import clsx from "clsx";
+import NavbarLogo from "./NavbarLogo";
 
 const navLinks = [
   { label: "Home", href: "#", icon: Home },
@@ -13,42 +30,47 @@ const navLinks = [
   { label: "Experience", href: "#experience", icon: Briefcase },
   { label: "Projects", href: "#projects", icon: FolderOpen },
   { label: "Contact", href: "#contact", icon: Mail },
-]
+];
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState("Home")
-  const { scrollY } = useScroll()
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("Home");
+  const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 20)
-  })
+    setScrolled(latest > 20);
+  });
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navLinks.map((link) => link.href.replace("#", "") || "home")
+      const sections = navLinks.map(
+        (link) => link.href.replace("#", "") || "home"
+      );
       const currentSection = sections.find((section) => {
-        const element = section === "home" ? document.body : document.getElementById(section)
+        const element =
+          section === "home" ? document.body : document.getElementById(section);
         if (element) {
-          const rect = element.getBoundingClientRect()
-          return rect.top <= 100 && rect.bottom >= 100
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
         }
-        return false
-      })
+        return false;
+      });
       if (currentSection) {
         setActiveSection(
-          currentSection === "home" ? "Home" : currentSection.charAt(0).toUpperCase() + currentSection.slice(1),
-        )
+          currentSection === "home"
+            ? "Home"
+            : currentSection.charAt(0).toUpperCase() + currentSection.slice(1)
+        );
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Animation variants
-  const headerVariants:Variants = {
+  const headerVariants: Variants = {
     hidden: {
       y: -100,
       opacity: 0,
@@ -62,9 +84,9 @@ export default function Navbar() {
         staggerChildren: 0.1,
       },
     },
-  }
+  };
 
-  const logoVariants:Variants = {
+  const logoVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0.8,
@@ -81,9 +103,9 @@ export default function Navbar() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const navItemVariants:Variants = {
+  const navItemVariants: Variants = {
     hidden: {
       opacity: 0,
       y: -20,
@@ -101,9 +123,9 @@ export default function Navbar() {
         stiffness: 150,
       },
     }),
-  }
+  };
 
-  const mobileMenuVariants:Variants = {
+  const mobileMenuVariants: Variants = {
     hidden: {
       opacity: 0,
       height: 0,
@@ -129,9 +151,9 @@ export default function Navbar() {
         ease: "easeIn",
       },
     },
-  }
+  };
 
-  const mobileItemVariants :Variants= {
+  const mobileItemVariants: Variants = {
     hidden: {
       opacity: 0,
       x: -30,
@@ -155,9 +177,9 @@ export default function Navbar() {
         duration: 0.2,
       },
     },
-  }
+  };
 
-  const buttonVariants :Variants= {
+  const buttonVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0,
@@ -174,10 +196,9 @@ export default function Navbar() {
         stiffness: 200,
       },
     },
-  }
-  
+  };
 
-  const iconRotateVariants:Variants = {
+  const iconRotateVariants: Variants = {
     closed: {
       rotate: 0,
       scale: 1,
@@ -190,9 +211,9 @@ export default function Navbar() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
-  const backgroundVariants :Variants= {
+  const backgroundVariants: Variants = {
     initial: {
       opacity: 0,
       backdropFilter: "blur(0px)",
@@ -205,9 +226,9 @@ export default function Navbar() {
         ease: "easeOut",
       },
     },
-  }
+  };
 
-  const activeIndicatorVariants :Variants= {
+  const activeIndicatorVariants: Variants = {
     hidden: {
       scale: 0,
       opacity: 0,
@@ -221,9 +242,9 @@ export default function Navbar() {
         damping: 20,
       },
     },
-  }
+  };
 
-  const glowVariants :Variants= {
+  const glowVariants: Variants = {
     animate: {
       boxShadow: [
         "0 0 20px rgba(59, 130, 246, 0.3)",
@@ -236,13 +257,15 @@ export default function Navbar() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
   return (
     <motion.header
       className={clsx(
         "fixed top-0 left-0 w-full z-50 transition-all duration-300",
-        scrolled ? "backdrop-blur-xl bg-white/80 shadow-lg border-b border-white/20" : "backdrop-blur-md bg-white/60",
+        scrolled
+          ? "backdrop-blur-xl bg-white/80 shadow-lg border-b border-white/20"
+          : "backdrop-blur-md bg-white/60"
       )}
       initial="hidden"
       animate="visible"
@@ -261,46 +284,15 @@ export default function Navbar() {
           {/* Logo */}
           <motion.div variants={logoVariants}>
             <Link href="/" className="relative group">
-              <motion.span
-                className="text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 hover:from-purple-600 hover:via-pink-600 hover:to-blue-600 transition-all duration-300"
-                whileHover={{
-                  scale: 1.05,
-                  transition: { duration: 0.2 },
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                AbhishekMehta.dev
-              </motion.span>
-
-              {/* Logo glow effect */}
-              <motion.div
-                className="absolute -inset-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"
-                variants={glowVariants}
-                animate="animate"
-              />
-
-              {/* Sparkle effect */}
-              <motion.div
-                className="absolute -top-1 -right-1"
-                animate={{
-                  rotate: [0, 360],
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-              >
-                <Sparkles className="h-4 w-4 text-purple-500 opacity-70" />
-              </motion.div>
+              <NavbarLogo />
             </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navLinks.map((item, index) => {
-              const isActive = activeSection.toLowerCase() === item.label.toLowerCase()
+              const isActive =
+                activeSection.toLowerCase() === item.label.toLowerCase();
               return (
                 <motion.div
                   key={item.href}
@@ -356,7 +348,7 @@ export default function Navbar() {
                     />
                   </a>
                 </motion.div>
-              )
+              );
             })}
           </nav>
 
@@ -370,7 +362,10 @@ export default function Navbar() {
             whileTap={{ scale: 0.9 }}
           >
             <div className="relative w-6 h-6">
-              <motion.div variants={iconRotateVariants} animate={isOpen ? "open" : "closed"}>
+              <motion.div
+                variants={iconRotateVariants}
+                animate={isOpen ? "open" : "closed"}
+              >
                 <AnimatePresence mode="wait">
                   {!isOpen ? (
                     <motion.div
@@ -414,7 +409,8 @@ export default function Navbar() {
                 whileHover={{ scale: 1.02 }}
               >
                 {navLinks.map((item, index) => {
-                  const isActive = activeSection.toLowerCase() === item.label.toLowerCase()
+                  const isActive =
+                    activeSection.toLowerCase() === item.label.toLowerCase();
                   return (
                     <motion.a
                       key={item.href}
@@ -463,7 +459,7 @@ export default function Navbar() {
                         whileHover={{ scale: 1.02 }}
                       />
                     </motion.a>
-                  )
+                  );
                 })}
               </motion.div>
             </motion.div>
@@ -494,5 +490,5 @@ export default function Navbar() {
         />
       ))}
     </motion.header>
-  )
+  );
 }
