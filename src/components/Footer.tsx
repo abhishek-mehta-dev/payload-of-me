@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, TargetAndTransition, useInView, Variants } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import {
   Github,
   Linkedin,
@@ -19,9 +19,35 @@ import {
   Phone,
 } from "lucide-react"
 
+interface Particle {
+  id: number;
+  left: string;
+  top: string;
+  y: number[];
+  opacity: number[];
+  scale: number[];
+  duration: number;
+  delay: number;
+}
+
 export default function Footer() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const [particles, setParticles] = useState<Particle[]>([])
+
+  useEffect(() => {
+    const newParticles = [...Array(15)].map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      y: [0, -Math.random() * 50 - 20, 0],
+      opacity: [0.2, 0.8, 0.2],
+      scale: [1, 1.5, 1],
+      duration: Math.random() * 3 + 3,
+      delay: Math.random() * 2,
+    }));
+    setParticles(newParticles);
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
@@ -271,24 +297,24 @@ export default function Footer() {
       />
 
       {/* Animated particles */}
-      {[...Array(15)].map((_, i) => (
+      {particles.map((particle) => (
         <motion.div
-          key={i}
+          key={particle.id}
           className="absolute w-1 h-1 bg-blue-400/30 rounded-full"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left: particle.left,
+            top: particle.top,
           }}
           animate={{
-            y: [0, -Math.random() * 50 - 20, 0],
-            opacity: [0.2, 0.8, 0.2],
-            scale: [1, 1.5, 1],
+            y: particle.y,
+            opacity: particle.opacity,
+            scale: particle.scale,
           }}
           transition={{
-            duration: Math.random() * 3 + 3,
+            duration: particle.duration,
             repeat: Number.POSITIVE_INFINITY,
             ease: "easeInOut",
-            delay: Math.random() * 2,
+            delay: particle.delay,
           }}
         />
       ))}
