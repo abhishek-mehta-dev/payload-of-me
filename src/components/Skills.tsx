@@ -29,6 +29,8 @@ export default function Skills() {
         "Django Rest Framework",
         "React.js",
         "Next.js",
+        "FastAPI",
+        "LangChain",
       ],
       color: "bg-green-500",
       gradient: "from-green-500 to-green-600",
@@ -53,7 +55,12 @@ export default function Skills() {
     {
       title: "Server & Infrastructure",
       icon: Server,
-      skills: ["Linux Fundamentals", "Nginx", "Docker Basics"],
+      skills: [
+        "Linux Fundamentals",
+        "Nginx",
+        "Docker Basics",
+        "Github Actions",
+      ],
       color: "bg-red-500",
       gradient: "from-red-500 to-red-600",
       shadowColor: "rgba(239, 68, 68, 0.3)",

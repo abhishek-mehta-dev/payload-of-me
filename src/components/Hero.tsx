@@ -21,8 +21,8 @@ import {
   Cpu,
   Globe,
   Award,
-  Users,
-  Coffee,
+  Layers,
+  GitBranch,
 } from "lucide-react";
 import {
   SiDjango,
@@ -33,6 +33,8 @@ import {
   SiNodedotjs,
   SiNextdotjs,
   SiFastapi,
+  SiLangchain,
+  SiDocker,
 } from "react-icons/si";
 
 const techStack = [
@@ -44,13 +46,14 @@ const techStack = [
   { name: "Next.js", icon: SiNextdotjs },
   { name: "Django", icon: SiDjango },
   { name: "FastAPI", icon: SiFastapi },
+  { name: "LangChain", icon: SiLangchain },
 ];
 
 const stats = [
-  { number: "10+", label: "Projects Completed", icon: Code },
+  { number: "10+", label: "Fullstack Projects", icon: Code },
   { number: "1+", label: "Years Experience", icon: Award },
-  { number: "25+", label: "Happy Clients", icon: Users },
-  { number: "∞", label: "Cups of Coffee", icon: Coffee },
+  { number: "6+", label: "Technologies Used", icon: Layers },
+  { number: "15+", label: "Contributions / PRs", icon: GitBranch },
 ];
 
 const services = [
@@ -458,6 +461,11 @@ export default function Hero() {
               >
                 <Button
                   size="lg"
+                  onClick={() => {
+                    document
+                      .getElementById("experience")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
                   className="group bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 hover:from-blue-700 hover:via-cyan-700 hover:to-teal-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-cyan-400/20"
                 >
                   <motion.div
@@ -476,23 +484,29 @@ export default function Hero() {
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="group border-2 border-slate-400/50 text-slate-200 hover:bg-gradient-to-r hover:from-slate-800/80 hover:to-slate-700/80 hover:text-white px-8 py-4 text-lg font-semibold rounded-full bg-slate-800/30 backdrop-blur-md transition-all duration-300 hover:border-cyan-400/50"
+                <a
+                  href="/assets/images/abhishek.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <motion.div
-                    animate={{ y: [0, -3, 0] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Number.POSITIVE_INFINITY,
-                      delay: 0.5,
-                    }}
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="group border-2 border-slate-400/50 text-slate-200 hover:bg-gradient-to-r hover:from-slate-800/80 hover:to-slate-700/80 hover:text-white px-8 py-4 text-lg font-semibold rounded-full bg-slate-800/30 backdrop-blur-md transition-all duration-300 hover:border-cyan-400/50"
                   >
-                    <Download className="mr-2 h-5 w-5" />
-                  </motion.div>
-                  Download Resume
-                </Button>
+                    <motion.div
+                      animate={{ y: [0, -3, 0] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Number.POSITIVE_INFINITY,
+                        delay: 0.5,
+                      }}
+                    >
+                      <Download className="mr-2 h-5 w-5" />
+                    </motion.div>
+                    Download Resume
+                  </Button>
+                </a>
               </motion.div>
             </motion.div>
 
@@ -518,6 +532,11 @@ export default function Hero() {
                   icon: Mail,
                   href: "mailto:mehtaabhishek.dev@gmail.com",
                   label: "Email",
+                },
+                {
+                  icon: SiDocker,
+                  href: "https://hub.docker.com/u/abhishekmehtadev/ ",
+                  label: "Docker Hub",
                 },
               ].map(({ icon: Icon, href, label }, index) => (
                 <motion.a
@@ -701,7 +720,9 @@ export default function Hero() {
               whileTap={{ scale: 0.9 }}
             >
               <div className="flex flex-col items-center space-y-2 text-slate-400 hover:text-cyan-300 transition-colors duration-300">
-                <span className="text-sm font-medium">Explore More</span>
+                <span className="text-sm font-medium">
+                  <ChevronDown size={40} color="blue" />
+                </span>
                 <motion.div
                   animate={{ y: [0, 5, 0] }}
                   transition={{
