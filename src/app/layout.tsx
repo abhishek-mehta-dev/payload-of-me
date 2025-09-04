@@ -1,26 +1,26 @@
-import { Inter } from "next/font/google"
-import "./globals.css"
-import type { Metadata } from "next"
-import type { ReactNode } from "react"
-import Navbar from "@/components/Navbar" 
-import Footer from "@/components/Footer"
+import { Inter } from "next/font/google";
+import "./globals.css";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Portfolio - MERN Stack Developer",
+  title: "Abhishek Mehta - Full Stack & Backend Developer",
   description:
-    "Full-stack developer specializing in MERN stack, backend development, and scalable web applications. Expert in React.js, Node.js, Python, and Django.",
+    "Dedicated software developer with expertise in backend and full-stack development. Skilled in MERN Stack, Python, Django, FastAPI, and building scalable web applications. Passionate about AI/ML, DevOps, and intelligent automation.",
   keywords:
-    "MERN Stack Developer, Full Stack Developer, React.js, Node.js, Python, Django, Backend Developer",
+    "Abhishek Mehta, Full Stack Developer, MERN Stack Developer, Backend Developer, React.js, Node.js, Next.js, Django, FastAPI, Python, Golang, SQL, NoSQL, API Development, Scalable Web Applications",
   authors: [{ name: "Abhishek Mehta" }],
   openGraph: {
-    title: "Portfolio - MERN Stack Developer",
+    title: "Abhishek Mehta - Full Stack & Backend Developer",
     description:
-      "Full-stack developer specializing in MERN stack and backend development",
+      "Portfolio of Abhishek Mehta, software developer specializing in MERN stack, backend engineering, and scalable web solutions. Exploring AI/ML and DevOps for next-gen applications.",
     type: "website",
   },
-}
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -31,5 +31,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Footer />
       </body>
     </html>
-  )
+  );
 }
