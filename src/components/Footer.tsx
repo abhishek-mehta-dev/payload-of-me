@@ -1,7 +1,12 @@
-"use client"
+"use client";
 
-import { motion, TargetAndTransition, useInView, Variants } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import {
+  motion,
+  TargetAndTransition,
+  useInView,
+  Variants,
+} from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import {
   Github,
   Linkedin,
@@ -17,7 +22,7 @@ import {
   Send,
   MapPin,
   Phone,
-} from "lucide-react"
+} from "lucide-react";
 
 interface Particle {
   id: number;
@@ -31,9 +36,9 @@ interface Particle {
 }
 
 export default function Footer() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.1 })
-  const [particles, setParticles] = useState<Particle[]>([])
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
     const newParticles = [...Array(15)].map((_, i) => ({
@@ -50,15 +55,15 @@ export default function Footer() {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const quickLinks = [
     { name: "About", href: "#about", icon: Star },
     { name: "Skills", href: "#skills", icon: Code },
     { name: "Projects", href: "#projects", icon: Globe },
     { name: "Contact", href: "#contact", icon: Send },
-  ]
+  ];
 
   const socialLinks = [
     {
@@ -85,16 +90,20 @@ export default function Footer() {
       gradient: "from-red-500 to-red-600",
       shadowColor: "rgba(239, 68, 68, 0.3)",
     },
-  ]
+  ];
 
   const contactInfo = [
-    { icon: Mail, text: "mehtaabhishek.dev@gmail.com", href: "mailto:mehtaabhishek.dev@gmail.com" },
+    {
+      icon: Mail,
+      text: "mehtaabhishek.dev@gmail.com",
+      href: "mailto:mehtaabhishek.dev@gmail.com",
+    },
     { icon: Phone, text: "+91 8580615737", href: "tel:+918580615737" },
     { icon: MapPin, text: "India", href: "#" },
-  ]
+  ];
 
   // Animation variants
-  const containerVariants :Variants= {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -103,9 +112,9 @@ export default function Footer() {
         delayChildren: 0.2,
       },
     },
-  }
+  };
 
-  const fadeInUp :Variants= {
+  const fadeInUp: Variants = {
     hidden: {
       opacity: 0,
       y: 60,
@@ -122,9 +131,9 @@ export default function Footer() {
         stiffness: 100,
       },
     },
-  }
+  };
 
-  const slideInLeft :Variants= {
+  const slideInLeft: Variants = {
     hidden: {
       opacity: 0,
       x: -100,
@@ -141,9 +150,9 @@ export default function Footer() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const slideInRight:Variants = {
+  const slideInRight: Variants = {
     hidden: {
       opacity: 0,
       x: 100,
@@ -160,9 +169,9 @@ export default function Footer() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const linkVariants :Variants= {
+  const linkVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 20,
@@ -178,9 +187,9 @@ export default function Footer() {
         ease: "easeOut",
       },
     }),
-  }
+  };
 
-  const socialVariants :Variants= {
+  const socialVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0,
@@ -198,27 +207,27 @@ export default function Footer() {
         stiffness: 200,
       },
     }),
-  }
+  };
 
-  const floatingAnimation : TargetAndTransition= {
+  const floatingAnimation: TargetAndTransition = {
     y: [0, -20, 0],
     transition: {
       duration: 4,
       repeat: Number.POSITIVE_INFINITY,
       ease: "easeInOut",
     },
-  }
+  };
 
-  const pulseAnimation :TargetAndTransition= {
+  const pulseAnimation: TargetAndTransition = {
     scale: [1, 1.05, 1],
     transition: {
       duration: 2,
       repeat: Number.POSITIVE_INFINITY,
       ease: "easeInOut",
     },
-  }
+  };
 
-  const iconFloat :Variants= {
+  const iconFloat: Variants = {
     animate: {
       y: [0, -8, 0],
       rotate: [0, 5, -5, 0],
@@ -228,9 +237,9 @@ export default function Footer() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
-  const heartBeat :Variants= {
+  const heartBeat: Variants = {
     animate: {
       scale: [1, 1.2, 1],
       transition: {
@@ -239,7 +248,7 @@ export default function Footer() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
   return (
     <footer className="relative mt-20 overflow-hidden" ref={ref}>
@@ -253,7 +262,9 @@ export default function Footer() {
       <motion.div
         className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]"
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+        animate={
+          isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
+        }
         transition={{ duration: 2, delay: 0.5 }}
       />
       <motion.div
@@ -337,7 +348,10 @@ export default function Footer() {
             variants={containerVariants}
           >
             {/* Brand section */}
-            <motion.div className="text-center md:text-left" variants={slideInLeft}>
+            <motion.div
+              className="text-center md:text-left"
+              variants={slideInLeft}
+            >
               <motion.h3
                 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-4"
                 whileHover={{
@@ -346,8 +360,12 @@ export default function Footer() {
                 }}
               >
                 <motion.span className="inline-flex items-center">
-                  Abhishek.dev
-                  <motion.div className="ml-2" variants={iconFloat} animate="animate">
+                  AbhishekMehta.dev
+                  <motion.div
+                    className="ml-2"
+                    variants={iconFloat}
+                    animate="animate"
+                  >
                     <Sparkles className="h-5 w-5 text-purple-400" />
                   </motion.div>
                 </motion.span>
@@ -356,22 +374,26 @@ export default function Footer() {
               <motion.p
                 className="text-gray-300 mb-6 leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                }
                 transition={{ delay: 0.3, duration: 0.6 }}
                 whileHover={{
                   scale: 1.02,
                   transition: { duration: 0.3 },
                 }}
               >
-                Passionate MERN Stack Developer crafting digital experiences with modern technologies and creative
-                solutions.
+                Passionate MERN Stack Developer crafting digital experiences
+                with modern technologies and creative solutions.
               </motion.p>
 
               {/* Built with love section */}
               <motion.div
                 className="flex items-center justify-center md:justify-start space-x-2 text-gray-400 mb-6"
                 initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                }
                 transition={{ delay: 0.5, duration: 0.6 }}
               >
                 <motion.div variants={iconFloat} animate="animate">
@@ -404,7 +426,9 @@ export default function Footer() {
                     href={item.href}
                     className="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-300 group"
                     initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    animate={
+                      isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
+                    }
                     transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
                     whileHover={{ scale: 1.05, x: 5 }}
                   >
@@ -428,7 +452,11 @@ export default function Footer() {
                 }}
               >
                 <motion.span className="inline-flex items-center">
-                  <motion.div className="mr-2" variants={iconFloat} animate="animate">
+                  <motion.div
+                    className="mr-2"
+                    variants={iconFloat}
+                    animate="animate"
+                  >
                     <Zap className="h-5 w-5 text-blue-400" />
                   </motion.div>
                   Quick Links
@@ -468,7 +496,10 @@ export default function Footer() {
             </motion.div>
 
             {/* Contact CTA */}
-            <motion.div className="text-center md:text-right" variants={slideInRight}>
+            <motion.div
+              className="text-center md:text-right"
+              variants={slideInRight}
+            >
               <motion.h4
                 className="text-lg font-semibold text-white mb-4"
                 whileHover={{
@@ -479,7 +510,11 @@ export default function Footer() {
               >
                 <motion.span className="inline-flex items-center">
                   Let&apos;s Connect
-                  <motion.div className="ml-2" variants={iconFloat} animate="animate">
+                  <motion.div
+                    className="ml-2"
+                    variants={iconFloat}
+                    animate="animate"
+                  >
                     <Globe className="h-5 w-5 text-purple-400" />
                   </motion.div>
                 </motion.span>
@@ -487,20 +522,27 @@ export default function Footer() {
               <motion.p
                 className="text-gray-300 mb-4"
                 initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                }
                 transition={{ delay: 0.3, duration: 0.6 }}
                 whileHover={{
                   scale: 1.02,
                   transition: { duration: 0.3 },
                 }}
               >
-                Ready to bring your ideas to life? Let&apos;s build something amazing together.
+                Ready to bring your ideas to life? Let&apos;s build something
+                amazing together.
               </motion.p>
               <motion.a
                 href="mailto:mehtaabhishek.dev@gmail.com"
                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl"
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                animate={
+                  isInView
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.8 }
+                }
                 transition={{ delay: 0.5, duration: 0.6 }}
                 whileHover={{
                   scale: 1.05,
@@ -508,7 +550,10 @@ export default function Footer() {
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <motion.div animate={{ x: [0, 3, 0] }} transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}>
+                <motion.div
+                  animate={{ x: [0, 3, 0] }}
+                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                >
                   <Mail className="h-4 w-4" />
                 </motion.div>
                 <span>Get In Touch</span>
@@ -532,7 +577,10 @@ export default function Footer() {
             variants={containerVariants}
           >
             {/* Copyright */}
-            <motion.div className="text-center md:text-left" variants={fadeInUp}>
+            <motion.div
+              className="text-center md:text-left"
+              variants={fadeInUp}
+            >
               <motion.p
                 className="text-gray-400"
                 whileHover={{
@@ -541,7 +589,8 @@ export default function Footer() {
                   transition: { duration: 0.3 },
                 }}
               >
-                © {new Date().getFullYear()} Abhishek Mehta. All rights reserved.
+                © {new Date().getFullYear()} Abhishek Mehta. All rights
+                reserved.
               </motion.p>
               <motion.p
                 className="text-sm text-gray-500 mt-1"
@@ -559,32 +608,36 @@ export default function Footer() {
             </motion.div>
 
             {/* Social links */}
-            <motion.div className="flex items-center space-x-4" variants={fadeInUp}>
-              {socialLinks.map(({ icon: Icon, href, label, gradient, shadowColor }, index) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="group relative p-3 rounded-full bg-gray-800/50 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
-                  variants={socialVariants}
-                  custom={index}
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: 360,
-                    boxShadow: `0 10px 30px ${shadowColor}`,
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Icon className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
-                  <motion.div
-                    className={`absolute inset-0 rounded-full bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}
-                    animate={pulseAnimation}
-                    
-                  />
-                </motion.a>
-              ))}
+            <motion.div
+              className="flex items-center space-x-4"
+              variants={fadeInUp}
+            >
+              {socialLinks.map(
+                ({ icon: Icon, href, label, gradient, shadowColor }, index) => (
+                  <motion.a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="group relative p-3 rounded-full bg-gray-800/50 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
+                    variants={socialVariants}
+                    custom={index}
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: 360,
+                      boxShadow: `0 10px 30px ${shadowColor}`,
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <Icon className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+                    <motion.div
+                      className={`absolute inset-0 rounded-full bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}
+                      animate={pulseAnimation}
+                    />
+                  </motion.a>
+                )
+              )}
             </motion.div>
 
             {/* Scroll to top button */}
@@ -602,7 +655,11 @@ export default function Footer() {
             >
               <motion.div
                 animate={{ y: [0, -3, 0] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
               >
                 <ArrowUp className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
               </motion.div>
@@ -625,14 +682,24 @@ export default function Footer() {
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                transition={{
+                  duration: 20,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
               >
                 <Star className="h-4 w-4 text-blue-400" />
               </motion.div>
-              <span className="text-gray-400 text-sm font-medium">Thank you for visiting!</span>
+              <span className="text-gray-400 text-sm font-medium">
+                Thank you for visiting!
+              </span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
               >
                 <Sparkles className="h-4 w-4 text-purple-400" />
               </motion.div>
@@ -641,5 +708,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

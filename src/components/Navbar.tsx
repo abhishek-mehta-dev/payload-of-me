@@ -68,6 +68,54 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fixed smooth scroll function with proper offset calculation
+  const handleSmoothScroll = (
+    e: React.MouseEvent,
+    href: string,
+    closeMenu = false
+  ) => {
+    e.preventDefault();
+
+    // Handle home link scroll to top
+    if (href === "#" || href === "") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      if (closeMenu) {
+        setTimeout(() => setIsOpen(false), 200);
+      }
+      return;
+    }
+
+    // Clean the href to get the section ID
+    const sectionId = href.startsWith("#") ? href.substring(1) : href;
+    const target = document.getElementById(sectionId);
+
+    if (target) {
+      // Calculate exact offset
+      const rect = target.getBoundingClientRect();
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+
+      // Get actual navbar height
+      const navbar = document.querySelector("header");
+      const navbarHeight = navbar ? navbar.offsetHeight : 80;
+
+      // Calculate final scroll position with some buffer
+      const targetPosition = rect.top + scrollTop - navbarHeight - 10;
+
+      window.scrollTo({
+        top: Math.max(0, targetPosition), // Ensure we don't scroll to negative values
+        behavior: "smooth",
+      });
+    }
+
+    if (closeMenu) {
+      setTimeout(() => setIsOpen(false), 200);
+    }
+  };
+
   // Animation variants
   const headerVariants: Variants = {
     hidden: {
@@ -287,6 +335,7 @@ export default function Navbar() {
                 >
                   <a
                     href={item.href}
+                    onClick={(e) => handleSmoothScroll(e, item.href)}
                     className="relative group px-4 py-2 rounded-full text-gray-700 font-medium hover:text-white transition-all duration-300 flex items-center space-x-2"
                   >
                     {/* Icon */}
@@ -399,7 +448,7 @@ export default function Navbar() {
                     <motion.a
                       key={item.href}
                       href={item.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={(e) => handleSmoothScroll(e, item.href, true)}
                       className="flex items-center space-x-3 mx-4 px-4 py-3 rounded-xl text-gray-700 font-medium hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 relative group"
                       variants={mobileItemVariants}
                       custom={index}
