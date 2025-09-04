@@ -2,6 +2,7 @@
 
 import {
   motion,
+  AnimatePresence,
   TargetAndTransition,
   useInView,
   Variants,
@@ -10,16 +11,29 @@ import { useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github, Star, Eye, Code2, Zap } from "lucide-react";
-import Image from "next/image";
-import OopsPage from "./OopsPage";
+import {
+  ExternalLink,
+  Github,
+  Star,
+  Eye,
+  Code2,
+  Zap,
+  ChevronLeft,
+  ChevronRight,
+  BookOpen,
+} from "lucide-react";
+// Removed next/image import and OopsPage import for Vite/React app
+
 export default function Projects() {
   const ref = useRef(null);
   const [showOops] = useState(false);
+  const [currentProject, setCurrentProject] = useState(0);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+
   if (showOops) {
-    return <OopsPage />;
+    return <div>OopsPage placeholder</div>;
   }
+
   const projects = [
     {
       title: "DAHN – Hospice Nurse Documentation Support App",
@@ -87,38 +101,67 @@ export default function Projects() {
     },
   ];
 
+  const nextProject = () => {
+    setCurrentProject((prev) => (prev + 1) % projects.length);
+  };
+
+  const prevProject = () => {
+    setCurrentProject((prev) => (prev - 1 + projects.length) % projects.length);
+  };
+
+  const goToProject = (index: number) => {
+    setCurrentProject(index);
+  };
+
   // Animation variants
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
+  const titleVariants: Variants = {
+    hidden: {
+      opacity: 0,
+      y: 50,
+      scale: 0.9,
+    },
     visible: {
       opacity: 1,
+      y: 0,
+      scale: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
+        duration: 0.8,
+        ease: "easeOut",
+        type: "spring",
+        stiffness: 120,
       },
     },
   };
 
-  const cardVariants: Variants = {
-    hidden: {
+  const pageVariants: Variants = {
+    enter: {
+      rotateY: 90,
       opacity: 0,
-      y: 80,
       scale: 0.8,
-      rotateX: -15,
+      x: 300,
     },
-    visible: (i: number) => ({
+    center: {
+      rotateY: 0,
       opacity: 1,
-      y: 0,
       scale: 1,
-      rotateX: 0,
+      x: 0,
       transition: {
-        delay: i * 0.15,
         duration: 0.8,
         ease: [0.25, 0.46, 0.45, 0.94],
         type: "spring",
         stiffness: 100,
       },
-    }),
+    },
+    exit: {
+      rotateY: -90,
+      opacity: 0,
+      scale: 0.8,
+      x: -300,
+      transition: {
+        duration: 0.6,
+        ease: "easeInOut",
+      },
+    },
   };
 
   const imageVariants: Variants = {
@@ -156,41 +199,6 @@ export default function Projects() {
     }),
   };
 
-  const titleVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 50,
-      scale: 0.9,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 120,
-      },
-    },
-  };
-
-  const buttonVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      x: -20,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      x: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    }),
-  };
-
   const floatingAnimation: TargetAndTransition = {
     y: [0, -10, 0],
     transition: {
@@ -212,6 +220,8 @@ export default function Projects() {
         return "bg-gray-100 text-gray-700 border-gray-200";
     }
   };
+
+  const currentProjectData = projects[currentProject];
 
   return (
     <section
@@ -248,7 +258,7 @@ export default function Projects() {
       />
 
       <div className="container mx-auto px-4" ref={ref}>
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Section Title */}
           <motion.div
             className="text-center mb-16"
@@ -294,298 +304,362 @@ export default function Projects() {
             </motion.p>
           </motion.div>
 
-          {/* Projects Grid */}
-          <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={containerVariants}
-          >
-            {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                custom={index}
-                whileHover={{
-                  y: -15,
-                  scale: 1.02,
-                  boxShadow: `0 25px 50px ${project.shadowColor}`,
-                }}
-                whileTap={{ scale: 0.98 }}
-                className={
-                  project.featured ? "md:col-span-2 lg:col-span-1" : ""
-                }
-              >
-                <Card className="h-full hover:shadow-2xl transition-all duration-500 overflow-hidden bg-white/90 backdrop-blur-sm border-0 shadow-lg relative group">
-                  {/* Featured badge */}
-                  {project.featured && (
+          {/* Book Container */}
+          <div className="relative perspective-1000 max-w-6xl mx-auto">
+            {/* Navigation Buttons */}
+            <motion.button
+              onClick={prevProject}
+              disabled={currentProject === 0}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ scale: 1.1, x: -5 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+              transition={{ delay: 1 }}
+            >
+              <ChevronLeft className="h-6 w-6 text-gray-700" />
+            </motion.button>
+
+            <motion.button
+              onClick={nextProject}
+              disabled={currentProject === projects.length - 1}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ scale: 1.1, x: 5 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, x: 50 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+              transition={{ delay: 1 }}
+            >
+              <ChevronRight className="h-6 w-6 text-gray-700" />
+            </motion.button>
+
+            {/* Book Page Container */}
+            <div className="relative h-[600px] preserve-3d">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentProject}
+                  variants={pageVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0 preserve-3d"
+                  style={{ perspective: "1000px" }}
+                >
+                  <Card className="h-full hover:shadow-2xl transition-all duration-500 overflow-hidden bg-white/95 backdrop-blur-sm border-0 shadow-xl relative group animate-book-float">
+                    {/* Featured badge */}
+                    {currentProjectData.featured && (
+                      <motion.div
+                        className="absolute top-6 left-6 z-20"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.5 }}
+                      >
+                        <motion.div
+                          className="flex items-center space-x-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg"
+                          animate={floatingAnimation}
+                        >
+                          <Star className="h-4 w-4" />
+                          <span>Featured</span>
+                        </motion.div>
+                      </motion.div>
+                    )}
+
+                    {/* Status badge */}
                     <motion.div
-                      className="absolute top-4 left-4 z-20"
+                      className="absolute top-6 right-6 z-20"
                       initial={{ opacity: 0, scale: 0 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.15 + 0.5 }}
+                      transition={{ delay: 0.7 }}
                     >
-                      <motion.div
-                        className="flex items-center space-x-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
-                        animate={floatingAnimation}
+                      <Badge
+                        className={`${getStatusColor(
+                          currentProjectData.status
+                        )} border font-medium px-3 py-1`}
                       >
-                        <Star className="h-3 w-3" />
-                        <span>Featured</span>
-                      </motion.div>
-                    </motion.div>
-                  )}
-
-                  {/* Status badge */}
-                  <motion.div
-                    className="absolute top-4 right-4 z-20"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.15 + 0.7 }}
-                  >
-                    <Badge
-                      className={`${getStatusColor(
-                        project.status
-                      )} border font-medium`}
-                    >
-                      {project.status}
-                    </Badge>
-                  </motion.div>
-
-                  {/* Project Image */}
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <motion.div
-                      className={`absolute inset-0 bg-gradient-to-r ${project.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-10`}
-                    />
-                    <motion.div
-                      variants={imageVariants}
-                      className="relative h-full w-full"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                    >
-                      <Image
-                        src={project.image || "/placeholder.svg"}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-500"
-                      />
-                    </motion.div>
-
-                    {/* Overlay with category */}
-                    <motion.div
-                      className="absolute bottom-4 left-4 z-20"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.15 + 0.9 }}
-                    >
-                      <Badge className="bg-white/90 text-gray-700 border-0 backdrop-blur-sm">
-                        <Code2 className="h-3 w-3 mr-1" />
-                        {project.category}
+                        {currentProjectData.status}
                       </Badge>
                     </motion.div>
 
-                    {/* Hover overlay */}
-                    <motion.div
-                      className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10"
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                    >
-                      <motion.div
-                        className="flex items-center space-x-2 text-white"
-                        initial={{ scale: 0 }}
-                        whileHover={{ scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Eye className="h-5 w-5" />
-                        <span className="font-medium">View Project</span>
-                      </motion.div>
-                    </motion.div>
-                  </div>
-
-                  <CardHeader className="relative">
-                    <CardTitle className="text-xl">
-                      <motion.span
-                        className="text-gray-800 font-bold"
-                        whileHover={{
-                          color: "#3B82F6",
-                          transition: { duration: 0.3 },
-                        }}
-                      >
-                        {project.title}
-                      </motion.span>
-                    </CardTitle>
-                  </CardHeader>
-
-                  <CardContent className="relative">
-                    <motion.p
-                      className="text-gray-700 mb-4 leading-relaxed"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={
-                        isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                      }
-                      transition={{ delay: index * 0.15 + 1.1 }}
-                      whileHover={{
-                        scale: 1.01,
-                        transition: { duration: 0.3 },
-                      }}
-                    >
-                      {project.description}
-                    </motion.p>
-
-                    {/* Technologies */}
-                    <motion.div
-                      className="flex flex-wrap gap-2 mb-6"
-                      initial="hidden"
-                      animate={isInView ? "visible" : "hidden"}
-                      variants={containerVariants}
-                    >
-                      {project.technologies.map((tech, techIndex) => (
+                    {/* Main Content - Side by Side Layout */}
+                    <div className="grid md:grid-cols-2 h-full">
+                      {/* Left Side - Project Image */}
+                      <div className="relative overflow-hidden">
                         <motion.div
-                          key={techIndex}
-                          variants={badgeVariants}
-                          custom={techIndex}
-                          whileHover={{
-                            scale: 1.1,
-                            y: -2,
-                            boxShadow: `0 8px 25px ${project.shadowColor}`,
-                          }}
-                          whileTap={{ scale: 0.95 }}
+                          className={`absolute inset-0 bg-gradient-to-r ${currentProjectData.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-10`}
+                        />
+                        <motion.div
+                          variants={imageVariants}
+                          initial="hidden"
+                          animate="visible"
+                          className="relative h-full w-full"
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ duration: 0.6 }}
                         >
-                          <Badge
-                            variant="secondary"
-                            className="text-xs font-medium px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 hover:border-gray-300 transition-all duration-300 cursor-pointer"
-                          >
-                            {tech}
+                          <img
+                            src={currentProjectData.image || "/placeholder.svg"}
+                            alt={currentProjectData.title}
+                            className="w-full h-full object-contain transition-transform duration-500"
+                          />
+                        </motion.div>
+
+                        {/* Category overlay */}
+                        <motion.div
+                          className="absolute bottom-6 left-6 z-20"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.9 }}
+                        >
+                          <Badge className="bg-white/95 text-gray-700 border-0 backdrop-blur-sm px-3 py-1">
+                            <Code2 className="h-3 w-3 mr-2" />
+                            {currentProjectData.category}
                           </Badge>
                         </motion.div>
-                      ))}
-                    </motion.div>
 
-                    {/* Action Buttons */}
-                    <motion.div
-                      className="flex gap-3"
-                      initial="hidden"
-                      animate={isInView ? "visible" : "hidden"}
-                      variants={containerVariants}
-                    >
-                      <motion.div
-                        className="flex-1"
-                        variants={buttonVariants}
-                        custom={0}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Button
-                          size="sm"
-                          className={`w-full bg-gradient-to-r ${project.gradient} hover:shadow-lg transition-all duration-300 border-0`}
-                          asChild
+                        {/* Hover overlay */}
+                        <motion.div
+                          className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10"
+                          initial={{ opacity: 0 }}
+                          whileHover={{ opacity: 1 }}
                         >
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <motion.div
+                            className="flex items-center space-x-2 text-white"
+                            initial={{ scale: 0 }}
+                            whileHover={{ scale: 1 }}
+                            transition={{ duration: 0.3 }}
                           >
-                            <motion.div
-                              animate={{ x: [0, 3, 0] }}
-                              transition={{
-                                duration: 2,
-                                repeat: Number.POSITIVE_INFINITY,
-                              }}
-                            >
-                              <ExternalLink className="h-4 w-4 mr-2" />
-                            </motion.div>
-                            Live Demo
-                          </a>
-                        </Button>
-                      </motion.div>
-                      <motion.div
-                        className="flex-1"
-                        variants={buttonVariants}
-                        custom={1}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {project.githubUrl === "#" ? (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300"
-                            asChild
-                          >
-                            <a
-                              href="/oops"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Code2 className="h-4 w-4 mr-2" />
-                              Code
-                            </a>
-                          </Button>
-                        ) : (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300"
-                            asChild
-                          >
-                            <a
-                              href={project.githubUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <motion.div
-                                animate={{ rotate: [0, 360] }}
-                                transition={{
-                                  duration: 20,
-                                  repeat: Number.POSITIVE_INFINITY,
-                                  ease: "linear",
+                            <Eye className="h-6 w-6" />
+                            <span className="font-medium text-lg">
+                              View Project
+                            </span>
+                          </motion.div>
+                        </motion.div>
+                      </div>
+
+                      {/* Right Side - Project Details */}
+                      <div className="p-8 flex flex-col justify-between">
+                        <div>
+                          <CardHeader className="p-0 mb-4">
+                            <CardTitle className="text-2xl md:text-3xl">
+                              <motion.span
+                                className="text-gray-800 font-bold leading-tight"
+                                whileHover={{
+                                  color: "#3B82F6",
+                                  transition: { duration: 0.3 },
                                 }}
                               >
-                                <Github className="h-4 w-4 mr-2" />
-                              </motion.div>
-                              Code
-                            </a>
-                          </Button>
-                        )}
-                      </motion.div>
-                    </motion.div>
+                                {currentProjectData.title}
+                              </motion.span>
+                            </CardTitle>
+                          </CardHeader>
 
-                    {/* Project stats */}
+                          <CardContent className="p-0">
+                            <motion.p
+                              className="text-gray-700 mb-6 leading-relaxed text-lg"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.3 }}
+                            >
+                              {currentProjectData.description}
+                            </motion.p>
+
+                            {/* Technologies */}
+                            <motion.div
+                              className="flex flex-wrap gap-3 mb-8"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ delay: 0.5 }}
+                            >
+                              {currentProjectData.technologies.map(
+                                (tech, techIndex) => (
+                                  <motion.div
+                                    key={techIndex}
+                                    variants={badgeVariants}
+                                    custom={techIndex}
+                                    initial="hidden"
+                                    animate="visible"
+                                    whileHover={{
+                                      scale: 1.1,
+                                      y: -2,
+                                      boxShadow: `0 8px 25px ${currentProjectData.shadowColor}`,
+                                    }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <Badge
+                                      variant="secondary"
+                                      className="text-sm font-medium px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 hover:border-gray-300 transition-all duration-300 cursor-pointer"
+                                    >
+                                      {tech}
+                                    </Badge>
+                                  </motion.div>
+                                )
+                              )}
+                            </motion.div>
+                          </CardContent>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <motion.div
+                          className="flex gap-4"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.7 }}
+                        >
+                          <motion.div
+                            className="flex-1"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <Button
+                              size="lg"
+                              className={`w-full bg-gradient-to-r ${currentProjectData.gradient} hover:shadow-lg transition-all duration-300 border-0 text-lg py-3`}
+                              asChild
+                            >
+                              <a
+                                href={currentProjectData.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <motion.div
+                                  animate={{ x: [0, 3, 0] }}
+                                  transition={{
+                                    duration: 2,
+                                    repeat: Number.POSITIVE_INFINITY,
+                                  }}
+                                >
+                                  <ExternalLink className="h-5 w-5 mr-2" />
+                                </motion.div>
+                                Live Demo
+                              </a>
+                            </Button>
+                          </motion.div>
+                          <motion.div
+                            className="flex-1"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            {currentProjectData.githubUrl === "#" ? (
+                              <Button
+                                size="lg"
+                                variant="outline"
+                                className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 text-lg py-3"
+                                asChild
+                              >
+                                <a
+                                  href="/oops"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Code2 className="h-5 w-5 mr-2" />
+                                  Code
+                                </a>
+                              </Button>
+                            ) : (
+                              <Button
+                                size="lg"
+                                variant="outline"
+                                className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 text-lg py-3"
+                                asChild
+                              >
+                                <a
+                                  href={currentProjectData.githubUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <motion.div
+                                    animate={{ rotate: [0, 360] }}
+                                    transition={{
+                                      duration: 20,
+                                      repeat: Number.POSITIVE_INFINITY,
+                                      ease: "linear",
+                                    }}
+                                  >
+                                    <Github className="h-5 w-5 mr-2" />
+                                  </motion.div>
+                                  Code
+                                </a>
+                              </Button>
+                            )}
+                          </motion.div>
+                        </motion.div>
+
+                        {/* Project stats */}
+                        <motion.div
+                          className="mt-6 flex items-center justify-between text-sm text-gray-500"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.9 }}
+                        >
+                          <span className="flex items-center space-x-2">
+                            <Zap className="h-4 w-4" />
+                            <span>
+                              {currentProjectData.technologies.length}{" "}
+                              Technologies
+                            </span>
+                          </span>
+                          <motion.div
+                            className={`w-3 h-3 rounded-full bg-gradient-to-r ${currentProjectData.gradient}`}
+                            animate={{
+                              scale: [1, 1.2, 1],
+                              opacity: [0.7, 1, 0.7],
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Number.POSITIVE_INFINITY,
+                              ease: "easeInOut",
+                            }}
+                          />
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    {/* Decorative corner element */}
                     <motion.div
-                      className="mt-4 flex items-center justify-between text-xs text-gray-500"
-                      initial={{ opacity: 0 }}
-                      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                      transition={{ delay: index * 0.15 + 1.5 }}
-                    >
-                      <span className="flex items-center space-x-1">
-                        <Zap className="h-3 w-3" />
-                        <span>{project.technologies.length} Technologies</span>
-                      </span>
-                      <motion.div
-                        className={`w-2 h-2 rounded-full bg-gradient-to-r ${project.gradient}`}
-                        animate={{
-                          scale: [1, 1.2, 1],
-                          opacity: [0.7, 1, 0.7],
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Number.POSITIVE_INFINITY,
-                          ease: "easeInOut",
-                        }}
-                      />
-                    </motion.div>
-                  </CardContent>
+                      className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl ${currentProjectData.gradient} opacity-10 rounded-bl-full`}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.8, duration: 0.6 }}
+                    />
+                  </Card>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-                  {/* Decorative corner element */}
-                  <motion.div
-                    className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl ${project.gradient} opacity-10 rounded-bl-full`}
-                    initial={{ scale: 0 }}
-                    animate={isInView ? { scale: 1 } : { scale: 0 }}
-                    transition={{ delay: index * 0.15 + 1.2, duration: 0.6 }}
-                  />
-                </Card>
+            {/* Page Indicators */}
+            <motion.div
+              className="flex justify-center items-center space-x-4 mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ delay: 1.2 }}
+            >
+              <motion.div
+                className="flex items-center space-x-2"
+                whileHover={{ scale: 1.05 }}
+              >
+                <BookOpen className="h-5 w-5 text-gray-600" />
+                <span className="text-gray-600 font-medium">
+                  Page {currentProject + 1} of {projects.length}
+                </span>
               </motion.div>
-            ))}
-          </motion.div>
+              <div className="flex space-x-2 ml-4">
+                {projects.map((_, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => goToProject(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === currentProject
+                        ? "bg-blue-500 scale-125"
+                        : "bg-gray-300 hover:bg-gray-400"
+                    }`}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: index === currentProject ? 1.25 : 1 }}
+                    transition={{ delay: index * 0.1 + 1.3 }}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
           {/* Bottom CTA */}
           <motion.div

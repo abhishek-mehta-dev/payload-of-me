@@ -5,7 +5,35 @@ import { useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Code, Database, Server, Brain, Wrench } from "lucide-react";
-
+import {
+  SiPython,
+  SiJavascript,
+  SiGo,
+  SiTypescript,
+  SiGnubash,
+  SiExpress,
+  SiNodedotjs,
+  SiDjango,
+  SiReact,
+  SiNextdotjs,
+  SiFastapi,
+  SiLangchain,
+  SiMongodb,
+  SiPostgresql,
+  SiMysql,
+  SiOpenapiinitiative,
+  SiApollographql,
+  SiLinux,
+  SiNginx,
+  SiDocker,
+  SiGithubactions,
+  SiAwsamplify,
+  SiGooglecloud,
+  SiKubernetes,
+  SiTensorflow,
+  SiOpenai,
+} from "react-icons/si";
+import { VscAzure } from "react-icons/vsc";
 export default function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
@@ -14,23 +42,30 @@ export default function Skills() {
     {
       title: "Programming Languages",
       icon: Code,
-      skills: ["Python", "JavaScript", "TypeScript", "Bash"],
+      skills: [
+        { name: "Python", icon: SiPython, color: "#3776AB" },
+        { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+        { name: "Go", icon: SiGo, color: "#00ADD8" },
+        { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+        { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
+      ],
       color: "bg-blue-500",
       gradient: "from-blue-500 to-blue-600",
       shadowColor: "rgba(59, 130, 246, 0.3)",
     },
+
     {
       title: "Frameworks & Libraries",
       icon: Server,
       skills: [
-        "Express.js",
-        "Node.js",
-        "Django",
-        "Django Rest Framework",
-        "React.js",
-        "Next.js",
-        "FastAPI",
-        "LangChain",
+        { name: "Express.js", icon: SiExpress, color: "#000000" },
+        { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+        { name: "Django", icon: SiDjango, color: "#092E20" },
+        { name: "Django Rest Framework", icon: SiDjango, color: "#A30000" },
+        { name: "React.js", icon: SiReact, color: "#61DAFB" },
+        { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
+        { name: "FastAPI", icon: SiFastapi, color: "#009688" },
+        { name: "LangChain", icon: SiLangchain, color: "#0FA958" },
       ],
       color: "bg-green-500",
       gradient: "from-green-500 to-green-600",
@@ -39,7 +74,13 @@ export default function Skills() {
     {
       title: "Database Management",
       icon: Database,
-      skills: ["SQL", "NoSQL", "MongoDB", "PostgreSQL", "MySQL"],
+      skills: [
+        { name: "SQL", icon: SiMysql, color: "#336791" },
+        { name: "NoSQL", icon: SiMongodb, color: "#47A248" },
+        { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+        { name: "PostgreSQL", icon: SiPostgresql, color: "#336791" },
+        { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+      ],
       color: "bg-purple-500",
       gradient: "from-purple-500 to-purple-600",
       shadowColor: "rgba(147, 51, 234, 0.3)",
@@ -47,7 +88,18 @@ export default function Skills() {
     {
       title: "API Development",
       icon: Wrench,
-      skills: ["RESTful Services", "Third-party API Integrations"],
+      skills: [
+        {
+          name: "RESTful Services",
+          icon: SiOpenapiinitiative,
+          color: "#6BA539",
+        },
+        {
+          name: "Third-party API Integrations",
+          icon: SiApollographql,
+          color: "#311C87",
+        },
+      ],
       color: "bg-orange-500",
       gradient: "from-orange-500 to-orange-600",
       shadowColor: "rgba(249, 115, 22, 0.3)",
@@ -56,25 +108,30 @@ export default function Skills() {
       title: "Server & Infrastructure",
       icon: Server,
       skills: [
-        "Linux Fundamentals",
-        "Nginx",
-        "Docker Basics",
-        "Github Actions",
+        { name: "Linux Fundamentals", icon: SiLinux, color: "#FFD41F" },
+        { name: "Nginx", icon: SiNginx, color: "#009639" },
+        { name: "Docker", icon: SiDocker, color: "#2496ED" },
+        { name: "Github Actions", icon: SiGithubactions, color: "#2088FF" },
       ],
       color: "bg-red-500",
       gradient: "from-red-500 to-red-600",
       shadowColor: "rgba(239, 68, 68, 0.3)",
     },
+
     {
       title: "Emerging Technologies",
       icon: Brain,
       skills: [
-        "Machine Learning Basics",
-        "DevOps Tools",
-        "AI Agents",
-        "AWS",
-        "Azure",
-        "GCP",
+        {
+          name: "Machine Learning Basics",
+          icon: SiTensorflow,
+          color: "#FF6F00",
+        },
+        { name: "DevOps Tools", icon: SiKubernetes, color: "#326CE5" },
+        { name: "AI Agents", icon: SiOpenai, color: "#412991" },
+        { name: "AWS", icon: SiAwsamplify, color: "#FF9900" },
+        { name: "Azure", icon: VscAzure, color: "#0078D4" },
+        { name: "GCP", icon: SiGooglecloud, color: "#4285F4" },
       ],
       color: "bg-indigo-500",
       gradient: "from-indigo-500 to-indigo-600",
@@ -327,26 +384,47 @@ export default function Skills() {
                       animate={isInView ? "visible" : "hidden"}
                       variants={containerVariants}
                     >
-                      {category.skills.map((skill, skillIndex) => (
-                        <motion.div
-                          key={skillIndex}
-                          variants={badgeVariants}
-                          custom={skillIndex}
-                          whileHover={{
-                            scale: 1.1,
-                            y: -2,
-                            boxShadow: `0 8px 25px ${category.shadowColor}`,
-                          }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Badge
-                            variant="secondary"
-                            className="text-sm font-medium px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 hover:border-gray-300 transition-all duration-300 cursor-pointer"
+                      {category.skills.map((skill, skillIndex) => {
+                        const isObject =
+                          typeof skill === "object" &&
+                          "icon" in skill &&
+                          "name" in skill &&
+                          "color" in skill;
+
+                        return (
+                          <motion.div
+                            key={skillIndex}
+                            variants={badgeVariants}
+                            custom={skillIndex}
+                            whileHover={{
+                              scale: 1.1,
+                              y: -2,
+                              boxShadow: `0 8px 25px ${category.shadowColor}`,
+                            }}
+                            whileTap={{ scale: 0.95 }}
                           >
-                            {skill}
-                          </Badge>
-                        </motion.div>
-                      ))}
+                            <Badge
+                              variant="secondary"
+                              className="flex items-center gap-2 text-sm font-medium px-3 py-1 
+                   bg-gray-100 hover:bg-gray-200 text-gray-700 
+                   border border-gray-200 hover:border-gray-300 
+                   transition-all duration-300 cursor-pointer"
+                            >
+                              {isObject ? (
+                                <>
+                                  <skill.icon
+                                    className="text-3xl"
+                                    color={skill.color}
+                                  />
+                                  <span>{skill.name}</span>
+                                </>
+                              ) : (
+                                <span>{skill}</span>
+                              )}
+                            </Badge>
+                          </motion.div>
+                        );
+                      })}
                     </motion.div>
 
                     {/* Skill count indicator */}
