@@ -91,7 +91,7 @@ export default function Projects() {
         "Node.js",
         "MongoDB",
       ],
-      liveUrl: "/comming-soon",
+      liveUrl: "/coming-soon",
       githubUrl: "https://github.com/abhishek-mehta-dev/stripe_connect",
       featured: true,
       status: "Completed",
