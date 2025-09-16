@@ -7,6 +7,7 @@ import {
   useScroll,
   useTransform,
   Variants,
+  AnimatePresence,
 } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -93,8 +94,6 @@ type Particle = {
 
 export default function Hero() {
   const [currentTitle, setCurrentTitle] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
   const { scrollY } = useScroll();
   const [particles, setParticles] = useState<Particle[]>([]);
 
@@ -133,25 +132,14 @@ export default function Hero() {
   const textY = useTransform(scrollY, [0, 500], [0, 100]);
 
   useEffect(() => {
-    const typingTimeout = setTimeout(() => {
-      if (isTyping) {
-        if (displayText.length < titles[currentTitle].length) {
-          setDisplayText(titles[currentTitle].slice(0, displayText.length + 1));
-        } else {
-          setTimeout(() => setIsTyping(false), 2000);
-        }
-      } else {
-        if (displayText.length > 0) {
-          setDisplayText(displayText.slice(0, -1));
-        } else {
-          setCurrentTitle((prev) => (prev + 1) % titles.length);
-          setIsTyping(true);
-        }
-      }
-    }, 100);
+    const interval = setInterval(() => {
+      setCurrentTitle((prev) => (prev + 1) % titles.length);
+    }, 5000);
 
-    return () => clearTimeout(typingTimeout);
-  }, [displayText, isTyping, currentTitle, titles]);
+    return () => clearInterval(interval);
+  }, [titles.length]);
+
+  const letters = titles[currentTitle].split("");
 
   const scrollToNext = () => {
     const nextSection = document.getElementById("about");
@@ -402,12 +390,50 @@ export default function Hero() {
 
             {/* Animated Title */}
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                {displayText}
-              </span>
-              <span className="text-cyan-400">|</span>
-            </h1>
+            <div
+              className="relative flex items-center justify-center overflow-hidden 
+                    h-16 sm:h-20 md:h-24 lg:h-28"
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentTitle}
+                  className="flex gap-1 whitespace-nowrap 
+                     text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl 
+                     font-bold leading-tight text-center"
+                  initial={{ y: -80, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 80, opacity: 0 }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                >
+                  {letters.map((char, i) => (
+                    <motion.span
+                      key={i + char}
+                      initial={{ y: -120, opacity: 0, rotate: -20 }}
+                      animate={{ y: 0, opacity: 1, rotate: 0 }}
+                      transition={{
+                        duration: 0.9,
+                        delay: i * 0.08,
+                        type: "spring",
+                        stiffness: 80,
+                        damping: 15,
+                      }}
+                      className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 
+                         bg-clip-text text-transparent inline-block"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                  <motion.span
+                    className="text-cyan-400"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ repeat: Infinity, duration: 1.2 }}
+                  >
+                    |
+                  </motion.span>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
             {/* Subtitle */}
             <motion.h2
@@ -734,8 +760,6 @@ export default function Hero() {
           </motion.div>
         </div>
       </motion.div>
-
-      
     </section>
   );
 }
