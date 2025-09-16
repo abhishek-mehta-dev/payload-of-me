@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { motion, useInView, Variants } from "framer-motion"
-import { useRef, useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { motion, useInView, Variants } from "framer-motion";
+import { useRef, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Mail,
   Phone,
@@ -22,27 +22,34 @@ import {
   AtSign,
   FileText,
   Sparkles,
-} from "lucide-react"
+} from "lucide-react";
+
+import { profile } from "@/config";
 
 export default function Contact() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     subject: "",
     message: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const mapLink = `https://maps.google.com/?q=${encodeURIComponent(
+    profile.location.name
+  )}`;
+  const phoneLink = `tel:${profile.phone.number.replace(/\s+/g, "")}`;
+  const emailLink = `mailto:${profile.email.address}`;
 
   const contactInfo = [
     {
       icon: Mail,
       label: "Email",
-      value: "mehtaabhishek.dev@gmail.com",
-      href: "mailto:mehtaabhishek.dev@gmail.com",
+      value: profile.email.address,
+      href: emailLink,
       color: "text-blue-500",
       gradient: "from-blue-500 to-blue-600",
       shadowColor: "rgba(59, 130, 246, 0.3)",
@@ -50,8 +57,8 @@ export default function Contact() {
     {
       icon: Phone,
       label: "Phone",
-      value: "+91 8580615737",
-      href: "tel:+918580615737",
+      value: profile.phone.number,
+      href: phoneLink,
       color: "text-green-500",
       gradient: "from-green-500 to-green-600",
       shadowColor: "rgba(34, 197, 94, 0.3)",
@@ -59,13 +66,13 @@ export default function Contact() {
     {
       icon: MapPin,
       label: "Location",
-      value: "India",
-      href: "#",
+      value: profile.location.name,
+      href: mapLink,
       color: "text-purple-500",
       gradient: "from-purple-500 to-purple-600",
       shadowColor: "rgba(147, 51, 234, 0.3)",
     },
-  ]
+  ];
 
   const socialLinks = [
     {
@@ -89,10 +96,10 @@ export default function Contact() {
       color: "hover:text-red-500",
       gradient: "from-red-500 to-red-600",
     },
-  ]
+  ];
 
   // Animation variants
-  const containerVariants:Variants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -101,11 +108,9 @@ export default function Contact() {
         delayChildren: 0.1,
       },
     },
-  }
+  };
 
-  
-
-  const slideInLeft:Variants = {
+  const slideInLeft: Variants = {
     hidden: {
       opacity: 0,
       x: -100,
@@ -122,9 +127,9 @@ export default function Contact() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const slideInRight :Variants= {
+  const slideInRight: Variants = {
     hidden: {
       opacity: 0,
       x: 100,
@@ -141,9 +146,9 @@ export default function Contact() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const contactItemVariants :Variants= {
+  const contactItemVariants: Variants = {
     hidden: {
       opacity: 0,
       x: -50,
@@ -161,9 +166,9 @@ export default function Contact() {
         stiffness: 150,
       },
     }),
-  }
+  };
 
-  const socialVariants:Variants = {
+  const socialVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0,
@@ -181,9 +186,9 @@ export default function Contact() {
         stiffness: 200,
       },
     }),
-  }
+  };
 
-  const formVariants:Variants = {
+  const formVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 50,
@@ -200,9 +205,9 @@ export default function Contact() {
         stiffness: 100,
       },
     },
-  }
+  };
 
-  const inputVariants :Variants= {
+  const inputVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 20,
@@ -216,9 +221,9 @@ export default function Contact() {
         ease: "easeOut",
       },
     }),
-  }
+  };
 
-  const titleVariants :Variants= {
+  const titleVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 50,
@@ -235,9 +240,9 @@ export default function Contact() {
         stiffness: 120,
       },
     },
-  }
+  };
 
-  const iconFloat:Variants = {
+  const iconFloat: Variants = {
     animate: {
       y: [0, -8, 0],
       rotate: [0, 5, -5, 0],
@@ -247,9 +252,9 @@ export default function Contact() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
-  const pulseAnimation :Variants= {
+  const pulseAnimation: Variants = {
     animate: {
       scale: [1, 1.05, 1],
       transition: {
@@ -258,36 +263,38 @@ export default function Contact() {
         ease: "easeInOut",
       },
     },
-  }
+  };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+    setIsSubmitting(false);
+    setIsSubmitted(true);
 
     // Reset form after 3 seconds
     setTimeout(() => {
-      setIsSubmitted(false)
+      setIsSubmitted(false);
       setFormData({
         firstName: "",
         lastName: "",
         email: "",
         subject: "",
         message: "",
-      })
-    }, 3000)
-  }
+      });
+    }, 3000);
+  };
 
   return (
     <section
@@ -365,7 +372,8 @@ export default function Contact() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
             >
-              Ready to bring your ideas to life? Let&apos;s discuss your next project and create something amazing together.
+              Ready to bring your ideas to life? Let&apos;s discuss your next
+              project and create something amazing together.
             </motion.p>
           </motion.div>
 
@@ -387,7 +395,11 @@ export default function Contact() {
                 }}
               >
                 <motion.span className="inline-flex items-center">
-                  <motion.div className="mr-3" variants={iconFloat} animate="animate">
+                  <motion.div
+                    className="mr-3"
+                    variants={iconFloat}
+                    animate="animate"
+                  >
                     <MessageCircle className="h-8 w-8 text-blue-500" />
                   </motion.div>
                   Get In Touch
@@ -397,15 +409,19 @@ export default function Contact() {
               <motion.p
                 className="text-gray-700 mb-8 leading-relaxed text-lg"
                 initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={
+                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                }
                 transition={{ delay: 0.3, duration: 0.6 }}
                 whileHover={{
                   scale: 1.01,
                   transition: { duration: 0.3 },
                 }}
               >
-                I&apos;m eager to collaborate on impactful projects and contribute to teams that value growth, innovation,
-                and technical excellence. Let&apos;s connect and build transformative solutions together!
+                I&apos;m eager to collaborate on impactful projects and
+                contribute to teams that value growth, innovation, and technical
+                excellence. Let&apos;s connect and build transformative
+                solutions together!
               </motion.p>
 
               {/* Contact Information */}
@@ -424,6 +440,12 @@ export default function Contact() {
                   >
                     <motion.a
                       href={item.href}
+                      target={item.label === "Location" ? "_blank" : undefined}
+                      rel={
+                        item.label === "Location"
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
                       className="flex items-center p-4 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200/50 hover:border-gray-300/70 transition-all duration-300 shadow-sm hover:shadow-lg group"
                     >
                       <motion.div
@@ -439,7 +461,9 @@ export default function Contact() {
                         <item.icon className="h-5 w-5 text-white" />
                       </motion.div>
                       <div>
-                        <motion.p className="text-sm text-gray-500 font-medium">{item.label}</motion.p>
+                        <motion.p className="text-sm text-gray-500 font-medium">
+                          {item.label}
+                        </motion.p>
                         <motion.p
                           className="text-gray-800 font-semibold group-hover:text-blue-600 transition-colors duration-300"
                           whileHover={{ scale: 1.02 }}
@@ -462,7 +486,9 @@ export default function Contact() {
                 <motion.h4
                   className="text-lg font-semibold text-gray-800 mb-4"
                   initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                  animate={
+                    isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
+                  }
                   transition={{ delay: 0.8, duration: 0.6 }}
                 >
                   Follow Me
@@ -500,7 +526,11 @@ export default function Contact() {
               <motion.div
                 className="mt-8 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200/50"
                 initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                animate={
+                  isInView
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.9 }
+                }
                 transition={{ delay: 1, duration: 0.6 }}
                 whileHover={{ scale: 1.02 }}
               >
@@ -509,8 +539,12 @@ export default function Contact() {
                     <Clock className="h-5 w-5 text-green-600 mr-3" />
                   </motion.div>
                   <div>
-                    <p className="text-sm font-medium text-green-800">Quick Response</p>
-                    <p className="text-xs text-green-600">Usually responds within 24 hours</p>
+                    <p className="text-sm font-medium text-green-800">
+                      Quick Response
+                    </p>
+                    <p className="text-xs text-green-600">
+                      Usually responds within 24 hours
+                    </p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -682,7 +716,11 @@ export default function Contact() {
                               <>
                                 <motion.div
                                   animate={{ rotate: 360 }}
-                                  transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                                  transition={{
+                                    duration: 1,
+                                    repeat: Number.POSITIVE_INFINITY,
+                                    ease: "linear",
+                                  }}
                                 >
                                   <Sparkles className="h-5 w-5 mr-2" />
                                 </motion.div>
@@ -693,7 +731,10 @@ export default function Contact() {
                                 <motion.div
                                   initial={{ scale: 0 }}
                                   animate={{ scale: 1 }}
-                                  transition={{ type: "spring", stiffness: 200 }}
+                                  transition={{
+                                    type: "spring",
+                                    stiffness: 200,
+                                  }}
                                 >
                                   <CheckCircle className="h-5 w-5 mr-2" />
                                 </motion.div>
@@ -703,7 +744,10 @@ export default function Contact() {
                               <>
                                 <motion.div
                                   animate={{ x: [0, 3, 0] }}
-                                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                                  transition={{
+                                    duration: 2,
+                                    repeat: Number.POSITIVE_INFINITY,
+                                  }}
                                 >
                                   <Send className="h-5 w-5 mr-2" />
                                 </motion.div>
@@ -746,14 +790,24 @@ export default function Contact() {
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                transition={{
+                  duration: 15,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
               >
                 <MessageCircle className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">Let&apos;s Build Something Amazing Together</span>
+              <span className="text-gray-700 font-semibold text-lg">
+                Let&apos;s Build Something Amazing Together
+              </span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
               >
                 <Sparkles className="h-6 w-6 text-purple-500" />
               </motion.div>
@@ -762,5 +816,5 @@ export default function Contact() {
         </div>
       </div>
     </section>
-  )
+  );
 }
