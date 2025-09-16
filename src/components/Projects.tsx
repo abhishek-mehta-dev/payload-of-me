@@ -22,7 +22,7 @@ import {
   ChevronRight,
   BookOpen,
 } from "lucide-react";
-// Removed next/image import and OopsPage import for Vite/React app
+import Image from "next/image";
 
 export default function Projects() {
   const ref = useRef(null);
@@ -395,9 +395,11 @@ export default function Projects() {
                           whileHover={{ scale: 1.05 }}
                           transition={{ duration: 0.6 }}
                         >
-                          <img
+                          <Image
                             src={currentProjectData.image || "/placeholder.svg"}
                             alt={currentProjectData.title}
+                            width={300}
+                            height={200}
                             className="w-full h-full object-contain transition-transform duration-500"
                           />
                         </motion.div>

@@ -33,7 +33,7 @@ export default function About() {
       scale: 1,
       transition: {
         duration: 0.6,
-        type: "spring", // ✅ "type" must be a valid AnimationGeneratorType
+        type: "spring",
         stiffness: 120,
       },
     },

@@ -1,5 +1,6 @@
 "use client";
 
+import { VscAzure } from "react-icons/vsc";
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,7 +34,7 @@ import {
   SiTensorflow,
   SiOpenai,
 } from "react-icons/si";
-import { VscAzure } from "react-icons/vsc";
+
 export default function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
@@ -50,6 +51,7 @@ export default function Skills() {
         { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
       ],
       color: "bg-blue-500",
+      hoverColor: "#3B82F6",
       gradient: "from-blue-500 to-blue-600",
       shadowColor: "rgba(59, 130, 246, 0.3)",
     },
@@ -68,6 +70,7 @@ export default function Skills() {
         { name: "LangChain", icon: SiLangchain, color: "#0FA958" },
       ],
       color: "bg-green-500",
+      hoverColor: "#22C55E",
       gradient: "from-green-500 to-green-600",
       shadowColor: "rgba(34, 197, 94, 0.3)",
     },
@@ -82,6 +85,7 @@ export default function Skills() {
         { name: "MySQL", icon: SiMysql, color: "#4479A1" },
       ],
       color: "bg-purple-500",
+      hoverColor: "#9333EA",
       gradient: "from-purple-500 to-purple-600",
       shadowColor: "rgba(147, 51, 234, 0.3)",
     },
@@ -101,6 +105,7 @@ export default function Skills() {
         },
       ],
       color: "bg-orange-500",
+      hoverColor: "#F97316",
       gradient: "from-orange-500 to-orange-600",
       shadowColor: "rgba(249, 115, 22, 0.3)",
     },
@@ -114,6 +119,7 @@ export default function Skills() {
         { name: "Github Actions", icon: SiGithubactions, color: "#2088FF" },
       ],
       color: "bg-red-500",
+      hoverColor: "#EF4444",
       gradient: "from-red-500 to-red-600",
       shadowColor: "rgba(239, 68, 68, 0.3)",
     },
@@ -134,6 +140,7 @@ export default function Skills() {
         { name: "GCP", icon: SiGooglecloud, color: "#4285F4" },
       ],
       color: "bg-indigo-500",
+      hoverColor: "#6366F1",
       gradient: "from-indigo-500 to-indigo-600",
       shadowColor: "rgba(99, 102, 241, 0.3)",
     },
@@ -366,9 +373,7 @@ export default function Skills() {
                       <motion.span
                         className="text-gray-800 font-semibold"
                         whileHover={{
-                          color: category.color
-                            .replace("bg-", "#")
-                            .replace("-500", ""),
+                          color: category.hoverColor,
                           transition: { duration: 0.3 },
                         }}
                       >
@@ -384,47 +389,32 @@ export default function Skills() {
                       animate={isInView ? "visible" : "hidden"}
                       variants={containerVariants}
                     >
-                      {category.skills.map((skill, skillIndex) => {
-                        const isObject =
-                          typeof skill === "object" &&
-                          "icon" in skill &&
-                          "name" in skill &&
-                          "color" in skill;
-
-                        return (
-                          <motion.div
-                            key={skillIndex}
-                            variants={badgeVariants}
-                            custom={skillIndex}
-                            whileHover={{
-                              scale: 1.1,
-                              y: -2,
-                              boxShadow: `0 8px 25px ${category.shadowColor}`,
-                            }}
-                            whileTap={{ scale: 0.95 }}
+                      {category.skills.map((skill, skillIndex) => (
+                        <motion.div
+                          key={skillIndex}
+                          variants={badgeVariants}
+                          custom={skillIndex}
+                          whileHover={{
+                            scale: 1.1,
+                            y: -2,
+                            boxShadow: `0 8px 25px ${category.shadowColor}`,
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Badge
+                            variant="secondary"
+                            className="flex items-center gap-2 text-sm font-medium px-3 py-1 
+                 bg-gray-100 hover:bg-gray-200 text-gray-700 
+                 border border-gray-200 hover:border-gray-300 
+                 transition-all duration-300 cursor-pointer"
                           >
-                            <Badge
-                              variant="secondary"
-                              className="flex items-center gap-2 text-sm font-medium px-3 py-1 
-                   bg-gray-100 hover:bg-gray-200 text-gray-700 
-                   border border-gray-200 hover:border-gray-300 
-                   transition-all duration-300 cursor-pointer"
-                            >
-                              {isObject ? (
-                                <>
-                                  <skill.icon
-                                    className="text-3xl"
-                                    color={skill.color}
-                                  />
-                                  <span>{skill.name}</span>
-                                </>
-                              ) : (
-                                <span>{skill}</span>
-                              )}
-                            </Badge>
-                          </motion.div>
-                        );
-                      })}
+                            <>
+                              <skill.icon color={skill.color} />
+                              <span>{skill.name}</span>
+                            </>
+                          </Badge>
+                        </motion.div>
+                      ))}
                     </motion.div>
 
                     {/* Skill count indicator */}

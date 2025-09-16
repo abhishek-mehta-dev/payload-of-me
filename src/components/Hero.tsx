@@ -133,28 +133,24 @@ export default function Hero() {
   const textY = useTransform(scrollY, [0, 500], [0, 100]);
 
   useEffect(() => {
-    const currentFullText = titles[currentTitle];
-    if (isTyping) {
-      if (displayText.length < currentFullText.length) {
-        const timeout = setTimeout(() => {
-          setDisplayText(currentFullText.slice(0, displayText.length + 1));
-        }, 100);
-        return () => clearTimeout(timeout);
+    const typingTimeout = setTimeout(() => {
+      if (isTyping) {
+        if (displayText.length < titles[currentTitle].length) {
+          setDisplayText(titles[currentTitle].slice(0, displayText.length + 1));
+        } else {
+          setTimeout(() => setIsTyping(false), 2000);
+        }
       } else {
-        const timeout = setTimeout(() => setIsTyping(false), 2000);
-        return () => clearTimeout(timeout);
-      }
-    } else {
-      if (displayText.length > 0) {
-        const timeout = setTimeout(() => {
+        if (displayText.length > 0) {
           setDisplayText(displayText.slice(0, -1));
-        }, 50);
-        return () => clearTimeout(timeout);
-      } else {
-        setCurrentTitle((prev) => (prev + 1) % titles.length);
-        setIsTyping(true);
+        } else {
+          setCurrentTitle((prev) => (prev + 1) % titles.length);
+          setIsTyping(true);
+        }
       }
-    }
+    }, 100);
+
+    return () => clearTimeout(typingTimeout);
   }, [displayText, isTyping, currentTitle, titles]);
 
   const scrollToNext = () => {
@@ -406,7 +402,7 @@ export default function Hero() {
 
             {/* Animated Title */}
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 min-h-[1.2em]">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6">
               <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent">
                 {displayText}
               </span>
@@ -535,7 +531,7 @@ export default function Hero() {
                 },
                 {
                   icon: SiDocker,
-                  href: "https://hub.docker.com/u/abhishekmehtadev/ ",
+                  href: "https://hub.docker.com/u/abhishekmehtadev/",
                   label: "Docker Hub",
                 },
               ].map(({ icon: Icon, href, label }, index) => (
@@ -721,7 +717,7 @@ export default function Hero() {
             >
               <div className="flex flex-col items-center space-y-2 text-slate-400 hover:text-cyan-300 transition-colors duration-300">
                 <span className="text-sm font-medium">
-                  <ChevronDown size={40} color="blue" />
+                  <ChevronDown size={40} />
                 </span>
                 <motion.div
                   animate={{ y: [0, 5, 0] }}
@@ -739,26 +735,7 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0) rotate(0) scale(1);
-            opacity: 0.6;
-          }
-          33% {
-            transform: translateY(-15px) rotate(120deg) scale(1.1);
-            opacity: 0.8;
-          }
-          66% {
-            transform: translateY(-5px) rotate(240deg) scale(0.9);
-            opacity: 0.7;
-          }
-        }
-        .animate-float {
-          animation: float 8s ease-in-out infinite;
-        }
-      `}</style>
+      
     </section>
   );
 }

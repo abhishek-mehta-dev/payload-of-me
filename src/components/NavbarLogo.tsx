@@ -133,7 +133,7 @@ const NavbarLogo = () => {
           }}
           transition={{
             duration: 2 + i * 0.5,
-            repeat: Infinity,
+            repeat: Number.POSITIVE_INFINITY,
             delay: i * 0.3,
             ease: "easeInOut",
           }}

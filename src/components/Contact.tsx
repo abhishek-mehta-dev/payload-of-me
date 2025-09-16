@@ -271,8 +271,7 @@ export default function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setIsSubmitting(false)
     setIsSubmitted(true)
@@ -342,7 +341,7 @@ export default function Contact() {
                   transition: { duration: 0.3 },
                 }}
               >
-                Let	&apos;s
+                Let&apos;s
               </motion.span>{" "}
               <motion.span
                 className="inline-block bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent"
@@ -366,7 +365,7 @@ export default function Contact() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
             >
-              Ready to bring your ideas to life? Let	&apos;s discuss your next project and create something amazing together.
+              Ready to bring your ideas to life? Let&apos;s discuss your next project and create something amazing together.
             </motion.p>
           </motion.div>
 
@@ -405,8 +404,8 @@ export default function Contact() {
                   transition: { duration: 0.3 },
                 }}
               >
-                I	&apos;m eager to collaborate on impactful projects and contribute to teams that value growth, innovation,
-                and technical excellence. Let	&apos;s connect and build transformative solutions together!
+                I&apos;m eager to collaborate on impactful projects and contribute to teams that value growth, innovation,
+                and technical excellence. Let&apos;s connect and build transformative solutions together!
               </motion.p>
 
               {/* Contact Information */}
@@ -751,7 +750,7 @@ export default function Contact() {
               >
                 <MessageCircle className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">Let	&apos;s Build Something Amazing Together</span>
+              <span className="text-gray-700 font-semibold text-lg">Let&apos;s Build Something Amazing Together</span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}

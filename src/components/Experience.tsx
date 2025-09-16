@@ -174,7 +174,7 @@ export default function Experience() {
     opacity: [0.7, 1, 0.7],
     transition: {
       duration: 2,
-      repeat: Infinity,
+      repeat: Number.POSITIVE_INFINITY,
       ease: "easeInOut",
     },
   };

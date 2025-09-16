@@ -43,12 +43,14 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navLinks.map(
-        (link) => link.href.replace("#", "") || "home"
-      );
+      const sections = navLinks.map((link) => link.href.replace("#", ""));
       const currentSection = sections.find((section) => {
-        const element =
-          section === "home" ? document.body : document.getElementById(section);
+        if (section === "") {
+          const element = document.body;
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
           return rect.top <= 100 && rect.bottom >= 100;
@@ -57,7 +59,7 @@ export default function Navbar() {
       });
       if (currentSection) {
         setActiveSection(
-          currentSection === "home"
+          currentSection === ""
             ? "Home"
             : currentSection.charAt(0).toUpperCase() + currentSection.slice(1)
         );
@@ -100,7 +102,7 @@ export default function Navbar() {
 
       // Get actual navbar height
       const navbar = document.querySelector("header");
-      const navbarHeight = navbar ? navbar.offsetHeight : 80;
+      const navbarHeight = navbar ? navbar.offsetHeight : 0;
 
       // Calculate final scroll position with some buffer
       const targetPosition = rect.top + scrollTop - navbarHeight - 10;
