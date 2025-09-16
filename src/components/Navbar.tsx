@@ -37,12 +37,15 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("Home");
   const { scrollY } = useScroll();
 
+  const [isScrolling, setIsScrolling] = useState(false);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 20);
   });
 
   useEffect(() => {
     const handleScroll = () => {
+      if (isScrolling) return;
       const sections = navLinks.map((link) => link.href.replace("#", ""));
       const currentSection = sections.find((section) => {
         if (section === "") {
@@ -68,7 +71,7 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isScrolling]);
 
   // Fixed smooth scroll function with proper offset calculation
   const handleSmoothScroll = (
@@ -78,44 +81,48 @@ export default function Navbar() {
   ) => {
     e.preventDefault();
 
-    // Handle home link scroll to top
-    if (href === "#" || href === "") {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-      if (closeMenu) {
-        setTimeout(() => setIsOpen(false), 200);
-      }
-      return;
-    }
-
-    // Clean the href to get the section ID
-    const sectionId = href.startsWith("#") ? href.substring(1) : href;
-    const target = document.getElementById(sectionId);
-
-    if (target) {
-      // Calculate exact offset
-      const rect = target.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-
-      // Get actual navbar height
-      const navbar = document.querySelector("header");
-      const navbarHeight = navbar ? navbar.offsetHeight : 0;
-
-      // Calculate final scroll position with some buffer
-      const targetPosition = rect.top + scrollTop - navbarHeight - 10;
-
-      window.scrollTo({
-        top: Math.max(0, targetPosition), // Ensure we don't scroll to negative values
-        behavior: "smooth",
-      });
-    }
-
     if (closeMenu) {
-      setTimeout(() => setIsOpen(false), 200);
+      setIsOpen(false);
     }
+
+    setTimeout(() => {
+      setIsScrolling(true);
+
+      // Handle home link scroll to top
+      if (href === "#" || href === "") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        setTimeout(() => setIsScrolling(false), 1000);
+        return;
+      }
+
+      // Clean the href to get the section ID
+      const sectionId = href.startsWith("#") ? href.substring(1) : href;
+      const target = document.getElementById(sectionId);
+
+      if (target) {
+        // Calculate exact offset
+        const rect = target.getBoundingClientRect();
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        // Get actual navbar height
+        const navbar = document.querySelector("header");
+        const navbarHeight = navbar ? navbar.offsetHeight : 0;
+
+        // Calculate final scroll position with some buffer
+        const targetPosition = rect.top + scrollTop - navbarHeight - 10;
+
+        window.scrollTo({
+          top: Math.max(0, targetPosition), // Ensure we don't scroll to negative values
+          behavior: "smooth",
+        });
+      }
+
+      setTimeout(() => setIsScrolling(false), 1000);
+    }, closeMenu ? 300 : 0);
   };
 
   // Animation variants
