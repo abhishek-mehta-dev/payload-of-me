@@ -423,14 +423,7 @@ export default function Hero() {
                       {char}
                     </motion.span>
                   ))}
-                  <motion.span
-                    className="text-cyan-400"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: [1, 0, 1] }}
-                    transition={{ repeat: Infinity, duration: 1.2 }}
-                  >
-                    |
-                  </motion.span>
+                  
                 </motion.div>
               </AnimatePresence>
             </div>
