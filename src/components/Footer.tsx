@@ -23,6 +23,7 @@ import {
   MapPin,
   Phone,
 } from "lucide-react";
+import { profile } from "@/config";
 
 interface Particle {
   id: number;
@@ -95,11 +96,21 @@ export default function Footer() {
   const contactInfo = [
     {
       icon: Mail,
-      text: "mehtaabhishek.dev@gmail.com",
-      href: "mailto:mehtaabhishek.dev@gmail.com",
+      text: profile.email.address,
+      href: `mailto:${profile.email.address}`,
     },
-    { icon: Phone, text: "+91 8580615737", href: "tel:+918580615737" },
-    { icon: MapPin, text: "India", href: "#" },
+    {
+      icon: Phone,
+      text: profile.phone.number,
+      href: `tel:${profile.phone.number}`,
+    },
+    {
+      icon: MapPin,
+      text: profile.location.name,
+      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        profile.location.name
+      )}`,
+    },
   ];
 
   // Animation variants
