@@ -28,7 +28,7 @@ export default function Experience() {
       company: "Current Position",
       period: "2024 - Present",
       description:
-        "Working as a full-stack developer, building scalable web applications using the MERN stack. Focusing on backend development, API design, and system performance optimization.",
+        "Working as a Full-stack developer, building scalable web applications using the MERN stack. Focusing on backend development, API design, and system performance optimization.",
       technologies: [
         "React.js",
         "Next.js",
