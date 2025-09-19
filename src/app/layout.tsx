@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Abhishek Mehta - Full Stack & Backend Developer",
   description:
-    "Dedicated software developer with expertise in backend and full-stack development. Skilled in MERN Stack, Python, Django, FastAPI, and building scalable web applications. Passionate about AI/ML, DevOps, and intelligent automation.",
+    "Dedicated software developer with expertise in backend and Full-stack development. Skilled in MERN Stack, Python, Django, FastAPI, and building scalable web applications. Passionate about AI/ML, DevOps, and intelligent automation.",
   keywords:
     "Abhishek Mehta, Full Stack Developer, MERN Stack Developer, Backend Developer, React.js, Node.js, Next.js, Django, FastAPI, Python, Golang, SQL, NoSQL, API Development, Scalable Web Applications",
   authors: [{ name: "Abhishek Mehta" }],

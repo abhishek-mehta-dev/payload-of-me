@@ -423,7 +423,6 @@ export default function Hero() {
                       {char}
                     </motion.span>
                   ))}
-                  
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -458,7 +457,7 @@ export default function Hero() {
               variants={fadeInUp}
               custom={3}
             >
-              I&apos;m a passionate full-stack developer specializing in the
+              I&apos;m a passionate Full-stack developer specializing in the
               MERN stack, with a keen eye for creating scalable, user‑centric
               applications. From concept to deployment, I bring ideas to life
               with clean code and innovative solutions.

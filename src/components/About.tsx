@@ -240,7 +240,7 @@ export default function About() {
                   }}
                 >
                   As a dedicated software developer with a strong foundation in
-                  backend and full-stack development, I bring expertise in
+                  backend and Full-stack development, I bring expertise in
                   building scalable and efficient web applications. I completed
                   my Master&apos;s in Computer Applications in 2024 from
                   Chandigarh University.

@@ -3,14 +3,22 @@
 import {
   motion,
   AnimatePresence,
-  TargetAndTransition,
+  type TargetAndTransition,
   useInView,
-  Variants,
+  type Variants,
 } from "framer-motion";
 import { useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   ExternalLink,
   Github,
@@ -21,6 +29,8 @@ import {
   ChevronLeft,
   ChevronRight,
   BookOpen,
+  User,
+  CheckCircle,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -55,6 +65,17 @@ export default function Projects() {
       category: "Full-Stack",
       gradient: "from-blue-500 to-cyan-500",
       shadowColor: "rgba(59, 130, 246, 0.3)",
+      roles: ["Full-Stack Developer", "DevOps Engineer"],
+      responsibilities: [
+        "Built a role-based healthcare web application with Next.js, Node.js, Express.js, and MongoDB",
+        "Implemented patient notes system with create, draft, update, and soft-delete features",
+        "Integrated Stripe for subscription billing and automated renewals via cron jobs",
+        "Developed role-based access control (RBAC) for Admins, Agencies, and Nurses",
+        "Added video upload functionality and automated invoice generation",
+        "Optimized frontend with TanStack React Query and improved UX with SweetAlert",
+        "Managed server deployments, monitoring, and scaling on AWS EC2 using PM2",
+        "Oversaw development and operational workflows, including version control with Git and GitHub",
+      ],
     },
     {
       title: "DocuAI Pro",
@@ -78,6 +99,17 @@ export default function Projects() {
       category: "Fullstack",
       gradient: "from-purple-500 to-indigo-500",
       shadowColor: "rgba(139, 92, 246, 0.3)",
+      roles: ["AI Engineer", "Backend Developer", "Frontend Developer"],
+      responsibilities: [
+        "Architected RAG system using LangChain and FAISS for document processing",
+        "Built FastAPI backend with efficient document parsing using PyMuPDF",
+        "Integrated Hugging Face models for natural language understanding",
+        "Developed Next.js frontend with ChatGPT-like conversational interface",
+        "Implemented OAuth authentication and PayPal subscription system",
+        "Optimized vector search and retrieval for large document collections",
+        "Created PostgreSQL database schema for user and document management",
+        "Designed responsive UI/UX for seamless document interaction",
+      ],
     },
     {
       title: "Stripe Connect Integration",
@@ -98,6 +130,18 @@ export default function Projects() {
       category: "Full-Stack",
       gradient: "from-blue-500 to-indigo-500",
       shadowColor: "rgba(59, 130, 246, 0.3)",
+      roles: [
+        "Payment Integration Specialist",
+        "Full-Stack Developer",
+        "API Developer",
+      ],
+      responsibilities: [
+        "Implemented complete Stripe Connect integration for multi-vendor payments",
+        "Built secure onboarding flow for vendor account creation and verification",
+        "Developed dashboard for payment management and analytics",
+        "Designed responsive frontend using Next.js and React",
+        "Integrated MongoDB for storing vendor and transaction data",
+      ],
     },
   ];
 
@@ -300,7 +344,7 @@ export default function Projects() {
               transition={{ delay: 0.7, duration: 0.6 }}
             >
               A showcase of my recent work and technical projects demonstrating
-              full-stack development skills
+              Full-stack development skills
             </motion.p>
           </motion.div>
 
@@ -582,6 +626,123 @@ export default function Projects() {
                               </Button>
                             )}
                           </motion.div>
+                        </motion.div>
+
+                        {/* Roles & Responsibilities Button */}
+                        <motion.div
+                          className="mt-4"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.8 }}
+                        >
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <motion.div
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                <Button
+                                  variant="outline"
+                                  size="lg"
+                                  className="w-full bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 text-lg py-3"
+                                >
+                                  <User className="h-5 w-5 mr-2" />
+                                  View Roles & Responsibilities
+                                </Button>
+                              </motion.div>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                              <DialogHeader>
+                                <DialogTitle className="text-2xl font-bold text-gray-900 mb-2">
+                                  {currentProjectData.title}
+                                </DialogTitle>
+                                <DialogDescription className="text-gray-600 text-lg">
+                                  Roles and responsibilities in this project
+                                </DialogDescription>
+                              </DialogHeader>
+
+                              <div className="space-y-6 mt-6">
+                                {/* Roles Section */}
+                                <div>
+                                  <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                    <User className="h-5 w-5 mr-2 text-blue-500" />
+                                    My Roles
+                                  </h3>
+                                  <div className="flex flex-wrap gap-2">
+                                    {currentProjectData.roles?.map(
+                                      (role, index) => (
+                                        <motion.div
+                                          key={index}
+                                          initial={{ opacity: 0, scale: 0 }}
+                                          animate={{ opacity: 1, scale: 1 }}
+                                          transition={{ delay: index * 0.1 }}
+                                        >
+                                          <Badge
+                                            className={`text-sm font-medium px-4 py-2 bg-gradient-to-r ${currentProjectData.gradient} text-white border-0`}
+                                          >
+                                            {role}
+                                          </Badge>
+                                        </motion.div>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Responsibilities Section */}
+                                <div>
+                                  <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                    <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
+                                    Key Responsibilities
+                                  </h3>
+                                  <div className="space-y-3">
+                                    {currentProjectData.responsibilities?.map(
+                                      (responsibility, index) => (
+                                        <motion.div
+                                          key={index}
+                                          initial={{ opacity: 0, x: -20 }}
+                                          animate={{ opacity: 1, x: 0 }}
+                                          transition={{ delay: index * 0.05 }}
+                                          className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                                        >
+                                          <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                                          <span className="text-gray-700 leading-relaxed">
+                                            {responsibility}
+                                          </span>
+                                        </motion.div>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Technologies Used */}
+                                <div>
+                                  <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                    <Code2 className="h-5 w-5 mr-2 text-purple-500" />
+                                    Technologies Used
+                                  </h3>
+                                  <div className="flex flex-wrap gap-2">
+                                    {currentProjectData.technologies.map(
+                                      (tech, index) => (
+                                        <motion.div
+                                          key={index}
+                                          initial={{ opacity: 0, scale: 0 }}
+                                          animate={{ opacity: 1, scale: 1 }}
+                                          transition={{ delay: index * 0.05 }}
+                                        >
+                                          <Badge
+                                            variant="secondary"
+                                            className="text-sm font-medium px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200"
+                                          >
+                                            {tech}
+                                          </Badge>
+                                        </motion.div>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
                         </motion.div>
 
                         {/* Project stats */}
