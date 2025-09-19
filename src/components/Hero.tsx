@@ -499,7 +499,7 @@ export default function Hero() {
                 whileTap={{ scale: 0.95 }}
               >
                 <a
-                  href="/assets/images/abhishek.pdf"
+                  href="/assets/images/abhishekmehta.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
