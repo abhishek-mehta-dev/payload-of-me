@@ -46,6 +46,41 @@ export default function Projects() {
 
   const projects = [
     {
+      title: "Dynamic Landing Page & Automation Integration",
+      description:
+        "Built a Node.js server integrated with Bubble.io workflows to capture automation data and render dynamic Webflow landing pages. Delivered a seamless API-driven system to generate and update lead-specific pages automatically.",
+      image: "/assets/images/neuropage.png?height=200&width=300",
+      technologies: [
+        "Node.js",
+        "Express.js",
+        "Bubble.io",
+        "Webflow",
+        "REST API",
+        "PM2",
+      ],
+      liveUrl:
+        "https://nuro-page-template.webflow.io/landing-page?leadId=1759296800190x507049538317077000",
+      githubUrl: "#",
+      featured: true,
+      status: "Live",
+      category: "Automation & Full-Stack",
+      gradient: "from-green-500 to-teal-500",
+      shadowColor: "rgba(16, 185, 129, 0.3)",
+      roles: ["Full-Stack Developer", "Automation Engineer"],
+      responsibilities: [
+        "Developed a Node.js webhook server to capture and process automation data via Bubble.io API connector",
+        "Integrated Node.js APIs into Bubble.io backend workflows to receive automation-triggered lead data",
+        "Created APIs to serve processed lead data to Webflow for dynamic page rendering",
+        "Implemented Webflow dynamic components and symbols to build scalable landing pages",
+        "Developed an API to send generated landing page URLs back to Bubble.io for record keeping",
+        "Automated workflows between Node.js, Bubble.io, and Webflow for seamless data-driven page creation",
+        "Ensured modular, reusable architecture for combining multiple dynamic sections into unified landing pages",
+        "Managed Node.js server deployments and uptime monitoring using PM2",
+        "Applied structured API logging to track requests, monitor usage, and debug efficiently",
+        "Optimized API communication, error handling, and data consistency across platforms",
+      ],
+    },
+    {
       title: "DAHN – Hospice Nurse Documentation Support App",
       description:
         "Full-stack Hospice Nurse Documentation application built with MERN stack featuring user authentication, payment integration, and admin dashboard.",
