@@ -59,7 +59,7 @@ export default function Projects() {
         "PM2",
       ],
       liveUrl:
-        "https://nuro-page-template.webflow.io/landing-page?leadId=1759296800190x507049538317077000",
+        "https://nuro-page-template.webflow.io/landing-page?leadId=1759236061391x708764271528853000",
       githubUrl: "#",
       featured: true,
       status: "Live",
@@ -127,7 +127,7 @@ export default function Projects() {
         "LangChain",
         "Hugging Face",
       ],
-      liveUrl: "/comming-soon",
+      liveUrl: "/coming-soon",
       githubUrl: "https://github.com/abhishek-mehta-dev/DocuAI-Pro",
       featured: true,
       status: "Development",
