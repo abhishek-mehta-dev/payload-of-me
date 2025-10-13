@@ -46,7 +46,7 @@ export default function Projects() {
 
   const projects = [
     {
-      title: "Dynamic Landing Page & Automation Integration",
+      title: "Automated Landing Page System with Low-Code Workflow Integration",
       description:
         "Built a Node.js server integrated with Bubble.io workflows to capture automation data and render dynamic Webflow landing pages. Delivered a seamless API-driven system to generate and update lead-specific pages automatically.",
       image: "/assets/images/neuropage.png?height=200&width=300",
