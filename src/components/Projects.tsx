@@ -46,7 +46,7 @@ export default function Projects() {
 
   const projects = [
     {
-      title: "Automated Landing Page System with Low-Code Workflow Integration",
+      title: "Dynamic Landing Page & Automation Integration",
       description:
         "Built a Node.js server integrated with Bubble.io workflows to capture automation data and render dynamic Webflow landing pages. Delivered a seamless API-driven system to generate and update lead-specific pages automatically.",
       image: "/assets/images/neuropage.png?height=200&width=300",
@@ -59,7 +59,7 @@ export default function Projects() {
         "PM2",
       ],
       liveUrl:
-        "https://go.neuropage.io/page/abhishek-mehta-neuropage",
+        "https://nuro-page-template.webflow.io/landing-page?leadId=1759296800190x507049538317077000",
       githubUrl: "#",
       featured: true,
       status: "Live",
@@ -127,7 +127,7 @@ export default function Projects() {
         "LangChain",
         "Hugging Face",
       ],
-      liveUrl: "/coming-soon",
+      liveUrl: "/comming-soon",
       githubUrl: "https://github.com/abhishek-mehta-dev/DocuAI-Pro",
       featured: true,
       status: "Development",
@@ -413,7 +413,7 @@ export default function Projects() {
             </motion.button>
 
             {/* Book Page Container */}
-            <div className="relative h-[600px] preserve-3d">
+            <div className="relative min-h-[600px] lg:h-[600px] preserve-3d">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentProject}
@@ -460,9 +460,9 @@ export default function Projects() {
                     </motion.div>
 
                     {/* Main Content - Side by Side Layout */}
-                    <div className="grid md:grid-cols-2 h-full">
+                    <div className="grid lg:grid-cols-2 h-full">
                       {/* Left Side - Project Image */}
-                      <div className="relative overflow-hidden">
+                      <div className="relative overflow-hidden min-h-[300px]">
                         <motion.div
                           className={`absolute inset-0 bg-gradient-to-r ${currentProjectData.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-10`}
                         />
@@ -517,7 +517,7 @@ export default function Projects() {
                       </div>
 
                       {/* Right Side - Project Details */}
-                      <div className="p-8 flex flex-col justify-between">
+                      <div className="p-8 flex flex-col justify-between flex-grow">
                         <div>
                           <CardHeader className="p-0 mb-4">
                             <CardTitle className="text-2xl md:text-3xl">
