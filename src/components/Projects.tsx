@@ -59,7 +59,7 @@ export default function Projects() {
         "PM2",
       ],
       liveUrl:
-        "https://nuro-page-template.webflow.io/landing-page?leadId=1759296800190x507049538317077000",
+        "https://go.neuropage.io/page/abhishek-mehta-neuropage",
       githubUrl: "#",
       featured: true,
       status: "Live",
