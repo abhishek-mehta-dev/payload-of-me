@@ -3,13 +3,12 @@
 import { useState, useEffect, useMemo } from "react";
 import {
   motion,
-  TargetAndTransition,
+  type TargetAndTransition,
   useScroll,
   useTransform,
-  Variants,
+  type Variants,
   AnimatePresence,
 } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import {
   Github,
   Linkedin,
@@ -24,6 +23,7 @@ import {
   Award,
   Layers,
   GitBranch,
+  Terminal,
 } from "lucide-react";
 import {
   SiDjango,
@@ -92,10 +92,23 @@ type Particle = {
   delay: number;
 };
 
+const codeSnippets = [
+  "import express from 'express';",
+  "npm run build && npm run dev",
+  "uvicorn main:app --reload",
+  "python manage.py runserver",
+  "git commit -m 'clean backend shipped'",
+  "docker pull ubuntu:latest",
+];
+
 export default function Hero() {
   const [currentTitle, setCurrentTitle] = useState(0);
   const { scrollY } = useScroll();
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [terminalText, setTerminalText] = useState("");
+  const [currentSnippet, setCurrentSnippet] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const fullText = codeSnippets[currentSnippet];
 
   useEffect(() => {
     const newParticles = [...Array(25)].map((_, i) => {
@@ -138,6 +151,30 @@ export default function Hero() {
 
     return () => clearInterval(interval);
   }, [titles.length]);
+
+  useEffect(() => {
+    setMounted(true);
+    if (!mounted) return;
+
+    let i = 0;
+    const snippet = codeSnippets[currentSnippet];
+
+    const interval = setInterval(() => {
+      setTerminalText(snippet.slice(0, i));
+      i++;
+
+      if (i > snippet.length) {
+        clearInterval(interval);
+
+        setTimeout(() => {
+          setCurrentSnippet((prev) => (prev + 1) % codeSnippets.length);
+          setTerminalText("");
+        }, 1000);
+      }
+    }, 90);
+
+    return () => clearInterval(interval);
+  }, [currentSnippet, mounted]);
 
   const letters = titles[currentTitle].split("");
 
@@ -363,394 +400,370 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className="relative z-10 container mx-auto px-4 py-16"
+        className="relative z-10 w-full max-w-7xl mx-auto px-4 py-16"
         style={{ y: textY }}
       >
-        <div className="max-w-6xl mx-auto">
-          {/* Main Hero Content */}
-          <motion.div
-            className="text-center mb-16"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Greeting */}
-            <motion.div className="mb-6" variants={fadeInUp} custom={0}>
-              <motion.span
-                className="inline-block px-6 py-3 bg-gradient-to-r from-blue-500/20 via-cyan-500/15 to-teal-500/20 text-cyan-200 rounded-full text-sm font-medium backdrop-blur-md border border-cyan-400/30 shadow-lg"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 0 30px rgba(6, 182, 212, 0.3)",
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                👋 Hello, I&apos;m Abhishek Mehta
-              </motion.span>
-            </motion.div>
+        {/* Terminal header */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-12 flex justify-center"
+        >
+          <div className="inline-flex items-center gap-3 px-6 py-3 bg-slate-900/90 backdrop-blur-xl border border-emerald-500/30 rounded-full shadow-lg hover:shadow-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/50" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/50" />
+              <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50" />
+            </div>
+            <span className="text-emerald-400 font-mono text-sm font-semibold tracking-wide">
+              ~/👋 Hello, I&apos;m Abhishek Mehta
+            </span>
+          </div>
+        </motion.div>
 
-            {/* Animated Title */}
-
-            <div
-              className="relative flex items-center justify-center overflow-hidden 
-                    h-16 sm:h-20 md:h-24 lg:h-28"
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentTitle}
-                  className="flex gap-1 whitespace-nowrap 
-                     text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl 
-                     font-bold leading-tight text-center"
-                  initial={{ y: -80, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 80, opacity: 0 }}
-                  transition={{ duration: 1.2, ease: "easeOut" }}
-                >
-                  {letters.map((char, i) => (
-                    <motion.span
-                      key={i + char}
-                      initial={{ y: -120, opacity: 0, rotate: -20 }}
-                      animate={{ y: 0, opacity: 1, rotate: 0 }}
-                      transition={{
-                        duration: 0.9,
-                        delay: i * 0.08,
-                        type: "spring",
-                        stiffness: 80,
-                        damping: 15,
-                      }}
-                      className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 
-                         bg-clip-text text-transparent inline-block"
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
+        {/* Terminal body */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mx-auto max-w-4xl"
+        >
+          <div className="bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-700/60 shadow-2xl overflow-hidden hover:shadow-cyan-500/10 hover:border-slate-600/80 transition-all duration-500">
+            {/* Top bar */}
+            <div className="bg-gradient-to-r from-slate-800/90 to-slate-800/80 px-6 py-4 flex items-center justify-between border-b border-slate-700/50">
+              <div className="flex items-center gap-3">
+                <Terminal className="w-4 h-4 text-emerald-400" />
+                <span className="text-slate-300 text-sm font-mono font-semibold">
+                  terminal
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-slate-500 hover:bg-slate-400 transition-colors" />
+                <div className="w-3 h-3 rounded-full bg-slate-500 hover:bg-slate-400 transition-colors" />
+                <div className="w-3 h-3 rounded-full bg-slate-500 hover:bg-slate-400 transition-colors" />
+              </div>
             </div>
 
-            {/* Subtitle */}
-            <motion.h2
-              className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-8 text-slate-200"
-              variants={fadeInUp}
-              custom={2}
-            >
-              Crafting Digital Experiences with{" "}
-              <motion.span
-                className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-orange-400"
-                whileHover={{ scale: 1.1 }}
-                style={{ display: "inline-block" }}
-              >
-                Passion
-              </motion.span>{" "}
-              &{" "}
-              <motion.span
-                className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-400"
-                whileHover={{ scale: 1.1 }}
-                style={{ display: "inline-block" }}
-              >
-                Precision
-              </motion.span>
-            </motion.h2>
+            {/* Terminal content */}
+            <div className="p-10 font-mono space-y-6">
+              <div className="text-emerald-400 text-sm font-semibold tracking-wide">
+                <span className="text-cyan-400">$ </span>whoami
+              </div>
 
-            {/* Description */}
-            <motion.p
-              className="text-lg md:text-xl text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed"
-              variants={fadeInUp}
-              custom={3}
-            >
-              I&apos;m a passionate Full-stack developer specializing in the
-              MERN stack, with a keen eye for creating scalable, user‑centric
-              applications. From concept to deployment, I bring ideas to life
-              with clean code and innovative solutions.
-            </motion.p>
+              <div className="text-white text-4xl md:text-6xl font-bold tracking-tight">
+                Abhishek Mehta
+              </div>
 
-            {/* CTA Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
-              variants={fadeInUp}
-              custom={4}
-            >
-              <motion.div
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  size="lg"
+              {/* Animated title */}
+              <div className="h-12 flex items-center">
+                <span className="text-emerald-400 mr-3 text-lg">→</span>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentTitle}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-300 via-cyan-300 to-emerald-400 bg-clip-text text-transparent"
+                  >
+                    {titles[currentTitle]}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Terminal typing */}
+              <div className="relative text-slate-300 font-medium tracking-wide text-base sm:text-lg whitespace-nowrap overflow-hidden">
+                {/* Invisible full text for stable layout */}
+                <span className="opacity-0 pointer-events-none">
+                  {fullText}
+                </span>
+
+                {/* Typing animation appears on top */}
+                <div className="absolute top-0 left-0 flex items-center h-full">
+                  {/* Typed text */}
+                  <span className="text-emerald-300">{terminalText}</span>
+
+                  {/* Cursor */}
+                  <motion.span
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                    className="inline-block w-1.5 h-4 sm:w-2 sm:h-6 bg-emerald-400 ml-1"
+                  />
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="text-slate-200 text-base md:text-lg leading-relaxed space-y-2 max-w-2xl font-medium">
+                <div>
+                  <span className="text-slate-500"># </span>
+                  <span>
+                    Building scalable applications with modern tech stacks
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-slate-500"># </span>
+                  <span>
+                    Transforming ideas into elegant, performant solutions
+                  </span>
+                </div>
+              </div>
+
+              {/* Buttons - CHANGE: Enhanced button styling */}
+              <div className="flex flex-wrap gap-4 mt-10 pt-4 border-t border-slate-700/50">
+                <motion.button
+                  whileHover={{ scale: 1.08, y: -3 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => {
                     document
                       .getElementById("experience")
                       ?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="group bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 hover:from-blue-700 hover:via-cyan-700 hover:to-teal-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-cyan-400/20"
+                  className="px-7 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/30 hover:shadow-emerald-400/50"
                 >
-                  <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Number.POSITIVE_INFINITY,
-                    }}
-                  >
-                    <Mail className="mr-2 h-5 w-5" />
-                  </motion.div>
-                  Let&apos;s Work Together
-                </Button>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <a
+                  <Mail className="w-4 h-4" />$ contact --now
+                </motion.button>
+
+                <motion.a
+                  whileHover={{ scale: 1.08, y: -3 }}
+                  whileTap={{ scale: 0.95 }}
                   href="/assets/images/abhishekmehta.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="px-7 py-3 border-2 border-emerald-400/60 text-emerald-300 hover:text-emerald-200 bg-emerald-500/5 hover:bg-emerald-500/15 font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/10 hover:shadow-emerald-400/30 hover:border-emerald-300"
                 >
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="group border-2 border-slate-400/50 text-slate-200 hover:bg-gradient-to-r hover:from-slate-800/80 hover:to-slate-700/80 hover:text-white px-8 py-4 text-lg font-semibold rounded-full bg-slate-800/30 backdrop-blur-md transition-all duration-300 hover:border-cyan-400/50"
-                  >
-                    <motion.div
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Number.POSITIVE_INFINITY,
-                        delay: 0.5,
-                      }}
-                    >
-                      <Download className="mr-2 h-5 w-5" />
-                    </motion.div>
-                    Download Resume
-                  </Button>
-                </a>
-              </motion.div>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div
-              className="flex justify-center space-x-6 mb-16"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {[
-                {
-                  icon: Github,
-                  href: "https://github.com/abhishek-mehta-dev",
-                  label: "GitHub",
-                },
-                {
-                  icon: Linkedin,
-                  href: "https://www.linkedin.com/in/abhishek-mehta-0724ab256/",
-                  label: "LinkedIn",
-                },
-                {
-                  icon: Mail,
-                  href: "mailto:mehtaabhishek.dev@gmail.com",
-                  label: "Email",
-                },
-                {
-                  icon: SiDocker,
-                  href: "https://hub.docker.com/u/abhishekmehtadev/",
-                  label: "Docker Hub",
-                },
-              ].map(({ icon: Icon, href, label }, index) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  className="group p-4 rounded-full bg-slate-800/40 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 transition-all duration-300 backdrop-blur-md border border-slate-600/30 hover:border-cyan-400/50 shadow-lg"
-                  aria-label={label}
-                  variants={scaleIn}
-                  custom={index}
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: 360,
-                    boxShadow: "0 0 25px rgba(6, 182, 212, 0.4)",
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Icon className="h-6 w-6 text-slate-300 group-hover:text-cyan-200 transition-colors duration-300" />
+                  <Download className="w-4 h-4" />$ download --resume
                 </motion.a>
-              ))}
-            </motion.div>
-          </motion.div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
-          {/* Stats Section */}
+        {/* Social Links */}
+        <motion.div
+          className="flex justify-center space-x-6 my-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {[
+            {
+              icon: Github,
+              href: "https://github.com/abhishek-mehta-dev",
+              label: "GitHub",
+            },
+            {
+              icon: Linkedin,
+              href: "https://www.linkedin.com/in/abhishek-mehta-0724ab256/",
+              label: "LinkedIn",
+            },
+            {
+              icon: Mail,
+              href: "mailto:mehtaabhishek.dev@gmail.com",
+              label: "Email",
+            },
+            {
+              icon: SiDocker,
+              href: "https://hub.docker.com/u/abhishekmehtadev/",
+              label: "Docker Hub",
+            },
+          ].map(({ icon: Icon, href, label }, index) => (
+            <motion.a
+              key={label}
+              href={href}
+              className="group p-4 rounded-full bg-slate-800/50 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-blue-500/20 transition-all duration-300 backdrop-blur-md border border-slate-600/40 hover:border-cyan-400/60 shadow-lg hover:shadow-cyan-400/30"
+              aria-label={label}
+              variants={scaleIn}
+              custom={index}
+              whileHover={{
+                scale: 1.25,
+                rotate: 360,
+                boxShadow: "0 0 30px rgba(6, 182, 212, 0.5)",
+              }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Icon className="h-6 w-6 text-slate-300 group-hover:text-cyan-300 transition-all duration-300" />
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* Stats Section */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
+          {stats.map(({ number, label, icon: Icon }, index) => (
+            <motion.div
+              key={label}
+              variants={slideInLeft}
+              custom={index}
+              className="text-center p-6 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/70 backdrop-blur-md border border-slate-600/40 hover:border-cyan-400/60 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-cyan-500/20"
+              whileHover={{
+                scale: 1.08,
+                y: -12,
+                boxShadow: "0 20px 50px rgba(0,0,0,0.4)",
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{
+                  duration: 20,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
+              >
+                <Icon className="h-8 w-8 text-cyan-400 mx-auto mb-3" />
+              </motion.div>
+              <motion.div
+                className="text-3xl font-bold text-white mb-2"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                transition={{
+                  delay: index * 0.1 + 0.5,
+                  type: "spring",
+                  stiffness: 200,
+                }}
+              >
+                {number}
+              </motion.div>
+              <div className="text-sm text-slate-300 font-medium">{label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Tech Stack */}
+        <motion.div
+          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
+          <motion.h3
+            className="text-2xl md:text-3xl font-bold text-white mb-10 tracking-tight"
+            variants={fadeInUp}
+            custom={0}
+          >
+            Tech Stack & Expertise
+          </motion.h3>
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            className="flex flex-wrap justify-center gap-4 mb-12"
             variants={containerVariants}
           >
-            {stats.map(({ number, label, icon: Icon }, index) => (
+            {techStack.map(({ name, icon: Icon }, index) => (
               <motion.div
-                key={label}
-                variants={slideInLeft}
+                key={name}
+                variants={scaleIn}
                 custom={index}
-                className="text-center p-6 rounded-2xl bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-md border border-slate-600/30 hover:border-cyan-400/40 hover:bg-gradient-to-br hover:from-slate-700/50 hover:to-slate-800/70 transition-all duration-300 shadow-lg"
+                className="flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-slate-800/60 to-slate-700/60 backdrop-blur-md rounded-full border border-slate-600/50 hover:border-cyan-400/60 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-cyan-500/20"
                 whileHover={{
-                  scale: 1.05,
-                  y: -10,
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+                  scale: 1.12,
+                  y: -8,
+                  boxShadow: "0 15px 40px rgba(6, 182, 212, 0.25)",
                 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <motion.div
                   animate={{ rotate: [0, 360] }}
                   transition={{
-                    duration: 20,
+                    duration: 10,
                     repeat: Number.POSITIVE_INFINITY,
                     ease: "linear",
                   }}
                 >
-                  <Icon className="h-8 w-8 text-cyan-400 mx-auto mb-3" />
+                  <Icon className="text-2xl text-cyan-300" />
                 </motion.div>
-                <motion.div
-                  className="text-3xl font-bold text-white mb-2"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{
-                    delay: index * 0.1 + 0.5,
-                    type: "spring",
-                    stiffness: 200,
-                  }}
-                >
-                  {number}
-                </motion.div>
-                <div className="text-sm text-slate-300">{label}</div>
+                <span className="text-slate-200 font-semibold">{name}</span>
               </motion.div>
             ))}
           </motion.div>
+        </motion.div>
 
-          {/* Tech Stack */}
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={containerVariants}
-          >
-            <motion.h3
-              className="text-2xl font-semibold text-white mb-8"
-              variants={fadeInUp}
-              custom={0}
-            >
-              Tech Stack & Expertise
-            </motion.h3>
+        {/* Services Grid */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={containerVariants}
+        >
+          {services.map(({ title, icon: Icon, description }, index) => (
             <motion.div
-              className="flex flex-wrap justify-center gap-4 mb-12"
-              variants={containerVariants}
-            >
-              {techStack.map(({ name, icon: Icon }, index) => (
-                <motion.div
-                  key={name}
-                  variants={scaleIn}
-                  custom={index}
-                  className="flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-md rounded-full border border-slate-600/40 hover:border-cyan-400/50 hover:bg-gradient-to-r hover:from-slate-700/60 hover:to-slate-600/60 transition-all duration-300 shadow-lg"
-                  whileHover={{
-                    scale: 1.1,
-                    y: -5,
-                    boxShadow: "0 10px 30px rgba(6, 182, 212, 0.2)",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{
-                      duration: 10,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "linear",
-                    }}
-                  >
-                    <Icon className="text-2xl text-cyan-300" />
-                  </motion.div>
-                  <span className="text-slate-200 font-medium">{name}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Services Grid */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={containerVariants}
-          >
-            {services.map(({ title, icon: Icon, description }, index) => (
-              <motion.div
-                key={title}
-                variants={slideInRight}
-                custom={index}
-                className="p-6 rounded-2xl bg-gradient-to-br from-slate-800/40 via-slate-700/30 to-slate-800/50 backdrop-blur-md border border-slate-600/30 hover:border-cyan-400/40 transition-all duration-300 group shadow-lg hover:shadow-xl"
-                whileHover={{
-                  scale: 1.05,
-                  y: -10,
-                  rotateY: 5,
-                  boxShadow: "0 25px 50px rgba(0,0,0,0.3)",
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <motion.div
-                  animate={{
-                    y: [0, -10, 0],
-                    rotate: [0, 5, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                    delay: index * 0.5,
-                  }}
-                >
-                  <Icon className="h-10 w-10 text-cyan-400 mb-4 group-hover:text-cyan-300 transition-all duration-300" />
-                </motion.div>
-                <h4 className="text-lg font-semibold text-white mb-2">
-                  {title}
-                </h4>
-                <p className="text-slate-300 text-sm">{description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Scroll Indicator */}
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2, duration: 1 }}
-          >
-            <motion.button
-              onClick={scrollToNext}
-              className="group transition-all duration-300"
-              aria-label="Scroll to next section"
-              animate={{ y: [0, -10, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
+              key={title}
+              variants={slideInRight}
+              custom={index}
+              className="p-6 rounded-2xl bg-gradient-to-br from-slate-800/50 via-slate-700/40 to-slate-800/60 backdrop-blur-md border border-slate-600/40 hover:border-cyan-400/60 transition-all duration-300 group shadow-lg hover:shadow-xl hover:shadow-cyan-500/15"
+              whileHover={{
+                scale: 1.08,
+                y: -12,
+                rotateY: 5,
+                boxShadow: "0 25px 60px rgba(0,0,0,0.4)",
               }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className="flex flex-col items-center space-y-2 text-slate-400 hover:text-cyan-300 transition-colors duration-300">
-                <span className="text-sm font-medium">
-                  <ChevronDown size={40} />
-                </span>
-                <motion.div
-                  animate={{ y: [0, 5, 0] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <ChevronDown className="h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
-                </motion.div>
-              </div>
-            </motion.button>
-          </motion.div>
-        </div>
+              <motion.div
+                animate={{
+                  y: [0, -12, 0],
+                  rotate: [0, 8, 0],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                  delay: index * 0.5,
+                }}
+              >
+                <Icon className="h-10 w-10 text-cyan-400 mb-4 group-hover:text-cyan-300 transition-all duration-300" />
+              </motion.div>
+              <h4 className="text-lg font-bold text-white mb-2">{title}</h4>
+              <p className="text-slate-300 text-sm font-medium">
+                {description}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2, duration: 1 }}
+        >
+          <motion.button
+            onClick={scrollToNext}
+            className="group transition-all duration-300"
+            aria-label="Scroll to next section"
+            animate={{ y: [0, -10, 0] }}
+            transition={{
+              duration: 2,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "easeInOut",
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <div className="flex flex-col items-center space-y-2 text-slate-400 hover:text-cyan-300 transition-colors duration-300">
+              <span className="text-sm font-medium">
+                <ChevronDown size={40} />
+              </span>
+              <motion.div
+                animate={{ y: [0, 5, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
+              >
+                <ChevronDown className="h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
+              </motion.div>
+            </div>
+          </motion.button>
+        </motion.div>
       </motion.div>
     </section>
   );
