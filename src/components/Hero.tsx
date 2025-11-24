@@ -527,7 +527,7 @@ export default function Hero() {
                 <motion.a
                   whileHover={{ scale: 1.08, y: -3 }}
                   whileTap={{ scale: 0.95 }}
-                  href="/assets/images/abhishekmehta.pdf"
+                  href="/assets/images/Abhishek_Mehta_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-7 py-3 border-2 border-emerald-400/60 text-emerald-300 hover:text-emerald-200 bg-emerald-500/5 hover:bg-emerald-500/15 font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/10 hover:shadow-emerald-400/30 hover:border-emerald-300"
