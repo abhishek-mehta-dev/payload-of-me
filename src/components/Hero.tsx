@@ -36,6 +36,7 @@ import {
   SiFastapi,
   SiLangchain,
   SiDocker,
+  SiNestjs,
 } from "react-icons/si";
 
 const techStack = [
@@ -48,6 +49,7 @@ const techStack = [
   { name: "Django", icon: SiDjango },
   { name: "FastAPI", icon: SiFastapi },
   { name: "LangChain", icon: SiLangchain },
+  { name: "NestJS", icon: SiNestjs },
 ];
 
 const stats = [
