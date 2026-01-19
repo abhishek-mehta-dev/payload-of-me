@@ -178,7 +178,7 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, [currentSnippet, mounted]);
 
-  const letters = titles[currentTitle].split("");
+  // const letters = titles[currentTitle].split("");
 
   const scrollToNext = () => {
     const nextSection = document.getElementById("about");
