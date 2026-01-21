@@ -59,7 +59,7 @@ export default function Projects() {
         "PM2",
       ],
       liveUrl:
-        "https://go.neuropage.io/page/abhishek-mehta-neuropage",
+        "https://go.neuropage.io/profile?u=abhishek-mehta-neuropage",
       githubUrl: "#",
       featured: true,
       status: "Live",

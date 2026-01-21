@@ -36,6 +36,7 @@ import {
   SiFastapi,
   SiLangchain,
   SiDocker,
+  SiNestjs,
 } from "react-icons/si";
 
 const techStack = [
@@ -48,6 +49,7 @@ const techStack = [
   { name: "Django", icon: SiDjango },
   { name: "FastAPI", icon: SiFastapi },
   { name: "LangChain", icon: SiLangchain },
+  { name: "NestJS", icon: SiNestjs },
 ];
 
 const stats = [
@@ -176,7 +178,7 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, [currentSnippet, mounted]);
 
-  const letters = titles[currentTitle].split("");
+  // const letters = titles[currentTitle].split("");
 
   const scrollToNext = () => {
     const nextSection = document.getElementById("about");
