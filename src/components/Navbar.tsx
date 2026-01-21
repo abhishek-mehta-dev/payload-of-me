@@ -23,7 +23,7 @@ import clsx from "clsx";
 import NavbarLogo from "./NavbarLogo";
 
 const navLinks = [
-  { label: "Home", href: "#", icon: Home },
+  { label: "Home", href: "#home", icon: Home },
   { label: "About", href: "#about", icon: User },
   { label: "Skills", href: "#skills", icon: Code },
   { label: "Experience", href: "#experience", icon: Briefcase },
@@ -46,26 +46,32 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       if (isScrolling) return;
-      const sections = navLinks.map((link) => link.href.replace("#", ""));
-      const currentSection = sections.find((section) => {
-        if (section === "") {
-          const element = document.body;
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        const element = document.getElementById(section);
+
+      const threshold = 180;
+      const sections = navLinks.map((link) => ({
+        id: link.href.replace("#", ""),
+        label: link.label,
+      }));
+
+      // Special case: very top of page
+      if (window.scrollY < 20) {
+        setActiveSection((prev) => prev !== "Home" ? "Home" : prev);
+        return;
+      }
+
+      // Check sections from bottom to top to find the first one that has passed the threshold
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (!section.id) continue;
+
+        const element = document.getElementById(section.id);
         if (element) {
           const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+          if (rect.top <= threshold) {
+            setActiveSection((prev) => (prev !== section.label ? section.label : prev));
+            return;
+          }
         }
-        return false;
-      });
-      if (currentSection) {
-        setActiveSection(
-          currentSection === ""
-            ? "Home"
-            : currentSection.charAt(0).toUpperCase() + currentSection.slice(1)
-        );
       }
     };
 
@@ -89,7 +95,7 @@ export default function Navbar() {
       setIsScrolling(true);
 
       // Handle home link scroll to top
-      if (href === "#" || href === "") {
+      if (href === "#home" || href === "#" || href === "") {
         window.scrollTo({
           top: 0,
           behavior: "smooth",
