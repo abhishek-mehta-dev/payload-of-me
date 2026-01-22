@@ -37,19 +37,22 @@ import {
   SiLangchain,
   SiDocker,
   SiNestjs,
+  SiPostgresql,
 } from "react-icons/si";
 
 const techStack = [
-  { name: "React", icon: SiReact },
   { name: "Node.js", icon: SiNodedotjs },
-  { name: "MongoDB", icon: SiMongodb },
+  { name: "NestJS", icon: SiNestjs },
   { name: "Express", icon: SiExpress },
-  { name: "TypeScript", icon: SiTypescript },
+  { name: "React", icon: SiReact },
   { name: "Next.js", icon: SiNextdotjs },
+  { name: "MongoDB", icon: SiMongodb },
+  { name: "PostgreSQL", icon: SiPostgresql },
+  { name: "Docker", icon: SiDocker },
+  { name: "TypeScript", icon: SiTypescript },
   { name: "Django", icon: SiDjango },
   { name: "FastAPI", icon: SiFastapi },
   { name: "LangChain", icon: SiLangchain },
-  { name: "NestJS", icon: SiNestjs },
 ];
 
 
@@ -64,7 +67,7 @@ const services = [
   {
     title: "Full-Stack Development",
     icon: Globe,
-    description: "End‑to‑end web applications",
+    description: "End-to-End System Engineering",
   },
   {
     title: "Backend APIs",
