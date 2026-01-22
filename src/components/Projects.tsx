@@ -116,7 +116,7 @@ export default function Projects() {
       title: "Taxificient – Advanced Ride & Fleet Management",
       description:
         "A sophisticated SaaS platform for ride-hailing and fleet management, featuring multi-passenger ride architecture, real-time dispatcher controls, and granular permission systems.",
-      image: "/assets/images/taxificient.png", // Using a placeholder/suggested name
+      image: "/assets/images/taxificientimg.png?height=200&width=500", // Using a placeholder/suggested name
       technologies: [
         "Nest.js",
         "TypeORM",

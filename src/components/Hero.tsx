@@ -38,22 +38,6 @@ import {
   SiDocker,
   SiNestjs,
 } from "react-icons/si";
-import {
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Cell,
-} from "recharts";
 
 const techStack = [
   { name: "React", icon: SiReact },
@@ -68,20 +52,6 @@ const techStack = [
   { name: "NestJS", icon: SiNestjs },
 ];
 
-const skillsData = [
-  { name: "React.js", icon: SiReact, proficiency: 90, category: "Frontend" },
-  { name: "Next.js", icon: SiNextdotjs, proficiency: 88, category: "Frontend" },
-  { name: "TypeScript", icon: SiTypescript, proficiency: 85, category: "Frontend" },
-  { name: "Node.js", icon: SiNodedotjs, proficiency: 92, category: "Backend" },
-  { name: "Express.js", icon: SiExpress, proficiency: 90, category: "Backend" },
-  { name: "NestJS", icon: SiNestjs, proficiency: 85, category: "Backend" },
-  { name: "Django", icon: SiDjango, proficiency: 80, category: "Backend" },
-  { name: "FastAPI", icon: SiFastapi, proficiency: 88, category: "Backend" },
-  { name: "MongoDB", icon: SiMongodb, proficiency: 87, category: "Database" },
-  { name: "PostgreSQL", icon: Database, proficiency: 85, category: "Database" },
-  { name: "Docker", icon: SiDocker, proficiency: 82, category: "DevOps" },
-  { name: "LangChain", icon: SiLangchain, proficiency: 78, category: "AI/ML" },
-];
 
 const stats = [
   { number: "10+", label: "Fullstack Projects", icon: Code },
@@ -715,144 +685,6 @@ export default function Hero() {
             ))}
           </motion.div>
 
-          {/* Skill Visualizations with Charts */}
-          <motion.div
-            className="max-w-6xl mx-auto mt-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={containerVariants}
-          >
-            <motion.h4
-              className="text-xl md:text-2xl font-bold text-cyan-300 mb-12 text-center"
-              variants={fadeInUp}
-              custom={0}
-            >
-              Skill Proficiency Visualization
-            </motion.h4>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-              {/* Radar Chart */}
-              <motion.div
-                variants={fadeInUp}
-                custom={1}
-                className="bg-gradient-to-br from-slate-800/40 to-slate-700/40 backdrop-blur-md rounded-2xl p-6 border border-slate-600/40 hover:border-cyan-400/50 transition-all duration-300 shadow-xl hover:shadow-cyan-500/10"
-              >
-                <h5 className="text-lg font-bold text-slate-200 mb-6 text-center flex items-center justify-center gap-2">
-                  <Layers className="h-5 w-5 text-cyan-400" />
-                  Overall Proficiency
-                </h5>
-                <ResponsiveContainer width="100%" height={350}>
-                  <RadarChart data={skillsData.slice(0, 8)}>
-                    <PolarGrid stroke="#475569" strokeOpacity={0.3} />
-                    <PolarAngleAxis
-                      dataKey="name"
-                      tick={{ fill: "#94a3b8", fontSize: 12 }}
-                    />
-                    <PolarRadiusAxis
-                      angle={90}
-                      domain={[0, 100]}
-                      tick={{ fill: "#64748b" }}
-                    />
-                    <Radar
-                      name="Proficiency"
-                      dataKey="proficiency"
-                      stroke="#06b6d4"
-                      fill="#06b6d4"
-                      fillOpacity={0.6}
-                      strokeWidth={2}
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </motion.div>
-
-              {/* Bar Chart by Category */}
-              <motion.div
-                variants={fadeInUp}
-                custom={2}
-                className="bg-gradient-to-br from-slate-800/40 to-slate-700/40 backdrop-blur-md rounded-2xl p-6 border border-slate-600/40 hover:border-cyan-400/50 transition-all duration-300 shadow-xl hover:shadow-cyan-500/10"
-              >
-                <h5 className="text-lg font-bold text-slate-200 mb-6 text-center flex items-center justify-center gap-2">
-                  <Code className="h-5 w-5 text-emerald-400" />
-                  Top Skills Comparison
-                </h5>
-                <ResponsiveContainer width="100%" height={350}>
-                  <BarChart
-                    data={skillsData.slice(0, 8)}
-                    margin={{ top: 20, right: 10, left: -20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
-                    <XAxis
-                      dataKey="name"
-                      tick={{ fill: "#94a3b8", fontSize: 11 }}
-                      angle={-45}
-                      textAnchor="end"
-                      height={80}
-                    />
-                    <YAxis
-                      tick={{ fill: "#64748b" }}
-                      domain={[0, 100]}
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "#1e293b",
-                        border: "1px solid #475569",
-                        borderRadius: "8px",
-                        color: "#e2e8f0",
-                      }}
-                      cursor={{ fill: "#334155", opacity: 0.3 }}
-                    />
-                    <Bar dataKey="proficiency" radius={[8, 8, 0, 0]}>
-                      {skillsData.slice(0, 8).map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={
-                            entry.proficiency >= 85
-                              ? "#10b981"
-                              : entry.proficiency >= 70
-                              ? "#3b82f6"
-                              : "#8b5cf6"
-                          }
-                        />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </motion.div>
-            </div>
-
-            {/* Skill Pills with Icons */}
-            <motion.div
-              variants={fadeInUp}
-              custom={3}
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-            >
-              {skillsData.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-md rounded-xl p-4 border border-slate-600/40 hover:border-cyan-400/60 transition-all duration-300 shadow-lg hover:shadow-cyan-500/20"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <skill.icon className="text-2xl text-cyan-300" />
-                    <span className="text-emerald-400 font-bold text-sm">
-                      {skill.proficiency}%
-                    </span>
-                  </div>
-                  <div className="text-slate-200 font-semibold text-sm mb-1">
-                    {skill.name}
-                  </div>
-                  <div className="text-xs text-slate-400 font-medium">
-                    {skill.category}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
         </motion.div>
 
         {/* Services Grid */}
