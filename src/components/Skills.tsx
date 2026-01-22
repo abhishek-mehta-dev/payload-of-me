@@ -33,8 +33,8 @@ import {
   SiKubernetes,
   SiTensorflow,
   SiOpenai,
+  SiNestjs,
 } from "react-icons/si";
-
 export default function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
@@ -61,6 +61,7 @@ export default function Skills() {
       icon: Server,
       skills: [
         { name: "Express.js", icon: SiExpress, color: "#000000" },
+        { name: "Nest.js", icon: SiNestjs, color: "#e73665" },
         { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
         { name: "Django", icon: SiDjango, color: "#092E20" },
         { name: "Django Rest Framework", icon: SiDjango, color: "#A30000" },
@@ -384,7 +385,7 @@ export default function Skills() {
 
                   <CardContent className="relative">
                     <motion.div
-                      className="flex flex-wrap gap-3"
+                      className="grid grid-cols-2 gap-3"
                       initial="hidden"
                       animate={isInView ? "visible" : "hidden"}
                       variants={containerVariants}
@@ -395,7 +396,7 @@ export default function Skills() {
                           variants={badgeVariants}
                           custom={skillIndex}
                           whileHover={{
-                            scale: 1.1,
+                            scale: 1.05,
                             y: -2,
                             boxShadow: `0 8px 25px ${category.shadowColor}`,
                           }}
@@ -403,15 +404,13 @@ export default function Skills() {
                         >
                           <Badge
                             variant="secondary"
-                            className="flex items-center gap-2 text-sm font-medium px-3 py-1 
+                            className="flex items-center gap-2 text-sm font-medium px-3 py-2 
                  bg-gray-100 hover:bg-gray-200 text-gray-700 
                  border border-gray-200 hover:border-gray-300 
-                 transition-all duration-300 cursor-pointer"
+                 transition-all duration-300 cursor-pointer w-full justify-start overflow-hidden whitespace-nowrap"
                           >
-                            <>
-                              <skill.icon color={skill.color} />
-                              <span>{skill.name}</span>
-                            </>
+                            <skill.icon color={skill.color} className="shrink-0" />
+                            <span className="truncate">{skill.name}</span>
                           </Badge>
                         </motion.div>
                       ))}

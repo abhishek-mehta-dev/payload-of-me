@@ -46,6 +46,38 @@ export default function Projects() {
 
   const projects = [
     {
+      title: "DAHN – Hospice Nurse Documentation Support App",
+      description:
+        "Full-stack Hospice Nurse Documentation application built with MERN stack featuring user authentication, payment integration, and admin dashboard.",
+      image: "/assets/images/dahn.png?height=200&width=300",
+      technologies: [
+        "React.js",
+        "Next.js",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Stripe API",
+      ],
+      liveUrl: "https://www.dahn.ai",
+      githubUrl: "#",
+      featured: true,
+      status: "Live",
+      category: "Full-Stack",
+      gradient: "from-blue-500 to-cyan-500",
+      shadowColor: "rgba(59, 130, 246, 0.3)",
+      roles: ["Full-Stack Developer", "DevOps Engineer"],
+      responsibilities: [
+        "Built a role-based healthcare web application with Next.js, Node.js, Express.js, and MongoDB",
+        "Implemented patient notes system with create, draft, update, and soft-delete features",
+        "Integrated Stripe for subscription billing and automated renewals via cron jobs",
+        "Developed role-based access control (RBAC) for Admins, Agencies, and Nurses",
+        "Added video upload functionality and automated invoice generation",
+        "Optimized frontend with TanStack React Query and improved UX with SweetAlert",
+        "Managed server deployments, monitoring, and scaling on AWS EC2 using PM2",
+        "Oversaw development and operational workflows, including version control with Git and GitHub",
+      ],
+    },
+        {
       title: "Dynamic Landing Page & Automation Integration",
       description:
         "Developed a Node.js server integrated with Bubble.io workflows to capture automation data and auto-generate dynamic Webflow landing pages for individual leads",
@@ -81,37 +113,38 @@ export default function Projects() {
       ],
     },
     {
-      title: "DAHN – Hospice Nurse Documentation Support App",
+      title: "Taxificient – Advanced Ride & Fleet Management",
       description:
-        "Full-stack Hospice Nurse Documentation application built with MERN stack featuring user authentication, payment integration, and admin dashboard.",
-      image: "/assets/images/dahnai.png?height=200&width=300",
+        "A sophisticated SaaS platform for ride-hailing and fleet management, featuring multi-passenger ride architecture, real-time dispatcher controls, and granular permission systems.",
+      image: "/assets/images/taxificientimg.png?height=200&width=500", // Using a placeholder/suggested name
       technologies: [
+        "Nest.js",
+        "TypeORM",
         "React.js",
         "Next.js",
-        "Node.js",
-        "Express.js",
-        "MongoDB",
-        "Stripe API",
+        "Firebase Admin",
+        "PostgreSQL",
+        "Socket.io",
       ],
-      liveUrl: "https://www.dahn.ai",
+      liveUrl: "https://backend.taxificient.ai/",
       githubUrl: "#",
       featured: true,
-      status: "Live",
-      category: "Full-Stack",
-      gradient: "from-blue-500 to-cyan-500",
-      shadowColor: "rgba(59, 130, 246, 0.3)",
-      roles: ["Full-Stack Developer", "DevOps Engineer"],
+      status: "In Progress",
+      category: "SaaS & Fleet Management",
+      gradient: "from-emerald-600 to-teal-600",
+      shadowColor: "rgba(16, 185, 129, 0.3)",
+      roles: ["Full-Stack Architect", "DevOps Engineer"],
       responsibilities: [
-        "Built a role-based healthcare web application with Next.js, Node.js, Express.js, and MongoDB",
-        "Implemented patient notes system with create, draft, update, and soft-delete features",
-        "Integrated Stripe for subscription billing and automated renewals via cron jobs",
-        "Developed role-based access control (RBAC) for Admins, Agencies, and Nurses",
-        "Added video upload functionality and automated invoice generation",
-        "Optimized frontend with TanStack React Query and improved UX with SweetAlert",
-        "Managed server deployments, monitoring, and scaling on AWS EC2 using PM2",
-        "Oversaw development and operational workflows, including version control with Git and GitHub",
+        "Architected a one-to-many and many-to-one chat system allowing drivers to communicate with multiple passengers simultaneously within a single ride context.",
+        "Implemented a bulk assignment and acceptance mechanism for dispatcher-assigned rides, optimizing fleet efficiency.",
+        "Developed a centralized permission-based authorization wrapper to enforce granular access control across the frontend UI and backend APIs.",
+        "Integrated Firebase Cloud Messaging (FCM) on both client and server to handle real-time ride offers, acceptances, and status updates.",
+        "Engineered ride completion workflows with UI confirmation and automated post-ride cleanups (chat locking, status updates).",
+        "Built a robust notification history system with automated cleanup for expired records to maintain database performance.",
       ],
     },
+
+    
     {
       title: "DocuAI Pro",
       description:
@@ -461,58 +494,75 @@ export default function Projects() {
 
                     {/* Main Content - Side by Side Layout */}
                     <div className="grid md:grid-cols-2 h-full">
-                      {/* Left Side - Project Image */}
-                      <div className="relative overflow-hidden">
-                        <motion.div
-                          className={`absolute inset-0 bg-gradient-to-r ${currentProjectData.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-10`}
-                        />
+                      {/* Left Side - Project Image avec Browser Mockup */}
+                      <div className="relative p-6 md:p-8 flex items-center justify-center bg-gray-50/50">
                         <motion.div
                           variants={imageVariants}
                           initial="hidden"
                           animate="visible"
-                          className="relative h-full w-full"
-                          whileHover={{ scale: 1.05 }}
-                          transition={{ duration: 0.6 }}
+                          className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl border border-gray-200/50 bg-white group/mockup"
+                          whileHover={{ y: -5, transition: { duration: 0.3 } }}
                         >
-                          <Image
-                            src={currentProjectData.image || "/placeholder.svg"}
-                            alt={currentProjectData.title}
-                            width={300}
-                            height={200}
-                            className="w-full h-full object-contain transition-transform duration-500"
-                          />
+                          {/* Browser Top Bar */}
+                          <div className="absolute top-0 inset-x-0 h-7 bg-gray-100/80 backdrop-blur-md border-b border-gray-200/50 flex items-center px-3 gap-1.5 z-20">
+                            <div className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/80" />
+                            <div className="ml-2 w-32 h-2 rounded-full bg-gray-200/50" />
+                          </div>
+
+                          {/* Project Image */}
+                          <div className="absolute inset-0 pt-7 overflow-hidden">
+                            <motion.div
+                              className="h-full w-full"
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ duration: 0.6 }}
+                            >
+                              <Image
+                                src={currentProjectData.image || "/placeholder.svg"}
+                                alt={currentProjectData.title}
+                                fill
+                                className="object-cover object-top transition-transform duration-700"
+                                priority
+                              />
+                            </motion.div>
+                          </div>
+
+                          {/* Glass Highlight Overlay */}
+                          <div className="absolute inset-x-0 top-7 h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none z-10" />
+
+                          {/* Hover Action Overlay */}
+                          <motion.div
+                            className="absolute inset-0 pt-7 bg-black/60 opacity-0 group-hover/mockup:opacity-100 transition-opacity duration-300 flex items-center justify-center z-30 backdrop-blur-[2px]"
+                            initial={{ opacity: 0 }}
+                          >
+                            <motion.div
+                              className="flex flex-col items-center space-y-3 text-white"
+                              initial={{ y: 20, opacity: 0 }}
+                              whileInView={{ y: 0, opacity: 1 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <div className="p-3 bg-white/20 rounded-full backdrop-blur-md border border-white/30">
+                                <Eye className="h-6 w-6" />
+                              </div>
+                              <span className="font-semibold text-lg tracking-wide">
+                                Explore Project
+                              </span>
+                            </motion.div>
+                          </motion.div>
                         </motion.div>
 
-                        {/* Category overlay */}
+                        {/* Technology Category Badge */}
                         <motion.div
-                          className="absolute bottom-6 left-6 z-20"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
+                          className="absolute bottom-10 left-10 z-30"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.9 }}
                         >
-                          <Badge className="bg-white/95 text-gray-700 border-0 backdrop-blur-sm px-3 py-1">
-                            <Code2 className="h-3 w-3 mr-2" />
+                          <Badge className="bg-white/90 text-gray-800 border-gray-200/50 backdrop-blur-md px-4 py-1.5 shadow-lg flex items-center gap-2">
+                            <Zap className="h-3.5 w-3.5 text-amber-500" />
                             {currentProjectData.category}
                           </Badge>
-                        </motion.div>
-
-                        {/* Hover overlay */}
-                        <motion.div
-                          className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10"
-                          initial={{ opacity: 0 }}
-                          whileHover={{ opacity: 1 }}
-                        >
-                          <motion.div
-                            className="flex items-center space-x-2 text-white"
-                            initial={{ scale: 0 }}
-                            whileHover={{ scale: 1 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <Eye className="h-6 w-6" />
-                            <span className="font-medium text-lg">
-                              View Project
-                            </span>
-                          </motion.div>
                         </motion.div>
                       </div>
 
