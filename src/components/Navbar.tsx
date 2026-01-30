@@ -21,6 +21,7 @@ import {
 import Link from "next/link";
 import clsx from "clsx";
 import NavbarLogo from "./NavbarLogo";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navLinks = [
   { label: "Home", href: "#home", icon: Home },
@@ -311,8 +312,8 @@ export default function Navbar() {
       className={clsx(
         "fixed top-0 left-0 w-full z-50 transition-all duration-300 block",
         scrolled
-          ? "backdrop-blur-xl bg-[#0B1120]/90 shadow-lg border-b border-white/5"
-          : "backdrop-blur-md bg-[#0B1120]/80"
+          ? "backdrop-blur-xl bg-background/80 dark:bg-[#0B1120]/90 shadow-lg border-b border-border/40"
+          : "backdrop-blur-md bg-background/50 dark:bg-[#0B1120]/80"
       )}
       initial="hidden"
       animate="visible"
@@ -351,7 +352,7 @@ export default function Navbar() {
                   <a
                     href={item.href}
                     onClick={(e) => handleSmoothScroll(e, item.href)}
-                    className="relative group px-4 py-2 rounded-full text-slate-300 font-medium hover:text-white transition-all duration-300 flex items-center space-x-2"
+                    className="relative group px-4 py-2 rounded-full text-muted-foreground font-medium hover:text-foreground transition-all duration-300 flex items-center space-x-2"
                   >
                     {/* Icon */}
                     <motion.div
@@ -401,46 +402,50 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <motion.button
-            className="md:hidden relative p-2 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
-            variants={buttonVariants}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <div className="relative w-6 h-6">
-              <motion.div
-                variants={iconRotateVariants}
-                animate={isOpen ? "open" : "closed"}
-              >
-                <AnimatePresence mode="wait">
-                  {!isOpen ? (
-                    <motion.div
-                      key="menu"
-                      initial={{ opacity: 0, rotate: -90 }}
-                      animate={{ opacity: 1, rotate: 0 }}
-                      exit={{ opacity: 0, rotate: 90 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Menu className="absolute inset-0 w-6 h-6 text-slate-200" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="close"
-                      initial={{ opacity: 0, rotate: -90 }}
-                      animate={{ opacity: 1, rotate: 0 }}
-                      exit={{ opacity: 0, rotate: 90 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <X className="absolute inset-0 w-6 h-6 text-slate-200" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            </div>
-          </motion.button>
+          {/* Theme Toggle & Mobile Menu Button */}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            
+            <motion.button
+              className="md:hidden relative p-2 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle Menu"
+              variants={buttonVariants}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <div className="relative w-6 h-6">
+                <motion.div
+                  variants={iconRotateVariants}
+                  animate={isOpen ? "open" : "closed"}
+                >
+                  <AnimatePresence mode="wait">
+                    {!isOpen ? (
+                      <motion.div
+                        key="menu"
+                        initial={{ opacity: 0, rotate: -90 }}
+                        animate={{ opacity: 1, rotate: 0 }}
+                        exit={{ opacity: 0, rotate: 90 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Menu className="absolute inset-0 w-6 h-6 text-foreground" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="close"
+                        initial={{ opacity: 0, rotate: -90 }}
+                        animate={{ opacity: 1, rotate: 0 }}
+                        exit={{ opacity: 0, rotate: 90 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <X className="absolute inset-0 w-6 h-6 text-foreground" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </div>
+            </motion.button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -454,7 +459,7 @@ export default function Navbar() {
               exit="exit"
             >
               <motion.div
-                className="py-4 space-y-2 bg-slate-900/95 backdrop-blur-xl rounded-2xl mx-4 mb-4 shadow-xl border border-white/10"
+                className="py-4 space-y-2 bg-background/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl mx-4 mb-4 shadow-xl border border-border/10"
                 whileHover={{ scale: 1.02 }}
               >
                 {navLinks.map((item, index) => {
@@ -465,7 +470,7 @@ export default function Navbar() {
                       key={item.href}
                       href={item.href}
                       onClick={(e) => handleSmoothScroll(e, item.href, true)}
-                      className="flex items-center space-x-3 mx-4 px-4 py-3 rounded-xl text-slate-300 font-medium hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 relative group"
+                      className="flex items-center space-x-3 mx-4 px-4 py-3 rounded-xl text-muted-foreground font-medium hover:text-foreground hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 relative group"
                       variants={mobileItemVariants}
                       custom={index}
                       whileHover={{

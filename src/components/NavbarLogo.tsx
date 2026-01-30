@@ -39,10 +39,10 @@ const NavbarLogo = () => {
 
       {/* Text Container */}
       <div className="flex flex-col">
-        <h1 className="text-xl md:text-2xl font-serif text-white tracking-wide font-medium group-hover:text-cyan-50 transition-colors duration-300 leading-none drop-shadow-md">
+        <h1 className="text-xl md:text-2xl font-serif text-gray-900 dark:text-white tracking-wide font-medium group-hover:text-cyan-600 dark:group-hover:text-cyan-50 transition-colors duration-300 leading-none drop-shadow-md">
           Abhishek Mehta
         </h1>
-        <span className="text-[10px] md:text-xs text-slate-300 font-light tracking-wider uppercase mt-1 group-hover:text-cyan-400/80 transition-colors duration-300">
+        <span className="text-[10px] md:text-xs text-gray-600 dark:text-slate-300 font-light tracking-wider uppercase mt-1 group-hover:text-cyan-600/80 dark:group-hover:text-cyan-400/80 transition-colors duration-300">
           Full-stack developer • Turning Ideas into Clean Software
         </span>
       </div>

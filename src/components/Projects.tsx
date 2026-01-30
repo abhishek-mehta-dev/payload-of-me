@@ -338,7 +338,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="py-20 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30 relative overflow-hidden"
+      className="py-20 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30 dark:from-slate-950 dark:via-slate-900/50 dark:to-blue-900/10 relative overflow-hidden"
     >
       {/* Animated background elements */}
       <motion.div
@@ -378,7 +378,7 @@ export default function Projects() {
             animate={isInView ? "visible" : "hidden"}
             variants={titleVariants}
           >
-            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               <motion.span
                 className="inline-block"
                 whileHover={{
@@ -406,7 +406,7 @@ export default function Projects() {
               transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
             />
             <motion.p
-              className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto"
+              className="text-gray-600 dark:text-gray-300 mt-4 text-lg max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -422,27 +422,27 @@ export default function Projects() {
             <motion.button
               onClick={prevProject}
               disabled={currentProject === 0}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: 1.1, x: -5 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, x: -50 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
               transition={{ delay: 1 }}
             >
-              <ChevronLeft className="h-6 w-6 text-gray-700" />
+              <ChevronLeft className="h-6 w-6 text-gray-700 dark:text-gray-200" />
             </motion.button>
 
             <motion.button
               onClick={nextProject}
               disabled={currentProject === projects.length - 1}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: 1.1, x: 5 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
               transition={{ delay: 1 }}
             >
-              <ChevronRight className="h-6 w-6 text-gray-700" />
+              <ChevronRight className="h-6 w-6 text-gray-700 dark:text-gray-200" />
             </motion.button>
 
             {/* Book Page Container */}
@@ -457,7 +457,7 @@ export default function Projects() {
                   className="absolute inset-0 preserve-3d"
                   style={{ perspective: "1000px" }}
                 >
-                  <Card className="h-full hover:shadow-2xl transition-all duration-500 overflow-hidden bg-white/95 backdrop-blur-sm border-0 shadow-xl relative group animate-book-float">
+                  <Card className="h-full hover:shadow-2xl transition-all duration-500 overflow-hidden bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-0 shadow-xl relative group animate-book-float">
                     {/* Featured badge */}
                     {currentProjectData.featured && (
                       <motion.div
@@ -500,7 +500,7 @@ export default function Projects() {
                           variants={imageVariants}
                           initial="hidden"
                           animate="visible"
-                          className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl border border-gray-200/50 bg-white group/mockup"
+                          className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl border border-gray-200/50 dark:border-gray-700/50 bg-white dark:bg-slate-900 group/mockup"
                           whileHover={{ y: -5, transition: { duration: 0.3 } }}
                         >
                           {/* Browser Top Bar */}
@@ -572,7 +572,7 @@ export default function Projects() {
                           <CardHeader className="p-0 mb-4">
                             <CardTitle className="text-2xl md:text-3xl">
                               <motion.span
-                                className="text-gray-800 font-bold leading-tight"
+                                className="text-gray-800 dark:text-gray-100 font-bold leading-tight"
                                 whileHover={{
                                   color: "#3B82F6",
                                   transition: { duration: 0.3 },
@@ -585,7 +585,7 @@ export default function Projects() {
 
                           <CardContent className="p-0">
                             <motion.p
-                              className="text-gray-700 mb-6 leading-relaxed text-lg"
+                              className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-lg"
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: 0.3 }}
@@ -617,7 +617,7 @@ export default function Projects() {
                                   >
                                     <Badge
                                       variant="secondary"
-                                      className="text-sm font-medium px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 hover:border-gray-300 transition-all duration-300 cursor-pointer"
+                                      className="text-sm font-medium px-3 py-2 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-600 hover:border-gray-300 transition-all duration-300 cursor-pointer"
                                     >
                                       {tech}
                                     </Badge>
@@ -672,7 +672,7 @@ export default function Projects() {
                               <Button
                                 size="lg"
                                 variant="outline"
-                                className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 text-lg py-3"
+                                className="w-full bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 border-2 border-gray-200 dark:border-slate-600 hover:border-gray-300 dark:hover:border-slate-500 transition-all duration-300 text-lg py-3 text-gray-900 dark:text-white"
                                 asChild
                               >
                                 <a
@@ -688,7 +688,7 @@ export default function Projects() {
                               <Button
                                 size="lg"
                                 variant="outline"
-                                className="w-full bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 text-lg py-3"
+                                className="w-full bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 border-2 border-gray-200 dark:border-slate-600 hover:border-gray-300 dark:hover:border-slate-500 transition-all duration-300 text-lg py-3 text-gray-900 dark:text-white"
                                 asChild
                               >
                                 <a
@@ -729,7 +729,7 @@ export default function Projects() {
                                 <Button
                                   variant="outline"
                                   size="lg"
-                                  className="w-full bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 text-lg py-3"
+                                  className="w-full bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 border-2 border-gray-200 dark:border-slate-600 hover:border-gray-300 dark:hover:border-slate-500 transition-all duration-300 text-lg py-3 text-gray-900 dark:text-white"
                                 >
                                   <User className="h-5 w-5 mr-2" />
                                   View Roles & Responsibilities
@@ -738,10 +738,10 @@ export default function Projects() {
                             </DialogTrigger>
                             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                               <DialogHeader>
-                                <DialogTitle className="text-2xl font-bold text-gray-900 mb-2">
+                                <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                                   {currentProjectData.title}
                                 </DialogTitle>
-                                <DialogDescription className="text-gray-600 text-lg">
+                                <DialogDescription className="text-gray-600 dark:text-gray-300 text-lg">
                                   Roles and responsibilities in this project
                                 </DialogDescription>
                               </DialogHeader>
@@ -749,7 +749,7 @@ export default function Projects() {
                               <div className="space-y-6 mt-6">
                                 {/* Roles Section */}
                                 <div>
-                                  <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
                                     <User className="h-5 w-5 mr-2 text-blue-500" />
                                     My Roles
                                   </h3>
@@ -775,7 +775,7 @@ export default function Projects() {
 
                                 {/* Responsibilities Section */}
                                 <div>
-                                  <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
                                     <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
                                     Key Responsibilities
                                   </h3>
@@ -787,10 +787,10 @@ export default function Projects() {
                                           initial={{ opacity: 0, x: -20 }}
                                           animate={{ opacity: 1, x: 0 }}
                                           transition={{ delay: index * 0.05 }}
-                                          className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                                          className="flex items-start space-x-3 p-3 bg-gray-50 dark:bg-slate-800/50 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors duration-200"
                                         >
                                           <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                                          <span className="text-gray-700 leading-relaxed">
+                                          <span className="text-gray-700 dark:text-gray-300 leading-relaxed">
                                             {responsibility}
                                           </span>
                                         </motion.div>
@@ -801,7 +801,7 @@ export default function Projects() {
 
                                 {/* Technologies Used */}
                                 <div>
-                                  <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
                                     <Code2 className="h-5 w-5 mr-2 text-purple-500" />
                                     Technologies Used
                                   </h3>
@@ -815,8 +815,7 @@ export default function Projects() {
                                           transition={{ delay: index * 0.05 }}
                                         >
                                           <Badge
-                                            variant="secondary"
-                                            className="text-sm font-medium px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200"
+                                            className="text-sm font-medium px-3 py-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-600"
                                           >
                                             {tech}
                                           </Badge>
@@ -832,7 +831,7 @@ export default function Projects() {
 
                         {/* Project stats */}
                         <motion.div
-                          className="mt-6 flex items-center justify-between text-sm text-gray-500"
+                          className="mt-6 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: 0.9 }}
@@ -883,8 +882,8 @@ export default function Projects() {
                 className="flex items-center space-x-2"
                 whileHover={{ scale: 1.05 }}
               >
-                <BookOpen className="h-5 w-5 text-gray-600" />
-                <span className="text-gray-600 font-medium">
+                <BookOpen className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+                <span className="text-gray-600 dark:text-gray-300 font-medium">
                   Page {currentProject + 1} of {projects.length}
                 </span>
               </motion.div>
@@ -935,7 +934,7 @@ export default function Projects() {
               >
                 <Code2 className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">
+              <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg">
                 More Projects Coming Soon
               </span>
               <motion.div

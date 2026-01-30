@@ -262,10 +262,10 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative mt-20 overflow-hidden" ref={ref}>
+    <footer className="relative overflow-hidden" ref={ref}>
       {/* Animated Background Layers */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+        className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1.5 }}
@@ -383,7 +383,7 @@ export default function Footer() {
               </motion.h3>
 
               <motion.p
-                className="text-gray-300 mb-6 leading-relaxed"
+                className="text-muted-foreground dark:text-gray-300 mb-6 leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={
                   isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
@@ -455,7 +455,7 @@ export default function Footer() {
             {/* Quick links */}
             <motion.div className="text-center" variants={fadeInUp}>
               <motion.h4
-                className="text-lg font-semibold text-white mb-4"
+                className="text-lg font-semibold text-foreground dark:text-white mb-4"
                 whileHover={{
                   scale: 1.05,
                   color: "#60A5FA",
@@ -512,7 +512,7 @@ export default function Footer() {
               variants={slideInRight}
             >
               <motion.h4
-                className="text-lg font-semibold text-white mb-4"
+                className="text-lg font-semibold text-foreground dark:text-white mb-4"
                 whileHover={{
                   scale: 1.05,
                   color: "#A78BFA",
@@ -531,7 +531,7 @@ export default function Footer() {
                 </motion.span>
               </motion.h4>
               <motion.p
-                className="text-gray-300 mb-4"
+                className="text-muted-foreground dark:text-gray-300 mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={
                   isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
@@ -631,7 +631,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="group relative p-3 rounded-full bg-gray-800/50 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
+                    className="group relative p-3 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
                     variants={socialVariants}
                     custom={index}
                     whileHover={{

@@ -296,13 +296,13 @@ export default function Hero() {
       <motion.div className="absolute inset-0" style={{ y: backgroundY }}>
         {/* Base gradient layers */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900"
+          className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-white dark:from-slate-950 dark:via-blue-950 dark:to-slate-900"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         />
         <motion.div
-          className="absolute inset-0 bg-gradient-to-tr from-blue-900/50 via-transparent to-cyan-900/30"
+          className="absolute inset-0 bg-gradient-to-tr from-blue-100/50 via-transparent to-cyan-100/30 dark:from-blue-900/50 dark:via-transparent dark:to-cyan-900/30"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, delay: 0.5 }}
@@ -416,13 +416,13 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="mb-12 flex justify-center"
         >
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-slate-900/90 backdrop-blur-xl border border-emerald-500/30 rounded-full shadow-lg hover:shadow-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300">
+          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-emerald-500/30 rounded-full shadow-lg hover:shadow-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/50" />
               <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/50" />
               <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50" />
             </div>
-            <span className="text-emerald-400 font-mono text-sm font-semibold tracking-wide">
+            <span className="text-emerald-600 dark:text-emerald-400 font-mono text-sm font-semibold tracking-wide">
               ~/👋 Hello, I&apos;m Abhishek Mehta
             </span>
           </div>
@@ -435,42 +435,42 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mx-auto max-w-4xl"
         >
-          <div className="bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-700/60 shadow-2xl overflow-hidden hover:shadow-cyan-500/10 hover:border-slate-600/80 transition-all duration-500">
+          <div className="bg-white/80 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-2xl overflow-hidden hover:shadow-cyan-500/10 hover:border-cyan-500/50 dark:hover:border-slate-600/80 transition-all duration-500">
             {/* Top bar */}
-            <div className="bg-gradient-to-r from-slate-800/90 to-slate-800/80 px-6 py-4 flex items-center justify-between border-b border-slate-700/50">
+            <div className="bg-gradient-to-r from-gray-100/90 to-gray-200/90 dark:from-slate-800/90 dark:to-slate-800/80 px-6 py-4 flex items-center justify-between border-b border-gray-200 dark:border-slate-700/50">
               <div className="flex items-center gap-3">
-                <Terminal className="w-4 h-4 text-emerald-400" />
-                <span className="text-slate-300 text-sm font-mono font-semibold">
+                <Terminal className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span className="text-gray-700 dark:text-slate-300 text-sm font-mono font-semibold">
                   terminal
                 </span>
               </div>
               <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-slate-500 hover:bg-slate-400 transition-colors" />
-                <div className="w-3 h-3 rounded-full bg-slate-500 hover:bg-slate-400 transition-colors" />
-                <div className="w-3 h-3 rounded-full bg-slate-500 hover:bg-slate-400 transition-colors" />
+                <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors shadow-sm" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors shadow-sm" />
+                <div className="w-3 h-3 rounded-full bg-emerald-500 hover:bg-emerald-400 transition-colors shadow-sm" />
               </div>
             </div>
 
             {/* Terminal content */}
             <div className="p-10 font-mono space-y-6">
-              <div className="text-emerald-400 text-sm font-semibold tracking-wide">
-                <span className="text-cyan-400">$ </span>whoami
+              <div className="text-emerald-600 dark:text-emerald-400 text-sm font-semibold tracking-wide">
+                <span className="text-cyan-600 dark:text-cyan-400">$ </span>whoami
               </div>
 
-              <div className="text-white text-4xl md:text-6xl font-bold tracking-tight">
+              <div className="text-gray-900 dark:text-white text-4xl md:text-6xl font-bold tracking-tight">
                 Abhishek Mehta
               </div>
 
               {/* Animated title */}
               <div className="h-12 flex items-center">
-                <span className="text-emerald-400 mr-3 text-lg">→</span>
+                <span className="text-emerald-600 dark:text-emerald-400 mr-3 text-lg">→</span>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentTitle}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
-                    className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-300 via-cyan-300 to-emerald-400 bg-clip-text text-transparent"
+                    className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 via-cyan-600 to-emerald-600 dark:from-emerald-300 dark:via-cyan-300 dark:to-emerald-400 bg-clip-text text-transparent"
                   >
                     {titles[currentTitle]}
                   </motion.div>
@@ -478,7 +478,7 @@ export default function Hero() {
               </div>
 
               {/* Terminal typing */}
-              <div className="relative text-slate-300 font-medium tracking-wide text-base sm:text-lg whitespace-nowrap overflow-hidden">
+              <div className="relative text-gray-700 dark:text-slate-300 font-medium tracking-wide text-base sm:text-lg whitespace-nowrap overflow-hidden">
                 {/* Invisible full text for stable layout */}
                 <span className="opacity-0 pointer-events-none">
                   {fullText}
@@ -487,28 +487,28 @@ export default function Hero() {
                 {/* Typing animation appears on top */}
                 <div className="absolute top-0 left-0 flex items-center h-full">
                   {/* Typed text */}
-                  <span className="text-emerald-300">{terminalText}</span>
+                  <span className="text-gray-800 dark:text-emerald-300">{terminalText}</span>
 
                   {/* Cursor */}
                   <motion.span
                     animate={{ opacity: [1, 0] }}
                     transition={{ duration: 0.8, repeat: Infinity }}
-                    className="inline-block w-1.5 h-4 sm:w-2 sm:h-6 bg-emerald-400 ml-1"
+                    className="inline-block w-1.5 h-4 sm:w-2 sm:h-6 bg-emerald-600 dark:bg-emerald-400 ml-1"
                   />
                 </div>
               </div>
 
               {/* Description */}
-              <div className="text-slate-200 text-base md:text-lg leading-relaxed space-y-2 max-w-2xl font-medium">
+              <div className="text-gray-600 dark:text-slate-200 text-base md:text-lg leading-relaxed space-y-2 max-w-2xl font-medium">
                 <div>
-                  <span className="text-slate-500"># </span>
+                  <span className="text-gray-400 dark:text-slate-500"># </span>
                   <span>
                     Building scalable applications with modern tech stacks
                   </span>
                 </div>
 
                 <div>
-                  <span className="text-slate-500"># </span>
+                  <span className="text-gray-400 dark:text-slate-500"># </span>
                   <span>
                     Transforming ideas into elegant, performant solutions
                   </span>
@@ -516,7 +516,7 @@ export default function Hero() {
               </div>
 
               {/* Buttons - CHANGE: Enhanced button styling */}
-              <div className="flex flex-wrap gap-4 mt-10 pt-4 border-t border-slate-700/50">
+              <div className="flex flex-wrap gap-4 mt-10 pt-4 border-t border-gray-200 dark:border-slate-700/50">
                 <motion.button
                   whileHover={{ scale: 1.08, y: -3 }}
                   whileTap={{ scale: 0.95 }}
@@ -606,11 +606,11 @@ export default function Hero() {
               key={label}
               variants={slideInLeft}
               custom={index}
-              className="text-center p-6 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/70 backdrop-blur-md border border-slate-600/40 hover:border-cyan-400/60 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-cyan-500/20"
+              className="text-center p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-md border border-slate-200 dark:border-slate-600/40 hover:border-cyan-500/50 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-cyan-500/20"
               whileHover={{
                 scale: 1.08,
                 y: -12,
-                boxShadow: "0 20px 50px rgba(0,0,0,0.4)",
+                boxShadow: "0 20px 50px rgba(0,0,0,0.2)",
               }}
               whileTap={{ scale: 0.95 }}
             >
@@ -636,7 +636,7 @@ export default function Hero() {
               >
                 {number}
               </motion.div>
-              <div className="text-sm text-slate-300 font-medium">{label}</div>
+              <div className="text-sm text-gray-600 dark:text-slate-300 font-medium">{label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -650,7 +650,7 @@ export default function Hero() {
           variants={containerVariants}
         >
           <motion.h3
-            className="text-2xl md:text-3xl font-bold text-white mb-10 tracking-tight"
+            className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-10 tracking-tight"
             variants={fadeInUp}
             custom={0}
           >
@@ -665,7 +665,7 @@ export default function Hero() {
                 key={name}
                 variants={scaleIn}
                 custom={index}
-                className="flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-slate-800/60 to-slate-700/60 backdrop-blur-md rounded-full border border-slate-600/50 hover:border-cyan-400/60 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-cyan-500/20"
+                className="flex items-center space-x-3 px-6 py-3 bg-white/70 dark:bg-slate-800/60 backdrop-blur-md rounded-full border border-slate-200 dark:border-slate-600/50 hover:border-cyan-500/50 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-cyan-500/20"
                 whileHover={{
                   scale: 1.12,
                   y: -8,
@@ -681,9 +681,9 @@ export default function Hero() {
                     ease: "linear",
                   }}
                 >
-                  <Icon className="text-2xl text-cyan-300" />
+                  <Icon className="text-2xl text-cyan-600 dark:text-cyan-300" />
                 </motion.div>
-                <span className="text-slate-200 font-semibold">{name}</span>
+                <span className="text-gray-700 dark:text-slate-200 font-semibold">{name}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -703,12 +703,12 @@ export default function Hero() {
               key={title}
               variants={slideInRight}
               custom={index}
-              className="p-6 rounded-2xl bg-gradient-to-br from-slate-800/50 via-slate-700/40 to-slate-800/60 backdrop-blur-md border border-slate-600/40 hover:border-cyan-400/60 transition-all duration-300 group shadow-lg hover:shadow-xl hover:shadow-cyan-500/15"
+              className="p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-md border border-slate-200 dark:border-slate-600/40 hover:border-cyan-500/50 transition-all duration-300 group shadow-lg hover:shadow-xl hover:shadow-cyan-500/15"
               whileHover={{
                 scale: 1.08,
                 y: -12,
                 rotateY: 5,
-                boxShadow: "0 25px 60px rgba(0,0,0,0.4)",
+                boxShadow: "0 25px 60px rgba(0,0,0,0.2)",
               }}
               whileTap={{ scale: 0.95 }}
             >
@@ -726,8 +726,8 @@ export default function Hero() {
               >
                 <Icon className="h-10 w-10 text-cyan-400 mb-4 group-hover:text-cyan-300 transition-all duration-300" />
               </motion.div>
-              <h4 className="text-lg font-bold text-white mb-2">{title}</h4>
-              <p className="text-slate-300 text-sm font-medium">
+              <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{title}</h4>
+              <p className="text-gray-600 dark:text-slate-300 text-sm font-medium">
                 {description}
               </p>
             </motion.div>
