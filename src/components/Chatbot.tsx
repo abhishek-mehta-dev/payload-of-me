@@ -138,6 +138,30 @@ export default function Chatbot() {
   const [isOfflineMode, setIsOfflineMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Wandering animation state
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    // Start wandering only if not open and not hovering
+    if (isOpen || isHovering) {
+      setPosition({ x: 0, y: 0 });
+      return;
+    }
+
+    const moveInterval = setInterval(() => {
+      // Calculate random positions within a larger range
+      // Moving left (negative x) and up (negative y)
+      // Range: x: 0 to -500px, y: 0 to -400px to travel more across the screen
+      const randomX = Math.floor(Math.random() * -500); 
+      const randomY = Math.floor(Math.random() * -400); 
+      
+      setPosition({ x: randomX, y: randomY });
+    }, 5000); // New target every 5 seconds
+
+    return () => clearInterval(moveInterval);
+  }, [isOpen, isHovering]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -231,15 +255,32 @@ export default function Chatbot() {
       {/* Floating Chat Button */}
       <motion.div
         className="fixed bottom-6 right-6 z-50"
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{
-          delay: 1,
-          type: "spring",
-          stiffness: 260,
-          damping: 20,
-          duration: 0.6,
+        initial={{ scale: 0, rotate: -180, x: 0, y: 0 }}
+        animate={{ 
+          scale: 1, 
+          // Add a slight rotation tilt based on movement direction logic could be complex, 
+          // simply adding a continuous gentle wobble rotation
+          rotate: [0, 5, -5, 0],
+          x: isOpen ? 0 : position.x,
+          y: isOpen ? 0 : [position.y, position.y - 10, position.y], // Add floating effect on Y
         }}
+        transition={{
+          x: {
+            duration: 5,
+            ease: "easeInOut",
+          },
+          y: {
+            duration: 5, // Main movement
+            ease: "easeInOut",
+          },
+          rotate: {
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }
+        }}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
         <motion.div
           className="relative"
@@ -259,6 +300,28 @@ export default function Chatbot() {
               ease: "easeInOut",
             }}
           />
+
+          {/* Tooltip */}
+          <motion.div
+            className="absolute bottom-full right-0 mb-4 whitespace-nowrap bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-xl border border-blue-200/50"
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{
+              opacity: [0, 1, 1, 0],
+              y: [10, 0, 0, 10],
+              scale: [0.9, 1, 1, 0.9],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              repeatDelay: 5,
+            }}
+          >
+            <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Ask me about Abhishek! 🤖
+            </span>
+            {/* Triangle pointing down */}
+            <div className="absolute -bottom-2 right-6 border-8 border-transparent border-t-white/90" />
+          </motion.div>
 
           {/* Main button */}
           <Button
@@ -285,8 +348,8 @@ export default function Chatbot() {
 
             <motion.div
               animate={{
-                rotate: [0, 10, -10, 0],
-                scale: [1, 1.1, 1],
+                rotate: [0, 5, -5, 0],
+                scale: [1, 1.05, 1],
               }}
               transition={{
                 duration: 2,
@@ -294,7 +357,13 @@ export default function Chatbot() {
                 ease: "easeInOut",
               }}
             >
-              <MessageCircle className="h-7 w-7 text-white relative z-10" />
+              <div className="relative h-12 w-12 rounded-full overflow-hidden bg-white/10 shadow-inner border border-white/20">
+                <img
+                  src="/assets/robo-teddy.png"
+                  alt="AI Assistant"
+                  className="h-full w-full object-cover transform hover:scale-110 transition-transform duration-300"
+                />
+              </div>
             </motion.div>
 
             {/* Sparkle effects */}
