@@ -131,6 +131,7 @@ export default function Chatbot() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [isOfflineMode, setIsOfflineMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -174,6 +175,9 @@ export default function Chatbot() {
 
       const data = await response.json();
 
+      // Update offline mode status based on response
+      setIsOfflineMode(data.isFromFallback || false);
+
       // Simulate typing delay for better UX
       setTimeout(() => {
         const botMessage: Message = {
@@ -188,10 +192,11 @@ export default function Chatbot() {
       }, 1000);
     } catch (error) {
       console.error("Error sending message:", error);
+      setIsOfflineMode(true);
       setTimeout(() => {
         const errorMessage: Message = {
           id: (Date.now() + 1).toString(),
-          text: "🤔 Something went wrong while processing your request. Please try again in a moment.",
+          text: "🔌 **Connection Issue** 🔌\n\nI'm having trouble connecting to my AI service, but I can still help you with information about Abhishek's skills, projects, and experience using my offline knowledge base!\n\n💡 Try asking about:\n• His technical skills and expertise\n• Featured projects like DAHN or Taxificient\n• His educational background\n• GitHub repositories and contributions",
           isUser: false,
           timestamp: new Date(),
         };
@@ -212,9 +217,9 @@ export default function Chatbot() {
 
   const quickQuestions = [
     "What are Abhishek's main skills?",
-    "Tell me about his projects",
-    "What's his experience?",
-    "How can I contact him?",
+    "Tell me about his featured projects",
+    "What's his professional experience?",
+    "Show me his GitHub activity",
   ];
 
   return (
@@ -383,7 +388,9 @@ export default function Chatbot() {
 
                       {/* AI indicator */}
                       <motion.div
-                        className="absolute -top-1 -right-1 h-4 w-4 bg-green-500 rounded-full border-2 border-white"
+                        className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white ${
+                          isOfflineMode ? 'bg-orange-500' : 'bg-green-500'
+                        }`}
                         animate={{ scale: [1, 1.2, 1] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       />
@@ -405,11 +412,13 @@ export default function Chatbot() {
                       </h3>
                       <div className="text-xs text-gray-600 flex items-center gap-1">
                         <motion.div
-                          className="h-2 w-2 bg-green-500 rounded-full"
+                          className={`h-2 w-2 rounded-full ${
+                            isOfflineMode ? 'bg-orange-500' : 'bg-green-500'
+                          }`}
                           animate={{ opacity: [1, 0.3, 1] }}
                           transition={{ duration: 1.5, repeat: Infinity }}
                         />
-                        Online • Powered by Gemini AI
+                        {isOfflineMode ? 'Offline Mode • Knowledge Base' : 'Online • Powered by Gemini AI'}
                       </div>
                     </div>
                   </div>
