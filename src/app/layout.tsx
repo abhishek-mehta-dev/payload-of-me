@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Chatbot from "@/components/Chatbot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Navbar />
         <main className="pt-20">{children}</main>
         <Footer />
+        <Chatbot />
       </body>
     </html>
   );
