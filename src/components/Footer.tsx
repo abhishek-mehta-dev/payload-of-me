@@ -371,7 +371,7 @@ export default function Footer() {
                 }}
               >
                 <motion.span className="inline-flex items-center">
-                  AbhishekMehta.dev
+                  Abhishek Mehta
                   <motion.div
                     className="ml-2"
                     variants={iconFloat}
@@ -394,7 +394,7 @@ export default function Footer() {
                   transition: { duration: 0.3 },
                 }}
               >
-                Passionate MERN Stack Developer crafting digital experiences
+                Passionate Full Stack Developer crafting digital experiences
                 with modern technologies and creative solutions.
               </motion.p>
 
@@ -614,7 +614,7 @@ export default function Footer() {
                   transition: { duration: 0.3 },
                 }}
               >
-                MERN Stack Developer | Backend Specialist
+                Full Stack Developer | Backend Specialist
               </motion.p>
             </motion.div>
 

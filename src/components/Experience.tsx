@@ -182,7 +182,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="py-20 bg-gradient-to-br from-gray-50 via-white to-purple-50/30 relative overflow-hidden"
+      className="py-20 bg-gradient-to-br from-gray-50 via-white to-purple-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-purple-900/20 relative overflow-hidden"
     >
       {/* Animated background elements */}
       <motion.div
@@ -222,7 +222,7 @@ export default function Experience() {
             animate={isInView ? "visible" : "hidden"}
             variants={titleVariants}
           >
-            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               <motion.span
                 className="inline-block"
                 whileHover={{
@@ -260,7 +260,7 @@ export default function Experience() {
               transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
             />
             <motion.p
-              className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto"
+              className="text-gray-600 dark:text-gray-300 mt-4 text-lg max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -323,7 +323,7 @@ export default function Experience() {
                     }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <Card className="hover:shadow-2xl transition-all duration-500 bg-white/90 backdrop-blur-sm border-0 shadow-lg overflow-hidden relative group">
+                    <Card className="hover:shadow-2xl transition-all duration-500 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-0 shadow-lg overflow-hidden relative group">
                       {/* Card glow effect */}
                       <motion.div
                         className={`absolute inset-0 bg-gradient-to-r ${exp.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
@@ -359,7 +359,7 @@ export default function Experience() {
                                 <exp.icon className="h-5 w-5 text-white" />
                               </motion.div>
                               <motion.span
-                                className="text-gray-800 font-bold"
+                                className="text-gray-800 dark:text-gray-100 font-bold"
                                 whileHover={{
                                   color:
                                     exp.color === "blue"
@@ -372,7 +372,7 @@ export default function Experience() {
                               </motion.span>
                             </CardTitle>
                             <motion.p
-                              className="text-lg font-semibold text-gray-700"
+                              className="text-lg font-semibold text-gray-700 dark:text-gray-300"
                               whileHover={{
                                 color: "#374151",
                                 scale: 1.02,
@@ -401,7 +401,7 @@ export default function Experience() {
 
                       <CardContent className="relative">
                         <motion.p
-                          className="text-gray-700 mb-6 leading-relaxed text-base"
+                          className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-base"
                           initial={{ opacity: 0, y: 20 }}
                           animate={
                             isInView
@@ -437,7 +437,7 @@ export default function Experience() {
                             >
                               <Badge
                                 variant="secondary"
-                                className="text-sm font-medium px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200 hover:border-gray-300 transition-all duration-300 cursor-pointer"
+                                className="text-sm font-medium px-3 py-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-600 hover:border-gray-300 dark:hover:border-slate-500 transition-all duration-300 cursor-pointer"
                               >
                                 {tech}
                               </Badge>
@@ -520,7 +520,7 @@ export default function Experience() {
               >
                 <Briefcase className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">
+              <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg">
                 Ready for New Challenges
               </span>
               <motion.div

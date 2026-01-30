@@ -240,7 +240,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 relative overflow-hidden"
+      className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-blue-900/10 relative overflow-hidden"
     >
       {/* Animated background elements */}
       <motion.div
@@ -293,7 +293,7 @@ export default function Skills() {
             animate={isInView ? "visible" : "hidden"}
             variants={titleVariants}
           >
-            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               <motion.span
                 className="inline-block"
                 whileHover={{
@@ -321,7 +321,7 @@ export default function Skills() {
               transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
             />
             <motion.p
-              className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto"
+              className="text-gray-600 dark:text-gray-300 mt-4 text-lg max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -351,7 +351,7 @@ export default function Skills() {
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Card className="h-full hover:shadow-2xl transition-all duration-500 bg-white/80 backdrop-blur-sm border-0 shadow-lg overflow-hidden relative group">
+                <Card className="h-full hover:shadow-2xl transition-all duration-500 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg overflow-hidden relative group">
                   {/* Card glow effect */}
                   <motion.div
                     className={`absolute inset-0 bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
@@ -372,7 +372,7 @@ export default function Skills() {
                         <category.icon className="h-6 w-6 text-white" />
                       </motion.div>
                       <motion.span
-                        className="text-gray-800 font-semibold"
+                        className="text-gray-800 dark:text-gray-100 font-semibold"
                         whileHover={{
                           color: category.hoverColor,
                           transition: { duration: 0.3 },
@@ -405,10 +405,10 @@ export default function Skills() {
                           <Badge
                             variant="secondary"
                             className="flex items-center gap-2 text-sm font-medium px-3 py-2 
-                 bg-gray-100 hover:bg-gray-200 text-gray-700 
-                 border border-gray-200 hover:border-gray-300 
+                 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200
+                 border border-gray-200 dark:border-slate-600 hover:border-gray-300 dark:hover:border-slate-500
                  transition-all duration-300 cursor-pointer w-full justify-start overflow-hidden whitespace-nowrap"
-                          >
+                            >
                             <skill.icon color={skill.color} className="shrink-0" />
                             <span className="truncate">{skill.name}</span>
                           </Badge>
@@ -423,7 +423,7 @@ export default function Skills() {
                       animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                       transition={{ delay: index * 0.1 + 1 }}
                     >
-                      <motion.span className="text-xs text-gray-500 font-medium">
+                      <motion.span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                         {category.skills.length} Skills
                       </motion.span>
                       <motion.div
@@ -472,7 +472,7 @@ export default function Skills() {
               >
                 <Brain className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">
+              <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg">
                 Always Learning New Technologies
               </span>
               <motion.div

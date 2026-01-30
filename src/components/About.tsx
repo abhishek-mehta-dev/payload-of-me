@@ -130,29 +130,44 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden"
+      className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 relative overflow-hidden"
     >
       {/* Animated background elements */}
       <motion.div
-        className="absolute top-10 left-10 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"
+        className="absolute top-20 left-10 w-40 h-40 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-2xl"
         animate={{
-          scale: [1, 1.2, 1],
+          scale: [1, 1.3, 1],
           opacity: [0.3, 0.6, 0.3],
+          x: [0, 50, 0],
         }}
         transition={{
-          duration: 4,
+          duration: 8,
           repeat: Number.POSITIVE_INFINITY,
           ease: "easeInOut",
         }}
       />
       <motion.div
-        className="absolute bottom-10 right-10 w-40 h-40 bg-purple-500/5 rounded-full blur-xl"
+        className="absolute bottom-20 right-10 w-32 h-32 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-2xl"
         animate={{
-          scale: [1, 1.3, 1],
+          scale: [1, 1.4, 1],
           opacity: [0.2, 0.5, 0.2],
+          x: [0, -30, 0],
         }}
         transition={{
-          duration: 5,
+          duration: 6,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
+      <motion.div
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-green-500/5 dark:bg-green-500/10 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.3, 0.1],
+        }}
+        transition={{
+          duration: 10,
           repeat: Number.POSITIVE_INFINITY,
           ease: "easeInOut",
           delay: 1,
@@ -169,7 +184,7 @@ export default function About() {
             className="text-center mb-16"
           >
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
               variants={fadeInUp}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
@@ -213,7 +228,7 @@ export default function About() {
             {/* Left Content */}
             <motion.div variants={slideInLeft}>
               <motion.h3
-                className="text-2xl md:text-3xl font-semibold mb-6 text-gray-900"
+                className="text-2xl md:text-3xl font-semibold mb-6 text-gray-900 dark:text-gray-100"
                 variants={textReveal}
                 custom={0}
               >
@@ -231,7 +246,7 @@ export default function About() {
 
               <motion.div className="space-y-6">
                 <motion.p
-                  className="text-gray-700 leading-relaxed text-lg"
+                  className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg"
                   variants={textReveal}
                   custom={1}
                   whileHover={{
@@ -247,7 +262,7 @@ export default function About() {
                 </motion.p>
 
                 <motion.p
-                  className="text-gray-700 leading-relaxed text-lg"
+                  className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg"
                   variants={textReveal}
                   custom={2}
                   whileHover={{
@@ -263,7 +278,7 @@ export default function About() {
                 </motion.p>
 
                 <motion.p
-                  className="text-gray-700 leading-relaxed text-lg"
+                  className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg"
                   variants={textReveal}
                   custom={3}
                   whileHover={{
@@ -292,21 +307,21 @@ export default function About() {
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Card className="border-l-4 border-l-blue-500 hover:border-l-blue-600 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl">
+                <Card className="border-l-4 border-l-blue-500 hover:border-l-blue-600 transition-all duration-300 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-lg hover:shadow-xl dark:border-t-0 dark:border-r-0 dark:border-b-0">
                   <CardContent className="p-6">
                     <motion.div className="flex items-center mb-3">
                       <motion.div variants={iconFloat} animate="animate">
                         <GraduationCap className="h-6 w-6 text-blue-500 mr-3" />
                       </motion.div>
                       <motion.h4
-                        className="font-semibold text-gray-900"
+                        className="font-semibold text-gray-900 dark:text-gray-100"
                         whileHover={{ color: "#3B82F6" }}
                       >
                         Education
                       </motion.h4>
                     </motion.div>
                     <motion.p
-                      className="text-gray-700 font-medium"
+                      className="text-gray-700 dark:text-gray-300 font-medium"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.3 }}
@@ -314,7 +329,7 @@ export default function About() {
                       Master&apos;s in Computer Applications
                     </motion.p>
                     <motion.p
-                      className="text-sm text-gray-500"
+                      className="text-sm text-gray-500 dark:text-gray-400"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 }}
@@ -337,7 +352,7 @@ export default function About() {
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Card className="border-l-4 border-l-green-500 hover:border-l-green-600 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl">
+                <Card className="border-l-4 border-l-green-500 hover:border-l-green-600 transition-all duration-300 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-lg hover:shadow-xl dark:border-t-0 dark:border-r-0 dark:border-b-0">
                   <CardContent className="p-6">
                     <motion.div className="flex items-center mb-3">
                       <motion.div
@@ -348,14 +363,14 @@ export default function About() {
                         <Code className="h-6 w-6 text-green-500 mr-3" />
                       </motion.div>
                       <motion.h4
-                        className="font-semibold text-gray-900"
+                        className="font-semibold text-gray-900 dark:text-gray-100"
                         whileHover={{ color: "#22C55E" }}
                       >
                         Current Role
                       </motion.h4>
                     </motion.div>
                     <motion.p
-                      className="text-gray-700 font-medium"
+                      className="text-gray-700 dark:text-gray-300 font-medium"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.6 }}
@@ -363,7 +378,7 @@ export default function About() {
                       MERN Stack Developer
                     </motion.p>
                     <motion.p
-                      className="text-sm text-gray-500"
+                      className="text-sm text-gray-500 dark:text-gray-400"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.7 }}
@@ -386,7 +401,7 @@ export default function About() {
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Card className="border-l-4 border-l-purple-500 hover:border-l-purple-600 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl">
+                <Card className="border-l-4 border-l-purple-500 hover:border-l-purple-600 transition-all duration-300 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-lg hover:shadow-xl dark:border-t-0 dark:border-r-0 dark:border-b-0">
                   <CardContent className="p-6">
                     <motion.div className="flex items-center mb-3">
                       <motion.div
@@ -397,14 +412,14 @@ export default function About() {
                         <Target className="h-6 w-6 text-purple-500 mr-3" />
                       </motion.div>
                       <motion.h4
-                        className="font-semibold text-gray-900"
+                        className="font-semibold text-gray-900 dark:text-gray-100"
                         whileHover={{ color: "#9333EA" }}
                       >
                         Focus Areas
                       </motion.h4>
                     </motion.div>
                     <motion.p
-                      className="text-gray-700 font-medium"
+                      className="text-gray-700 dark:text-gray-300 font-medium"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.9 }}
@@ -412,7 +427,7 @@ export default function About() {
                       Backend Development & System Performance
                     </motion.p>
                     <motion.p
-                      className="text-sm text-gray-500"
+                      className="text-sm text-gray-500 dark:text-gray-400"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1 }}
@@ -449,7 +464,7 @@ export default function About() {
               >
                 <Code className="h-5 w-5 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-medium">
+              <span className="text-gray-700 dark:text-gray-300 font-medium">
                 Always Learning, Always Growing
               </span>
             </motion.div>
