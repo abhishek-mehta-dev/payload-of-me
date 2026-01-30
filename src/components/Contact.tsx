@@ -299,7 +299,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 relative overflow-hidden"
+      className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-blue-900/10 relative overflow-hidden"
     >
       {/* Animated background elements */}
       <motion.div
@@ -339,7 +339,7 @@ export default function Contact() {
             animate={isInView ? "visible" : "hidden"}
             variants={titleVariants}
           >
-            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               <motion.span
                 className="inline-block"
                 whileHover={{
@@ -367,7 +367,7 @@ export default function Contact() {
               transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
             />
             <motion.p
-              className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto"
+              className="text-gray-600 dark:text-gray-300 mt-4 text-lg max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -387,7 +387,7 @@ export default function Contact() {
             {/* Left Column - Contact Info */}
             <motion.div variants={slideInLeft}>
               <motion.h3
-                className="text-2xl md:text-3xl font-semibold mb-6 text-gray-900"
+                className="text-2xl md:text-3xl font-semibold mb-6 text-gray-900 dark:text-gray-100"
                 whileHover={{
                   scale: 1.02,
                   color: "#059669",
@@ -407,7 +407,7 @@ export default function Contact() {
               </motion.h3>
 
               <motion.p
-                className="text-gray-700 mb-8 leading-relaxed text-lg"
+                className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-lg"
                 initial={{ opacity: 0, y: 20 }}
                 animate={
                   isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
@@ -446,7 +446,7 @@ export default function Contact() {
                           ? "noopener noreferrer"
                           : undefined
                       }
-                      className="flex items-center p-4 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200/50 hover:border-gray-300/70 transition-all duration-300 shadow-sm hover:shadow-lg group"
+                      className="flex items-center p-4 rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-slate-700/50 hover:border-gray-300/70 dark:hover:border-slate-600/70 transition-all duration-300 shadow-sm hover:shadow-lg group"
                     >
                       <motion.div
                         className={`p-3 rounded-lg bg-gradient-to-r ${item.gradient} mr-4 shadow-md`}
@@ -461,11 +461,11 @@ export default function Contact() {
                         <item.icon className="h-5 w-5 text-white" />
                       </motion.div>
                       <div>
-                        <motion.p className="text-sm text-gray-500 font-medium">
+                        <motion.p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
                           {item.label}
                         </motion.p>
                         <motion.p
-                          className="text-gray-800 font-semibold group-hover:text-blue-600 transition-colors duration-300"
+                          className="text-gray-800 dark:text-gray-200 font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           {item.value}
@@ -484,7 +484,7 @@ export default function Contact() {
                 variants={containerVariants}
               >
                 <motion.h4
-                  className="text-lg font-semibold text-gray-800 mb-4"
+                  className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4"
                   initial={{ opacity: 0, x: -20 }}
                   animate={
                     isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
@@ -524,7 +524,7 @@ export default function Contact() {
 
               {/* Response Time Indicator */}
               <motion.div
-                className="mt-8 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200/50"
+                className="mt-8 p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl border border-green-200/50 dark:border-green-800/30"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={
                   isInView

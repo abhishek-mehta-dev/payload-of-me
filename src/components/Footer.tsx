@@ -262,10 +262,10 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative mt-20 overflow-hidden" ref={ref}>
+    <footer className="relative overflow-hidden" ref={ref}>
       {/* Animated Background Layers */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+        className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1.5 }}
@@ -371,7 +371,7 @@ export default function Footer() {
                 }}
               >
                 <motion.span className="inline-flex items-center">
-                  AbhishekMehta.dev
+                  Abhishek Mehta
                   <motion.div
                     className="ml-2"
                     variants={iconFloat}
@@ -383,7 +383,7 @@ export default function Footer() {
               </motion.h3>
 
               <motion.p
-                className="text-gray-300 mb-6 leading-relaxed"
+                className="text-gray-700 dark:text-slate-300 mb-6 leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={
                   isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
@@ -394,13 +394,13 @@ export default function Footer() {
                   transition: { duration: 0.3 },
                 }}
               >
-                Passionate MERN Stack Developer crafting digital experiences
+                Passionate Full Stack Developer crafting digital experiences
                 with modern technologies and creative solutions.
               </motion.p>
 
               {/* Built with love section */}
               <motion.div
-                className="flex items-center justify-center md:justify-start space-x-2 text-gray-400 mb-6"
+                className="flex items-center justify-center md:justify-start space-x-2 text-gray-700 dark:text-slate-300 mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={
                   isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
@@ -435,7 +435,7 @@ export default function Footer() {
                   <motion.a
                     key={index}
                     href={item.href}
-                    className="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-300 group"
+                    className="flex items-center justify-center md:justify-start space-x-2 text-gray-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 group"
                     initial={{ opacity: 0, x: -20 }}
                     animate={
                       isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
@@ -444,7 +444,7 @@ export default function Footer() {
                     whileHover={{ scale: 1.05, x: 5 }}
                   >
                     <motion.div variants={iconFloat} animate="animate">
-                      <item.icon className="h-4 w-4 group-hover:text-blue-400 transition-colors duration-300" />
+                      <item.icon className="h-4 w-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300" />
                     </motion.div>
                     <span className="text-sm">{item.text}</span>
                   </motion.a>
@@ -455,7 +455,7 @@ export default function Footer() {
             {/* Quick links */}
             <motion.div className="text-center" variants={fadeInUp}>
               <motion.h4
-                className="text-lg font-semibold text-white mb-4"
+                className="text-lg font-semibold text-foreground dark:text-white mb-4"
                 whileHover={{
                   scale: 1.05,
                   color: "#60A5FA",
@@ -478,7 +478,7 @@ export default function Footer() {
                   <motion.a
                     key={link.name}
                     href={link.href}
-                    className="flex items-center justify-center space-x-2 text-gray-300 hover:text-blue-400 transition-all duration-300 group"
+                    className="flex items-center justify-center space-x-2 text-gray-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group"
                     variants={linkVariants}
                     custom={index}
                     whileHover={{
@@ -498,7 +498,7 @@ export default function Footer() {
                         },
                       }}
                     >
-                      <link.icon className="h-4 w-4 group-hover:text-blue-400 transition-colors duration-300" />
+                      <link.icon className="h-4 w-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300" />
                     </motion.div>
                     <span>{link.name}</span>
                   </motion.a>
@@ -512,7 +512,7 @@ export default function Footer() {
               variants={slideInRight}
             >
               <motion.h4
-                className="text-lg font-semibold text-white mb-4"
+                className="text-lg font-semibold text-foreground dark:text-white mb-4"
                 whileHover={{
                   scale: 1.05,
                   color: "#A78BFA",
@@ -531,7 +531,7 @@ export default function Footer() {
                 </motion.span>
               </motion.h4>
               <motion.p
-                className="text-gray-300 mb-4"
+                className="text-gray-700 dark:text-slate-300 mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={
                   isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
@@ -593,7 +593,7 @@ export default function Footer() {
               variants={fadeInUp}
             >
               <motion.p
-                className="text-gray-400"
+                className="text-gray-600 dark:text-slate-400"
                 whileHover={{
                   scale: 1.02,
                   color: "#9CA3AF",
@@ -604,7 +604,7 @@ export default function Footer() {
                 reserved.
               </motion.p>
               <motion.p
-                className="text-sm text-gray-500 mt-1"
+                className="text-sm text-gray-600 dark:text-slate-500 mt-1"
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
@@ -614,7 +614,7 @@ export default function Footer() {
                   transition: { duration: 0.3 },
                 }}
               >
-                MERN Stack Developer | Backend Specialist
+                Full Stack Developer | Backend Specialist
               </motion.p>
             </motion.div>
 
@@ -631,7 +631,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="group relative p-3 rounded-full bg-gray-800/50 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
+                    className="group relative p-3 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
                     variants={socialVariants}
                     custom={index}
                     whileHover={{
@@ -641,7 +641,7 @@ export default function Footer() {
                     }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <Icon className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+                    <Icon className="h-5 w-5 text-gray-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-white transition-colors duration-300" />
                     <motion.div
                       className={`absolute inset-0 rounded-full bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}
                       animate={pulseAnimation}
@@ -672,7 +672,7 @@ export default function Footer() {
                   ease: "easeInOut",
                 }}
               >
-                <ArrowUp className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+                <ArrowUp className="h-5 w-5 text-gray-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-white transition-colors duration-300" />
               </motion.div>
             </motion.button>
           </motion.div>
@@ -701,7 +701,7 @@ export default function Footer() {
               >
                 <Star className="h-4 w-4 text-blue-400" />
               </motion.div>
-              <span className="text-gray-400 text-sm font-medium">
+              <span className="text-gray-700 dark:text-slate-300 text-sm font-medium">
                 Thank you for visiting!
               </span>
               <motion.div

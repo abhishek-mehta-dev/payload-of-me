@@ -1,144 +1,51 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2 } from "lucide-react";
 
 const NavbarLogo = () => {
   return (
     <motion.div
-      className="flex items-center gap-3 cursor-pointer group relative"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
+      className="flex items-center gap-4 cursor-pointer group select-none"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.2 }}
     >
-      {/* Animated background glow */}
-      <motion.div
-        className="absolute -inset-2 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 -z-10"
-        initial={{ scale: 0.8 }}
-        whileHover={{
-          scale: 1.1,
-          opacity: 0.6,
-        }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-      />
-
-      {/* Icon container with enhanced effects */}
-      <motion.div
-        className="relative flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-500 rounded-xl shadow-lg"
-        whileHover={{
-          rotate: [0, -5, 5, 0],
-          scale: 1.1,
-        }}
-        transition={{
-          rotate: { duration: 0.6, ease: "easeInOut" },
-          scale: { duration: 0.2, ease: "easeOut" },
-        }}
-      >
-        {/* Animated code icon */}
+      {/* Icon Container */}
+      <div className="relative flex items-center justify-center w-12 h-12">
+        {/* Glow effect */}
         <motion.div
-          whileHover={{
-            scale: [1, 1.2, 1],
-            rotateY: 360,
-          }}
-          transition={{
-            scale: { duration: 0.4, ease: "easeInOut" },
-            rotateY: { duration: 0.8, ease: "easeInOut" },
-          }}
-        >
-          <Code2 className="h-5 w-5 text-white drop-shadow-sm" />
-        </motion.div>
-
-        {/* Inner glow effect */}
-        <motion.div
-          className="absolute inset-0.5 bg-gradient-to-br from-white/20 to-transparent rounded-lg"
-          initial={{ opacity: 0.3 }}
-          whileHover={{ opacity: 0.6 }}
-          transition={{ duration: 0.3 }}
-        />
-
-        {/* Outer shadow glow */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-40 blur-md -z-10"
-          whileHover={{
-            scale: 1.3,
-            opacity: 0.4,
-          }}
-          transition={{ duration: 0.4 }}
-        />
-
-        {/* Subtle shine effect */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-xl opacity-0 group-hover:opacity-100 -skew-x-12"
-          initial={{ x: "-100%" }}
-          whileHover={{
-            x: "200%",
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: 0.8,
-            ease: "easeInOut",
-            delay: 0.1,
-          }}
-        />
-      </motion.div>
-
-      {/* Enhanced text logo */}
-      <motion.div className="relative overflow-hidden">
-        <motion.span
-          className="text-xl font-bold text-slate-800 dark:text-slate-100 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:via-purple-600 group-hover:to-cyan-500 transition-all duration-500 ease-out tracking-tight"
-          whileHover={{
-            scale: 1.02,
-            textShadow: "0 0 20px rgba(99, 102, 241, 0.3)",
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          AbhishekMehta.dev
-        </motion.span>
-
-        {/* Animated underline */}
-        <motion.div
-          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-500 rounded-full"
-          initial={{ width: 0, opacity: 0 }}
-          whileHover={{
-            width: "100%",
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.4,
-            ease: "easeOut",
-          }}
-        />
-
-        {/* Text glow effect */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-purple-600/10 to-cyan-500/0 blur-sm opacity-0 group-hover:opacity-100 -z-10"
-          whileHover={{ opacity: 0.3 }}
-          transition={{ duration: 0.4 }}
-        />
-      </motion.div>
-
-      {/* Floating particles effect */}
-      {[...Array(3)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-60"
-          style={{
-            top: `${20 + i * 15}%`,
-            right: `${-10 + i * 5}%`,
-          }}
+          className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 rounded-full blur-md opacity-50 group-hover:opacity-100 transition-opacity duration-500"
           animate={{
-            y: [-10, -20, -10],
-            opacity: [0, 0.6, 0],
-            scale: [0.5, 1, 0.5],
+            scale: [1, 1.1, 1],
           }}
           transition={{
-            duration: 2 + i * 0.5,
-            repeat: Number.POSITIVE_INFINITY,
-            delay: i * 0.3,
+            duration: 3,
+            repeat: Infinity,
             ease: "easeInOut",
           }}
         />
-      ))}
+        
+        {/* Circle Background */}
+        <div className="relative w-full h-full bg-gradient-to-br from-slate-800 to-black rounded-full border border-slate-700/50 flex items-center justify-center overflow-hidden shadow-lg group-hover:border-cyan-500/30 transition-colors duration-300">
+          {/* Inner sheen */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          
+          {/* Code Symbol */}
+          <span className="font-mono text-cyan-400 font-bold text-lg tracking-tighter group-hover:text-cyan-300 transition-colors">
+            {">_"}
+          </span>
+        </div>
+      </div>
+
+      {/* Text Container */}
+      <div className="flex flex-col">
+        <h1 className="text-xl md:text-2xl font-serif text-gray-900 dark:text-white tracking-wide font-medium group-hover:text-cyan-600 dark:group-hover:text-cyan-50 transition-colors duration-300 leading-none drop-shadow-md">
+          Abhishek Mehta
+        </h1>
+        <span className="text-[10px] md:text-xs text-gray-600 dark:text-slate-300 font-light tracking-wider uppercase mt-1 group-hover:text-cyan-600/80 dark:group-hover:text-cyan-400/80 transition-colors duration-300">
+          Full-stack developer • Turning Ideas into Clean Software
+        </span>
+      </div>
     </motion.div>
   );
 };
