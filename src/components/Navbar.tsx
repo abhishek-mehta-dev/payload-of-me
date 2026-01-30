@@ -309,10 +309,10 @@ export default function Navbar() {
   return (
     <motion.header
       className={clsx(
-        "fixed top-0 left-0 w-full z-50 transition-all duration-300",
+        "fixed top-0 left-0 w-full z-50 transition-all duration-300 block",
         scrolled
-          ? "backdrop-blur-xl bg-white/80 shadow-lg border-b border-white/20"
-          : "backdrop-blur-md bg-white/60"
+          ? "backdrop-blur-xl bg-[#0B1120]/90 shadow-lg border-b border-white/5"
+          : "backdrop-blur-md bg-[#0B1120]/80"
       )}
       initial="hidden"
       animate="visible"
@@ -351,10 +351,11 @@ export default function Navbar() {
                   <a
                     href={item.href}
                     onClick={(e) => handleSmoothScroll(e, item.href)}
-                    className="relative group px-4 py-2 rounded-full text-gray-700 font-medium hover:text-white transition-all duration-300 flex items-center space-x-2"
+                    className="relative group px-4 py-2 rounded-full text-slate-300 font-medium hover:text-white transition-all duration-300 flex items-center space-x-2"
                   >
                     {/* Icon */}
                     <motion.div
+                      className="relative z-10"
                       animate={{
                         rotate: isActive ? [0, 360] : 0,
                       }}
@@ -423,7 +424,7 @@ export default function Navbar() {
                       exit={{ opacity: 0, rotate: 90 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Menu className="absolute inset-0 w-6 h-6 text-gray-700" />
+                      <Menu className="absolute inset-0 w-6 h-6 text-slate-200" />
                     </motion.div>
                   ) : (
                     <motion.div
@@ -433,7 +434,7 @@ export default function Navbar() {
                       exit={{ opacity: 0, rotate: 90 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <X className="absolute inset-0 w-6 h-6 text-gray-700" />
+                      <X className="absolute inset-0 w-6 h-6 text-slate-200" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -453,7 +454,7 @@ export default function Navbar() {
               exit="exit"
             >
               <motion.div
-                className="py-4 space-y-2 bg-white/90 backdrop-blur-xl rounded-2xl mx-4 mb-4 shadow-xl border border-white/20"
+                className="py-4 space-y-2 bg-slate-900/95 backdrop-blur-xl rounded-2xl mx-4 mb-4 shadow-xl border border-white/10"
                 whileHover={{ scale: 1.02 }}
               >
                 {navLinks.map((item, index) => {
@@ -464,7 +465,7 @@ export default function Navbar() {
                       key={item.href}
                       href={item.href}
                       onClick={(e) => handleSmoothScroll(e, item.href, true)}
-                      className="flex items-center space-x-3 mx-4 px-4 py-3 rounded-xl text-gray-700 font-medium hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 relative group"
+                      className="flex items-center space-x-3 mx-4 px-4 py-3 rounded-xl text-slate-300 font-medium hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 relative group"
                       variants={mobileItemVariants}
                       custom={index}
                       whileHover={{
@@ -476,6 +477,7 @@ export default function Navbar() {
                     >
                       {/* Icon */}
                       <motion.div
+                        className="relative z-10"
                         animate={{
                           rotate: isActive ? [0, 360] : 0,
                           scale: isActive ? [1, 1.2, 1] : 1,
