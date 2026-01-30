@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
   id: string;
@@ -519,9 +521,57 @@ export default function Chatbot() {
                                 </motion.div>
                               )}
                               <div className="flex-1">
-                                <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                                  {message.text}
-                                </p>
+                                <div className="text-sm leading-relaxed">
+                                  <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                                      ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
+                                      ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
+                                      li: ({ children }) => <li className="mb-1">{children}</li>,
+                                      h1: ({ children }) => <h1 className="text-lg font-bold mb-2 mt-4 first:mt-0">{children}</h1>,
+                                      h2: ({ children }) => <h2 className="text-base font-bold mb-2 mt-3 first:mt-0">{children}</h2>,
+                                      h3: ({ children }) => <h3 className="text-sm font-bold mb-2 mt-2 first:mt-0">{children}</h3>,
+                                      strong: ({ children }) => <span className="font-bold text-inherit">{children}</span>,
+                                      em: ({ children }) => <span className="italic text-inherit">{children}</span>,
+                                      code: ({ className, children, ...props }) => {
+                                        const match = /language-(\w+)/.exec(className || "");
+                                        const isInline = !match;
+                                        return isInline ? (
+                                          <code className="bg-black/10 dark:bg-white/10 px-1 py-0.5 rounded text-xs font-mono" {...props}>
+                                            {children}
+                                          </code>
+                                        ) : (
+                                          <div className="relative my-2 rounded-lg overflow-hidden bg-gray-900 border border-white/10">
+                                            <div className="px-4 py-2 bg-gray-800/50 border-b border-white/10 text-xs text-gray-400 font-mono">
+                                              {match?.[1] || "code"}
+                                            </div>
+                                            <pre className="p-4 overflow-x-auto text-sm text-gray-100 font-mono scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
+                                              <code>{children}</code>
+                                            </pre>
+                                          </div>
+                                        );
+                                      },
+                                      blockquote: ({ children }) => (
+                                        <blockquote className="border-l-4 border-blue-500/50 pl-4 py-1 my-2 bg-blue-500/5 rounded-r italic">
+                                          {children}
+                                        </blockquote>
+                                      ),
+                                      a: ({ href, children }) => (
+                                        <a 
+                                          href={href} 
+                                          target="_blank" 
+                                          rel="noopener noreferrer" 
+                                          className="text-blue-600 hover:text-blue-500 underline decoration-blue-400/30 hover:decoration-blue-500 transition-colors"
+                                        >
+                                          {children}
+                                        </a>
+                                      ),
+                                    }}
+                                  >
+                                    {message.text}
+                                  </ReactMarkdown>
+                                </div>
                                 <p
                                   className={`text-xs mt-2 opacity-70 ${message.isUser ? "text-white/70" : "text-gray-500"}`}
                                 >
