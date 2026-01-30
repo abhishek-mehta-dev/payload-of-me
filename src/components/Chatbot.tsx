@@ -13,6 +13,7 @@ import {
   Brain,
   Minimize2,
   Maximize2,
+  Minus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -122,6 +123,7 @@ Please answer questions about Abhishek's background, skills, experience, and pro
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -337,12 +339,18 @@ export default function Chatbot() {
             animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20, rotateX: -15 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`fixed ${isMinimized ? "bottom-24 right-6 w-80 h-16" : "bottom-24 right-6 w-96 h-[600px]"} z-50 transition-all duration-500 ease-in-out`}
+            className={`fixed ${
+              isMinimized
+                ? "bottom-24 right-6 w-80 h-16"
+                : isExpanded
+                ? "inset-4 md:inset-x-32 md:inset-y-20 lg:inset-x-40 lg:inset-y-24"
+                : "bottom-24 right-6 w-96 h-[600px]"
+            } z-50 transition-all duration-500 ease-in-out`}
           >
             {/* Glassmorphism container */}
             <div className="relative h-full w-full">
               {/* Background with glassmorphism */}
-              <div className="absolute inset-0 bg-white/10 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-2xl">
+              <div className="absolute inset-0 bg-white/10 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-2xl transition-all duration-500">
                 {/* Animated gradient background */}
                 <motion.div
                   className="absolute inset-0 rounded-2xl opacity-5"
@@ -362,7 +370,7 @@ export default function Chatbot() {
               </div>
 
               {/* Main content */}
-              <div className="relative h-full flex flex-col bg-white/80 backdrop-blur-xl rounded-2xl border border-white/30 shadow-xl">
+              <div className="relative h-full flex flex-col bg-white/80 backdrop-blur-xl rounded-2xl border border-white/30 shadow-xl transition-all duration-500">
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-white/20 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-indigo-500/10 rounded-t-2xl">
                   <div className="flex items-center space-x-3">
@@ -426,18 +434,42 @@ export default function Chatbot() {
                   </div>
 
                   <div className="flex items-center space-x-2">
+                    {/* Expand/Collapse Button */}
+                    {!isMinimized && (
+                      <Button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 hover:bg-white/20 transition-colors duration-200 hidden md:flex"
+                        title={isExpanded ? "Restore" : "Maximize"}
+                      >
+                        {isExpanded ? (
+                          <Minimize2 className="h-4 w-4 text-gray-600" />
+                        ) : (
+                          <Maximize2 className="h-4 w-4 text-gray-600" />
+                        )}
+                      </Button>
+                    )}
+
+                    {/* Minimize Button */}
                     <Button
-                      onClick={() => setIsMinimized(!isMinimized)}
+                      onClick={() => {
+                        setIsMinimized(!isMinimized);
+                        if (!isMinimized) setIsExpanded(false); // Reset expansion when minimizing
+                      }}
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8 hover:bg-white/20 transition-colors duration-200"
+                      title={isMinimized ? "Restore" : "Minimize"}
                     >
                       {isMinimized ? (
                         <Maximize2 className="h-4 w-4 text-gray-600" />
                       ) : (
-                        <Minimize2 className="h-4 w-4 text-gray-600" />
+                        <Minus className="h-4 w-4 text-gray-600" />
                       )}
                     </Button>
+
+                    {/* Close Button */}
                     <Button
                       onClick={() => setIsOpen(false)}
                       variant="ghost"
