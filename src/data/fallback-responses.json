@@ -1,0 +1,56 @@
+{
+  "responses": {
+    "greeting": [
+      "👋 Hi there! I'm Abhishek's AI assistant. While I'm experiencing some technical difficulties connecting to my main AI service, I can still help you learn about Abhishek's background and projects using my offline knowledge base!",
+      "🤖 Hello! I'm currently running in offline mode, but I have plenty of information about Abhishek Mehta's skills, projects, and experience. What would you like to know?",
+      "✨ Hey! Even though my AI connection is temporarily down, I can still share detailed information about Abhishek's work as a Full-Stack Developer. How can I help?"
+    ],
+    "skills": [
+      "🚀 **Abhishek's Technical Skills:**\n\n**Programming Languages:**\n• Python - Backend development, automation\n• JavaScript/TypeScript - Full-stack development\n• Go (Golang) - System programming\n• Bash - DevOps and automation\n\n**Frameworks & Libraries:**\n• MERN Stack (MongoDB, Express.js, React.js, Node.js)\n• Next.js - Modern React framework\n• Django & Django REST Framework\n• FastAPI - High-performance Python API\n• Nest.js - Enterprise Node.js framework\n\n**Databases:**\n• MongoDB (NoSQL)\n• PostgreSQL & MySQL (SQL)\n• Database design and optimization\n\n**DevOps & Cloud:**\n• Docker containerization\n• AWS, Azure, GCP\n• GitHub Actions CI/CD\n• Linux server management\n• Nginx web server\n\n**Emerging Technologies:**\n• AI/ML integration\n• LangChain for AI applications\n• Machine Learning basics\n• DevOps automation tools"
+    ],
+    "experience": [
+      "💼 **Abhishek's Professional Experience:**\n\n**Current Role: MERN Stack Developer (2024 - Present)**\n• Building scalable web applications using modern tech stack\n• Focus on backend development and API design\n• System performance optimization\n• Working with cloud technologies and DevOps practices\n\n**Education: Master's in Computer Applications (2024)**\n• Chandigarh University\n• Advanced studies in software development\n• Strong foundation in algorithms and system design\n• Specialized in full-stack development\n\n**Key Strengths:**\n• Backend-oriented full-stack development\n• API design and third-party integrations\n• Database architecture and optimization\n• Cloud deployment and DevOps\n• Healthcare and SaaS application development"
+    ],
+    "projects": [
+      "🎯 **Featured Projects:**\n\n**1. DAHN - Hospice Nurse Documentation App** (Live)\n• Healthcare web application with MERN stack\n• Role-based access control (RBAC)\n• Stripe payment integration\n• Patient notes management system\n• AWS deployment with PM2\n\n**2. Taxificient - Ride & Fleet Management** (In Progress)\n• SaaS platform with Nest.js and React\n• Real-time chat system for drivers/passengers\n• Firebase Cloud Messaging integration\n• Advanced permission-based authorization\n• PostgreSQL with Socket.io\n\n**3. DocuAI Pro** (Development)\n• AI-powered document chatbot with RAG\n• FastAPI backend with Next.js frontend\n• LangChain and FAISS integration\n• OAuth and PayPal subscriptions\n• Hugging Face models\n\n**4. Dynamic Landing Page Automation** (Live)\n• Node.js integration with Bubble.io\n• Auto-generates Webflow landing pages\n• Webhook automation system\n• API orchestration between platforms\n\n**5. Stripe Connect Integration** (Completed)\n• Multi-vendor payment platform\n• Secure onboarding flows\n• Payment analytics dashboard\n• MongoDB integration"
+    ],
+    "education": [
+      "🎓 **Educational Background:**\n\n**Master's in Computer Applications (MCA)**\n• Institution: Chandigarh University\n• Duration: 2022 - 2024\n• Focus: Advanced software development, algorithms, system design\n• Specialized in full-stack development and modern programming practices\n\n**Key Academic Areas:**\n• Software Engineering Principles\n• Data Structures and Algorithms\n• Database Management Systems\n• Web Technologies and Frameworks\n• Machine Learning Fundamentals\n• System Design and Architecture\n\nThis strong academic foundation, combined with hands-on project experience, has equipped Abhishek with both theoretical knowledge and practical skills in modern software development."
+    ],
+    "contact": [
+      "📞 **Get in Touch with Abhishek:**\n\n• **Location:** Mohali, India\n• **GitHub:** github.com/abhishek-mehta-dev\n• **Portfolio:** Check out the contact section below for more ways to connect!\n\n**Professional Focus:**\n• Backend-Oriented Full-Stack Development\n• MERN Stack, Python, Go\n• Exploring DevOps & AI Integration\n• Open to collaboration and new opportunities\n\n**Current Status:**\n• 42+ public repositories on GitHub\n• Active in the developer community\n• Continuously learning new technologies\n• Available for freelance and full-time opportunities\n\nFeel free to reach out through the contact form on this portfolio!"
+    ],
+    "github": [
+      "💻 **GitHub Profile Highlights:**\n\n**Stats:**\n• 42+ public repositories\n• 5 followers, following 10 developers\n• 1 public gist\n• Active since November 2022\n\n**Recent Activity:**\n• Currently working on 'payload-of-me' (this portfolio)\n• Built with Next.js and TypeScript\n• Showcases journey as a backend developer\n• Modern, performant frontend stack\n\n**Repository Focus:**\n• Full-stack web applications\n• Backend API development\n• AI/ML integration projects\n• DevOps and automation tools\n• Open source contributions\n\n**Bio:** \"Backend-Oriented Full-Stack Developer | MERN, Python, Go | Exploring DevOps & AI\"\n\nCheck out his GitHub profile for the latest projects and contributions!"
+    ],
+    "technologies": [
+      "⚡ **Technology Stack:**\n\n**Backend Expertise:**\n• Node.js with Express.js and Nest.js\n• Python with Django and FastAPI\n• Go for system programming\n• RESTful API design and GraphQL\n\n**Frontend Development:**\n• React.js and Next.js\n• TypeScript for type safety\n• Modern CSS and Tailwind\n• Responsive design principles\n\n**Database Management:**\n• MongoDB for NoSQL solutions\n• PostgreSQL and MySQL for relational data\n• Database optimization and indexing\n• Data modeling and architecture\n\n**DevOps & Deployment:**\n• Docker containerization\n• AWS, Azure, and GCP cloud platforms\n• CI/CD with GitHub Actions\n• Linux server administration\n• Nginx for web serving\n\n**AI & Emerging Tech:**\n• LangChain for AI applications\n• Machine Learning integration\n• Automation and intelligent systems\n• Modern development practices"
+    ],
+    "about": [
+      "👨‍💻 **About Abhishek Mehta:**\n\nAbhishek is a dedicated Full-Stack Developer with a strong focus on backend development. He completed his Master's in Computer Applications from Chandigarh University in 2024 and has been working as a MERN Stack Developer since graduation.\n\n**Professional Journey:**\n• Started with a solid academic foundation in computer science\n• Specialized in backend and full-stack development\n• Gained hands-on experience with modern web technologies\n• Passionate about building scalable, efficient applications\n\n**Current Focus:**\n• Building robust backend systems\n• Exploring AI/ML integration in web applications\n• Learning DevOps and cloud technologies\n• Contributing to open source projects\n\n**What Sets Him Apart:**\n• Strong problem-solving skills\n• Attention to system performance and scalability\n• Continuous learning mindset\n• Experience across multiple technology stacks\n• Ability to work on both frontend and backend\n\n**Vision:**\nTo create innovative solutions that leverage modern technologies while maintaining focus on performance, scalability, and user experience."
+    ],
+    "default": [
+      "🤔 I'm currently running in offline mode, but I have comprehensive information about Abhishek Mehta's professional background! Here's what I can help you with:\n\n• **Skills & Technologies** - His expertise in MERN stack, Python, Go, and more\n• **Projects** - Detailed information about DAHN, Taxificient, DocuAI Pro, and other projects\n• **Experience** - His journey as a Full-Stack Developer\n• **Education** - MCA from Chandigarh University\n• **GitHub Activity** - His 42+ repositories and contributions\n• **Contact Information** - How to get in touch\n\nWhat specific aspect would you like to know more about?",
+      "💡 Even though my AI connection is temporarily unavailable, I can still provide detailed information about Abhishek's work! Try asking about:\n\n• His technical skills and expertise\n• Featured projects like DAHN or Taxificient\n• His educational background\n• GitHub repositories and contributions\n• How to contact him for opportunities\n\nWhat interests you most about his background?"
+    ],
+    "error": [
+      "⚠️ I'm experiencing some technical difficulties with my AI service, but don't worry! I have a comprehensive offline knowledge base about Abhishek Mehta that I can use to answer your questions.\n\n🔄 **What I can still help with:**\n• Detailed information about his skills and projects\n• His professional experience and education\n• GitHub activity and repositories\n• Contact information and availability\n\nPlease try asking your question again, and I'll do my best to help using my offline resources!"
+    ]
+  },
+  "quickResponses": {
+    "skills": "What are Abhishek's main technical skills?",
+    "projects": "Tell me about his featured projects",
+    "experience": "What's his professional experience?",
+    "education": "What's his educational background?",
+    "github": "Show me his GitHub activity",
+    "contact": "How can I contact Abhishek?",
+    "technologies": "What technologies does he work with?",
+    "about": "Tell me more about Abhishek"
+  },
+  "metadata": {
+    "lastUpdated": "2026-01-30",
+    "version": "1.0.0",
+    "totalResponses": 8,
+    "categories": ["skills", "experience", "projects", "education", "contact", "github", "technologies", "about"]
+  }
+}
