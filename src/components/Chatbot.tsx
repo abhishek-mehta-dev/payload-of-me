@@ -372,7 +372,7 @@ export default function Chatbot() {
               {/* Main content */}
               <div className="relative h-full flex flex-col bg-white/80 backdrop-blur-xl rounded-2xl border border-white/30 shadow-xl transition-all duration-500">
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b border-white/20 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-indigo-500/10 rounded-t-2xl">
+                <div className={`flex items-center justify-between ${isMinimized ? "p-3" : "p-4"} border-b border-white/20 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-indigo-500/10 rounded-t-2xl transition-all duration-300`}>
                   <div className="flex items-center space-x-3">
                     <motion.div
                       className="relative h-10 w-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg"
@@ -420,16 +420,18 @@ export default function Chatbot() {
                           <Zap className="h-4 w-4 text-yellow-500" />
                         </motion.div>
                       </h3>
-                      <div className="text-xs text-gray-600 flex items-center gap-1">
-                        <motion.div
-                          className={`h-2 w-2 rounded-full ${
-                            isOfflineMode ? 'bg-orange-500' : 'bg-green-500'
-                          }`}
-                          animate={{ opacity: [1, 0.3, 1] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        />
-                        {isOfflineMode ? 'Offline Mode • Knowledge Base' : 'Online • Powered by Gemini AI'}
-                      </div>
+                      {!isMinimized && (
+                        <div className="text-xs text-gray-600 flex items-center gap-1">
+                          <motion.div
+                            className={`h-2 w-2 rounded-full ${
+                              isOfflineMode ? 'bg-orange-500' : 'bg-green-500'
+                            }`}
+                            animate={{ opacity: [1, 0.3, 1] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                          />
+                          {isOfflineMode ? 'Offline Mode • Knowledge Base' : 'Online • Powered by Gemini AI'}
+                        </div>
+                      )}
                     </div>
                   </div>
 
