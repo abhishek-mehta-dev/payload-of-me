@@ -75,13 +75,15 @@ You are a helpful assistant for Abhishek Mehta's portfolio website. Here's compr
    - API integration between Node.js, Bubble.io, and Webflow
    - Automated workflows for data-driven page creation
 
-3. **Taxificient – Advanced Ride & Fleet Management** (In Progress)
-   - Sophisticated SaaS platform using Nest.js, TypeORM, React.js, Next.js
-   - Multi-passenger ride architecture with real-time dispatcher controls
-   - One-to-many and many-to-one chat system for drivers and passengers
-   - Firebase Cloud Messaging (FCM) for real-time notifications
-   - Granular permission-based authorization system
-   - PostgreSQL database with Socket.io for real-time features
+3. **Taxificient – Enterprise Mobility & Intelligent Fleet Dispatch SaaS** (In Progress)
+   - Enterprise SaaS with dynamic RBAC for drivers, passengers, and dispatchers
+   - Vehicle management: registration, maintenance scheduling, driver assignment
+   - Google Maps integration with Haversine distance calculation
+   - Dispatcher allocation with bulk assignment and real-time acceptance
+   - WebSocket-based chat (one-to-many, many-to-one) within ride contexts
+   - Firebase Cloud Messaging for lifecycle push notifications
+   - Production deployment with WebSocket debugging and secure Firebase setup
+   - Built with Nest.js, TypeORM, React.js, Next.js, PostgreSQL, Socket.io
 
 4. **DocuAI Pro** (Development)
    - AI-powered document chatbot with Retrieval-Augmented Generation (RAG)

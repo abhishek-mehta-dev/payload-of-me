@@ -114,10 +114,10 @@ export default function Projects() {
       ],
     },
     {
-      title: "Taxificient – Advanced Ride & Fleet Management",
+      title: "Taxificient – Enterprise Mobility & Intelligent Fleet Dispatch SaaS",
       description:
-        "A sophisticated SaaS platform for ride-hailing and fleet management, featuring multi-passenger ride architecture, real-time dispatcher controls, and granular permission systems.",
-      image: "/assets/images/taxificientimg.png?height=200&width=500", // Using a placeholder/suggested name
+        "Enterprise SaaS platform for large-scale ride-hailing and fleet operations with multi-passenger architecture, geo-fenced pricing, emission compliance, real-time dispatcher controls, automated shift scheduling, and granular RBAC optimizing the complete transportation lifecycle.",
+      image: "/assets/images/taxificientimg.png?height=200&width=500",
       technologies: [
         "Nest.js",
         "TypeORM",
@@ -136,12 +136,14 @@ export default function Projects() {
       shadowColor: "rgba(16, 185, 129, 0.3)",
       roles: ["Full-Stack Architect", "DevOps Engineer"],
       responsibilities: [
-        "Architected a one-to-many and many-to-one chat system allowing drivers to communicate with multiple passengers simultaneously within a single ride context.",
-        "Implemented a bulk assignment and acceptance mechanism for dispatcher-assigned rides, optimizing fleet efficiency.",
-        "Developed a centralized permission-based authorization wrapper to enforce granular access control across the frontend UI and backend APIs.",
-        "Integrated Firebase Cloud Messaging (FCM) on both client and server to handle real-time ride offers, acceptances, and status updates.",
-        "Engineered ride completion workflows with UI confirmation and automated post-ride cleanups (chat locking, status updates).",
-        "Built a robust notification history system with automated cleanup for expired records to maintain database performance.",
+        "Architected dynamic RBAC system with role-based UI components for drivers, passengers, and dispatchers",
+        "Built vehicle management system with registration, maintenance scheduling, and driver assignment workflows",
+        "Developed ride management with Google Maps integration and Haversine distance calculation",
+        "Implemented dispatcher allocation system with bulk ride assignment and real-time acceptance mechanisms",
+        "Engineered WebSocket-based chat supporting one-to-many and many-to-one messaging within ride contexts",
+        "Integrated Firebase Cloud Messaging for real-time push notifications across ride lifecycle events",
+        "Built ride completion workflows with automated post-ride cleanups and notification history management",
+        "Resolved production WebSocket deployment issues and configured Firebase server with secure file handling",
       ],
     },
 
