@@ -419,8 +419,7 @@ export default function Projects() {
             {/* Navigation Buttons */}
             <motion.button
               onClick={prevProject}
-              disabled={currentProject === 0}
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-w-[44px] min-h-[44px] touch-manipulation"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 min-w-[44px] min-h-[44px] touch-manipulation"
               whileHover={{ scale: 1.05, x: -3 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, x: -50 }}
@@ -432,8 +431,7 @@ export default function Projects() {
 
             <motion.button
               onClick={nextProject}
-              disabled={currentProject === projects.length - 1}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-w-[44px] min-h-[44px] touch-manipulation"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 min-w-[44px] min-h-[44px] touch-manipulation"
               whileHover={{ scale: 1.05, x: 3 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, x: 50 }}
