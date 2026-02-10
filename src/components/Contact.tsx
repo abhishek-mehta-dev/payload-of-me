@@ -295,6 +295,14 @@ export default function Contact() {
         from_email: formData.email,
         subject: formData.subject,
         message: formData.message,
+        submitted_on: new Date().toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        }),
         to_email: "mehtaabhishek.dev@gmail.com",
       };
 
