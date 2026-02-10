@@ -199,7 +199,7 @@ export default function Experience() {
         }}
       />
       <motion.div
-        className="absolute bottom-20 left-10 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl"
+        className="absolute bottom-20 left-10 w-32 h-32 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-2xl"
         animate={{
           scale: [1, 1.4, 1],
           opacity: [0.2, 0.5, 0.2],
@@ -213,16 +213,16 @@ export default function Experience() {
         }}
       />
 
-      <div className="container mx-auto px-4" ref={ref}>
-        <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
+        <div className="max-w-3xl sm:max-w-4xl lg:max-w-5xl mx-auto">
           {/* Section Title */}
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={titleVariants}
           >
-            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               <motion.span
                 className="inline-block"
                 whileHover={{
@@ -254,13 +254,13 @@ export default function Experience() {
               </motion.span>
             </motion.h2>
             <motion.div
-              className="w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"
+              className="w-20 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"
               initial={{ width: 0 }}
-              animate={isInView ? { width: 128 } : { width: 0 }}
+              animate={isInView ? { width: "5rem" } : { width: 0 }}
               transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
             />
             <motion.p
-              className="text-gray-600 dark:text-gray-300 mt-4 text-lg max-w-2xl mx-auto"
+              className="text-gray-600 dark:text-gray-300 mt-4 text-base sm:text-lg max-w-xl sm:max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -274,7 +274,7 @@ export default function Experience() {
           <div className="relative">
             {/* Timeline Line */}
             <motion.div
-              className="absolute left-8 top-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-blue-500 rounded-full"
+              className="absolute left-4 sm:left-6 lg:left-8 top-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-blue-500 rounded-full"
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               variants={timelineVariants}
@@ -283,7 +283,7 @@ export default function Experience() {
 
             {/* Experience Cards */}
             <motion.div
-              className="space-y-12"
+              className="space-y-8 sm:space-y-12"
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               variants={containerVariants}
@@ -291,14 +291,14 @@ export default function Experience() {
               {experiences.map((exp, index) => (
                 <motion.div
                   key={index}
-                  className="relative pl-20"
+                  className="relative pl-16 sm:pl-20"
                   variants={cardVariants}
                   custom={index}
                   whileHover={{ x: 10 }}
                 >
                   {/* Timeline Node */}
                   <motion.div
-                    className={`absolute left-4 top-8 w-8 h-8 bg-gradient-to-r ${exp.gradient} rounded-full shadow-lg border-4 border-white z-10`}
+                    className={`absolute left-2 sm:left-4 lg:left-4 top-6 sm:top-8 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r ${exp.gradient} rounded-full shadow-lg border-4 border-white z-10`}
                     whileHover={{
                       scale: 1.3,
                       boxShadow: `0 0 30px ${exp.shadowColor}`,
