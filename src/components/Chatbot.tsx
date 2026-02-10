@@ -60,11 +60,13 @@ You are a helpful assistant for Abhishek Mehta's portfolio website. Here's compr
 
 1. **DAHN – Hospice Nurse Documentation Support App** (Live)
    - Full-stack healthcare application with Next.js, Node.js, Express.js, MongoDB
-   - Role-based access control (RBAC) for Admins, Agencies, and Nurses
+   - HIPAA-compliant data encryption for Protected Health Information (PHI) in database
+   - Administrative, technical, and physical safeguards to prevent patient data breaches
+   - Role-based access control (RBAC) with audit logging for Admins, Agencies, and Nurses
    - Stripe integration for subscription billing and automated renewals
-   - Patient notes system with CRUD operations and soft-delete features
-   - Video upload functionality and automated invoice generation
-   - AWS EC2 deployment with PM2 for server management
+   - Patient notes system with secure CRUD operations and soft-delete features
+   - Secure video upload functionality and automated invoice generation
+   - AWS EC2 deployment with PM2 for server management and monitoring
 
 2. **Dynamic Landing Page & Automation Integration** (Live)
    - Node.js server integrated with Bubble.io workflows
