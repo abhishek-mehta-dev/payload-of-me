@@ -55,7 +55,6 @@ const techStack = [
   { name: "LangChain", icon: SiLangchain },
 ];
 
-
 const stats = [
   { number: "10+", label: "Fullstack Projects", icon: Code },
   { number: "1+", label: "Years Experience", icon: Award },
@@ -143,7 +142,7 @@ export default function Hero() {
 
   const titles = useMemo(
     () => ["Full Stack Developer", "Backend Engineer", "Tech Enthusiast"],
-    []
+    [],
   );
 
   // Parallax effects
@@ -291,7 +290,10 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
       {/* Animated Background with Parallax */}
       <motion.div className="absolute inset-0" style={{ y: backgroundY }}>
         {/* Base gradient layers */}
@@ -414,15 +416,15 @@ export default function Hero() {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-12 flex justify-center"
+          className="mb-8 sm:mb-10 lg:mb-12 flex justify-center"
         >
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-emerald-500/30 rounded-full shadow-lg hover:shadow-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300">
+          <div className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-emerald-500/30 rounded-full shadow-lg hover:shadow-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/50" />
               <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/50" />
               <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50" />
             </div>
-            <span className="text-emerald-600 dark:text-emerald-400 font-mono text-sm font-semibold tracking-wide">
+            <span className="text-emerald-600 dark:text-emerald-400 font-mono text-xs sm:text-sm font-semibold tracking-wide truncate">
               ~/👋 Hello, I&apos;m Abhishek Mehta
             </span>
           </div>
@@ -433,11 +435,11 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mx-auto max-w-4xl"
+          className="mx-auto max-w-2xl sm:max-w-3xl lg:max-w-4xl"
         >
-          <div className="bg-white/80 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-2xl overflow-hidden hover:shadow-cyan-500/10 hover:border-cyan-500/50 dark:hover:border-slate-600/80 transition-all duration-500">
+          <div className="bg-white/80 dark:bg-slate-900/95 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-xl sm:shadow-2xl overflow-hidden hover:shadow-cyan-500/10 hover:border-cyan-500/50 dark:hover:border-slate-600/80 transition-all duration-500">
             {/* Top bar */}
-            <div className="bg-gradient-to-r from-gray-100/90 to-gray-200/90 dark:from-slate-800/90 dark:to-slate-800/80 px-6 py-4 flex items-center justify-between border-b border-gray-200 dark:border-slate-700/50">
+            <div className="bg-gradient-to-r from-gray-100/90 to-gray-200/90 dark:from-slate-800/90 dark:to-slate-800/80 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between border-b border-gray-200 dark:border-slate-700/50">
               <div className="flex items-center gap-3">
                 <Terminal className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span className="text-gray-700 dark:text-slate-300 text-sm font-mono font-semibold">
@@ -452,9 +454,10 @@ export default function Hero() {
             </div>
 
             {/* Terminal content */}
-            <div className="p-10 font-mono space-y-6">
+            <div className="p-6 sm:p-8 lg:p-10 font-mono space-y-4 sm:space-y-6">
               <div className="text-emerald-600 dark:text-emerald-400 text-sm font-semibold tracking-wide">
-                <span className="text-cyan-600 dark:text-cyan-400">$ </span>whoami
+                <span className="text-cyan-600 dark:text-cyan-400">$ </span>
+                whoami
               </div>
 
               <div className="text-gray-900 dark:text-white text-4xl md:text-6xl font-bold tracking-tight">
@@ -463,7 +466,9 @@ export default function Hero() {
 
               {/* Animated title */}
               <div className="h-12 flex items-center">
-                <span className="text-emerald-600 dark:text-emerald-400 mr-3 text-lg">→</span>
+                <span className="text-emerald-600 dark:text-emerald-400 mr-3 text-lg">
+                  →
+                </span>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentTitle}
@@ -487,7 +492,9 @@ export default function Hero() {
                 {/* Typing animation appears on top */}
                 <div className="absolute top-0 left-0 flex items-center h-full">
                   {/* Typed text */}
-                  <span className="text-gray-800 dark:text-emerald-300">{terminalText}</span>
+                  <span className="text-gray-800 dark:text-emerald-300">
+                    {terminalText}
+                  </span>
 
                   {/* Cursor */}
                   <motion.span
@@ -516,7 +523,7 @@ export default function Hero() {
               </div>
 
               {/* Buttons - CHANGE: Enhanced button styling */}
-              <div className="flex flex-wrap gap-4 mt-10 pt-4 border-t border-gray-200 dark:border-slate-700/50">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8 sm:mt-10 pt-4 border-t border-gray-200 dark:border-slate-700/50">
                 <motion.button
                   whileHover={{ scale: 1.08, y: -3 }}
                   whileTap={{ scale: 0.95 }}
@@ -525,7 +532,7 @@ export default function Hero() {
                       .getElementById("experience")
                       ?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="px-7 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/30 hover:shadow-emerald-400/50"
+                  className="px-5 sm:px-7 py-2.5 sm:py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/30 hover:shadow-emerald-400/50 text-sm sm:text-base"
                 >
                   <Mail className="w-4 h-4" />$ contact --now
                 </motion.button>
@@ -536,7 +543,7 @@ export default function Hero() {
                   href="/assets/images/Abhishek_Mehta_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-7 py-3 border-2 border-emerald-400/60 text-emerald-300 hover:text-emerald-200 bg-emerald-500/5 hover:bg-emerald-500/15 font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/10 hover:shadow-emerald-400/30 hover:border-emerald-300"
+                  className="px-5 sm:px-7 py-2.5 sm:py-3 border-2 border-emerald-400/60 text-emerald-300 hover:text-emerald-200 bg-emerald-500/5 hover:bg-emerald-500/15 font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/10 hover:shadow-emerald-400/30 hover:border-emerald-300 text-sm sm:text-base"
                 >
                   <Download className="w-4 h-4" />$ download --resume
                 </motion.a>
@@ -547,7 +554,7 @@ export default function Hero() {
 
         {/* Social Links */}
         <motion.div
-          className="flex justify-center space-x-6 my-16"
+          className="flex justify-center space-x-4 sm:space-x-6 my-12 sm:my-16"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -577,7 +584,7 @@ export default function Hero() {
             <motion.a
               key={label}
               href={href}
-              className="group p-4 rounded-full bg-slate-800/50 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-blue-500/20 transition-all duration-300 backdrop-blur-md border border-slate-600/40 hover:border-cyan-400/60 shadow-lg hover:shadow-cyan-400/30"
+              className="group p-3 sm:p-4 rounded-full bg-slate-800/50 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-blue-500/20 transition-all duration-300 backdrop-blur-md border border-slate-600/40 hover:border-cyan-400/60 shadow-lg hover:shadow-cyan-400/30"
               aria-label={label}
               variants={scaleIn}
               custom={index}
@@ -588,14 +595,14 @@ export default function Hero() {
               }}
               whileTap={{ scale: 0.9 }}
             >
-              <Icon className="h-6 w-6 text-slate-300 group-hover:text-cyan-300 transition-all duration-300" />
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-slate-300 group-hover:text-cyan-300 transition-all duration-300" />
             </motion.a>
           ))}
         </motion.div>
 
         {/* Stats Section */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
@@ -636,28 +643,30 @@ export default function Hero() {
               >
                 {number}
               </motion.div>
-              <div className="text-sm text-gray-600 dark:text-slate-300 font-medium">{label}</div>
+              <div className="text-sm text-gray-600 dark:text-slate-300 font-medium">
+                {label}
+              </div>
             </motion.div>
           ))}
         </motion.div>
 
         {/* Tech Stack */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={containerVariants}
         >
           <motion.h3
-            className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-10 tracking-tight"
+            className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 tracking-tight"
             variants={fadeInUp}
             custom={0}
           >
             Tech Stack & Expertise
           </motion.h3>
           <motion.div
-            className="flex flex-wrap justify-center gap-4 mb-12"
+            className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 sm:mb-12"
             variants={containerVariants}
           >
             {techStack.map(({ name, icon: Icon }, index) => (
@@ -665,7 +674,7 @@ export default function Hero() {
                 key={name}
                 variants={scaleIn}
                 custom={index}
-                className="flex items-center space-x-3 px-6 py-3 bg-white/70 dark:bg-slate-800/60 backdrop-blur-md rounded-full border border-slate-200 dark:border-slate-600/50 hover:border-cyan-500/50 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-cyan-500/20"
+                className="flex items-center space-x-2 sm:space-x-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/70 dark:bg-slate-800/60 backdrop-blur-md rounded-full border border-slate-200 dark:border-slate-600/50 hover:border-cyan-500/50 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-cyan-500/20"
                 whileHover={{
                   scale: 1.12,
                   y: -8,
@@ -683,16 +692,17 @@ export default function Hero() {
                 >
                   <Icon className="text-2xl text-cyan-600 dark:text-cyan-300" />
                 </motion.div>
-                <span className="text-gray-700 dark:text-slate-200 font-semibold">{name}</span>
+                <span className="text-gray-700 dark:text-slate-200 font-semibold">
+                  {name}
+                </span>
               </motion.div>
             ))}
           </motion.div>
-
         </motion.div>
 
         {/* Services Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -703,7 +713,7 @@ export default function Hero() {
               key={title}
               variants={slideInRight}
               custom={index}
-              className="p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-md border border-slate-200 dark:border-slate-600/40 hover:border-cyan-500/50 transition-all duration-300 group shadow-lg hover:shadow-xl hover:shadow-cyan-500/15"
+              className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-md border border-slate-200 dark:border-slate-600/40 hover:border-cyan-500/50 transition-all duration-300 group shadow-lg hover:shadow-xl hover:shadow-cyan-500/15"
               whileHover={{
                 scale: 1.08,
                 y: -12,
@@ -724,10 +734,12 @@ export default function Hero() {
                   delay: index * 0.5,
                 }}
               >
-                <Icon className="h-10 w-10 text-cyan-400 mb-4 group-hover:text-cyan-300 transition-all duration-300" />
+                <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-cyan-400 mb-3 sm:mb-4 group-hover:text-cyan-300 transition-all duration-300" />
               </motion.div>
-              <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{title}</h4>
-              <p className="text-gray-600 dark:text-slate-300 text-sm font-medium">
+              <h4 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1.5 sm:mb-2">
+                {title}
+              </h4>
+              <p className="text-gray-600 dark:text-slate-300 text-xs sm:text-sm font-medium">
                 {description}
               </p>
             </motion.div>
@@ -754,8 +766,8 @@ export default function Hero() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <div className="flex flex-col items-center space-y-2 text-slate-400 hover:text-cyan-300 transition-colors duration-300">
-              <span className="text-sm font-medium">
+            <div className="flex flex-col items-center space-y-1.5 sm:space-y-2 text-slate-400 hover:text-cyan-300 transition-colors duration-300">
+              <span className="text-xs sm:text-sm font-medium">
                 <ChevronDown size={40} />
               </span>
               <motion.div
@@ -766,7 +778,7 @@ export default function Hero() {
                   ease: "easeInOut",
                 }}
               >
-                <ChevronDown className="h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
+                <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 group-hover:scale-110 transition-transform duration-300" />
               </motion.div>
             </div>
           </motion.button>

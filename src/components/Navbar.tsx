@@ -56,7 +56,7 @@ export default function Navbar() {
 
       // Special case: very top of page
       if (window.scrollY < 20) {
-        setActiveSection((prev) => prev !== "Home" ? "Home" : prev);
+        setActiveSection((prev) => (prev !== "Home" ? "Home" : prev));
         return;
       }
 
@@ -69,7 +69,9 @@ export default function Navbar() {
         if (element) {
           const rect = element.getBoundingClientRect();
           if (rect.top <= threshold) {
-            setActiveSection((prev) => (prev !== section.label ? section.label : prev));
+            setActiveSection((prev) =>
+              prev !== section.label ? section.label : prev,
+            );
             return;
           }
         }
@@ -84,7 +86,7 @@ export default function Navbar() {
   const handleSmoothScroll = (
     e: React.MouseEvent,
     href: string,
-    closeMenu = false
+    closeMenu = false,
   ) => {
     e.preventDefault();
 
@@ -92,44 +94,47 @@ export default function Navbar() {
       setIsOpen(false);
     }
 
-    setTimeout(() => {
-      setIsScrolling(true);
+    setTimeout(
+      () => {
+        setIsScrolling(true);
 
-      // Handle home link scroll to top
-      if (href === "#home" || href === "#" || href === "") {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
+        // Handle home link scroll to top
+        if (href === "#home" || href === "#" || href === "") {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+          setTimeout(() => setIsScrolling(false), 1000);
+          return;
+        }
+
+        // Clean the href to get the section ID
+        const sectionId = href.startsWith("#") ? href.substring(1) : href;
+        const target = document.getElementById(sectionId);
+
+        if (target) {
+          // Calculate exact offset
+          const rect = target.getBoundingClientRect();
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+
+          // Get actual navbar height
+          const navbar = document.querySelector("header");
+          const navbarHeight = navbar ? navbar.offsetHeight : 0;
+
+          // Calculate final scroll position with some buffer
+          const targetPosition = rect.top + scrollTop - navbarHeight - 10;
+
+          window.scrollTo({
+            top: Math.max(0, targetPosition), // Ensure we don't scroll to negative values
+            behavior: "smooth",
+          });
+        }
+
         setTimeout(() => setIsScrolling(false), 1000);
-        return;
-      }
-
-      // Clean the href to get the section ID
-      const sectionId = href.startsWith("#") ? href.substring(1) : href;
-      const target = document.getElementById(sectionId);
-
-      if (target) {
-        // Calculate exact offset
-        const rect = target.getBoundingClientRect();
-        const scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
-
-        // Get actual navbar height
-        const navbar = document.querySelector("header");
-        const navbarHeight = navbar ? navbar.offsetHeight : 0;
-
-        // Calculate final scroll position with some buffer
-        const targetPosition = rect.top + scrollTop - navbarHeight - 10;
-
-        window.scrollTo({
-          top: Math.max(0, targetPosition), // Ensure we don't scroll to negative values
-          behavior: "smooth",
-        });
-      }
-
-      setTimeout(() => setIsScrolling(false), 1000);
-    }, closeMenu ? 300 : 0);
+      },
+      closeMenu ? 300 : 0,
+    );
   };
 
   // Animation variants
@@ -313,7 +318,7 @@ export default function Navbar() {
         "fixed top-0 left-0 w-full z-50 transition-all duration-300 block",
         scrolled
           ? "backdrop-blur-xl bg-background/80 dark:bg-[#0B1120]/90 shadow-lg border-b border-border/40"
-          : "backdrop-blur-md bg-background/50 dark:bg-[#0B1120]/80"
+          : "backdrop-blur-md bg-background/50 dark:bg-[#0B1120]/80",
       )}
       initial="hidden"
       animate="visible"
@@ -327,7 +332,7 @@ export default function Navbar() {
         animate={scrolled ? "scrolled" : "initial"}
       />
 
-      <div className="container mx-auto px-4 lg:px-8 relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <motion.div variants={logoVariants}>
@@ -352,7 +357,7 @@ export default function Navbar() {
                   <a
                     href={item.href}
                     onClick={(e) => handleSmoothScroll(e, item.href)}
-                    className="relative group px-4 py-2 rounded-full text-muted-foreground font-medium hover:text-foreground transition-all duration-300 flex items-center space-x-2"
+                    className="relative group px-3 sm:px-4 py-2 rounded-full text-muted-foreground font-medium hover:text-foreground transition-all duration-300 flex items-center space-x-2 text-sm sm:text-base"
                   >
                     {/* Icon */}
                     <motion.div
@@ -365,7 +370,7 @@ export default function Navbar() {
                         ease: "easeInOut",
                       }}
                     >
-                      <item.icon className="h-4 w-4" />
+                      <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                     </motion.div>
 
                     {/* Label */}
@@ -405,16 +410,18 @@ export default function Navbar() {
           {/* Theme Toggle & Mobile Menu Button */}
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            
+
             <motion.button
-              className="md:hidden relative p-2 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300"
+              className="md:hidden relative p-3 sm:p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300 min-w-[44px] min-h-[44px] touch-manipulation"
               onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle Menu"
+              aria-label={`${isOpen ? "Close" : "Open"} Menu`}
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
               variants={buttonVariants}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className="relative w-6 h-6">
+              <div className="relative w-5 h-5 sm:w-6 sm:h-6">
                 <motion.div
                   variants={iconRotateVariants}
                   animate={isOpen ? "open" : "closed"}
@@ -457,9 +464,12 @@ export default function Navbar() {
               initial="hidden"
               animate="visible"
               exit="exit"
+              id="mobile-menu"
+              role="navigation"
+              aria-label="Mobile Navigation"
             >
               <motion.div
-                className="py-4 space-y-2 bg-background/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl mx-4 mb-4 shadow-xl border border-border/10"
+                className="py-4 sm:py-6 space-y-1 sm:space-y-2 bg-background/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl mx-2 sm:mx-4 mb-4 shadow-xl border border-border/10 max-h-[70vh] overflow-y-auto"
                 whileHover={{ scale: 1.02 }}
               >
                 {navLinks.map((item, index) => {
@@ -470,12 +480,12 @@ export default function Navbar() {
                       key={item.href}
                       href={item.href}
                       onClick={(e) => handleSmoothScroll(e, item.href, true)}
-                      className="flex items-center space-x-3 mx-4 px-4 py-3 rounded-xl text-muted-foreground font-medium hover:text-foreground hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 relative group"
+                      className="flex items-center space-x-3 sm:space-x-4 mx-3 sm:mx-4 px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-muted-foreground font-medium hover:text-foreground hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 relative group text-sm sm:text-base min-h-[44px] touch-manipulation"
                       variants={mobileItemVariants}
                       custom={index}
                       whileHover={{
-                        scale: 1.05,
-                        x: 10,
+                        scale: 1.02,
+                        x: 5,
                         boxShadow: "0 10px 30px rgba(59, 130, 246, 0.2)",
                       }}
                       whileTap={{ scale: 0.95 }}

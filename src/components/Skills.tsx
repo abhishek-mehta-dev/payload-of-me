@@ -244,7 +244,7 @@ export default function Skills() {
     >
       {/* Animated background elements */}
       <motion.div
-        className="absolute top-20 left-10 w-40 h-40 bg-blue-500/5 rounded-full blur-2xl"
+        className="absolute top-20 left-10 w-40 h-40 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-2xl"
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.3, 0.6, 0.3],
@@ -257,7 +257,7 @@ export default function Skills() {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-10 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl"
+        className="absolute bottom-20 right-10 w-32 h-32 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-2xl"
         animate={{
           scale: [1, 1.4, 1],
           opacity: [0.2, 0.5, 0.2],
@@ -271,7 +271,7 @@ export default function Skills() {
         }}
       />
       <motion.div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-green-500/3 rounded-full blur-3xl"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-green-500/3 dark:bg-green-500/10 rounded-full blur-3xl"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.1, 0.3, 0.1],
@@ -284,16 +284,16 @@ export default function Skills() {
         }}
       />
 
-      <div className="container mx-auto px-4" ref={ref}>
-        <div className="max-w-6xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
+        <div className="max-w-4xl sm:max-w-5xl lg:max-w-6xl mx-auto">
           {/* Section Title */}
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={titleVariants}
           >
-            <motion.h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
               <motion.span
                 className="inline-block"
                 whileHover={{
@@ -315,13 +315,13 @@ export default function Skills() {
               </motion.span>
             </motion.h2>
             <motion.div
-              className="w-32 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 mx-auto rounded-full"
+              className="w-20 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 mx-auto rounded-full"
               initial={{ width: 0 }}
-              animate={isInView ? { width: 128 } : { width: 0 }}
+              animate={isInView ? { width: "5rem" } : { width: 0 }}
               transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
             />
             <motion.p
-              className="text-gray-600 dark:text-gray-300 mt-4 text-lg max-w-2xl mx-auto"
+              className="text-gray-600 dark:text-gray-300 mt-4 text-base sm:text-lg max-w-xl sm:max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -333,7 +333,7 @@ export default function Skills() {
 
           {/* Skills Grid */}
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={containerVariants}
@@ -408,8 +408,11 @@ export default function Skills() {
                  bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200
                  border border-gray-200 dark:border-slate-600 hover:border-gray-300 dark:hover:border-slate-500
                  transition-all duration-300 cursor-pointer w-full justify-start overflow-hidden whitespace-nowrap"
-                            >
-                            <skill.icon color={skill.color} className="shrink-0" />
+                          >
+                            <skill.icon
+                              color={skill.color}
+                              className="shrink-0"
+                            />
                             <span className="truncate">{skill.name}</span>
                           </Badge>
                         </motion.div>

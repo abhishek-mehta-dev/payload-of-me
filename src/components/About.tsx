@@ -174,17 +174,17 @@ export default function About() {
         }}
       />
 
-      <div className="container mx-auto px-4" ref={ref}>
-        <div className="max-w-6xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
+        <div className="max-w-4xl sm:max-w-5xl lg:max-w-6xl mx-auto">
           {/* Section Title */}
           <motion.div
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={containerVariants}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4"
               variants={fadeInUp}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
@@ -211,16 +211,16 @@ export default function About() {
               </motion.span>
             </motion.h2>
             <motion.div
-              className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"
+              className="w-16 sm:w-20 lg:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"
               variants={fadeInUp}
               initial={{ width: 0 }}
-              animate={isInView ? { width: 96 } : { width: 0 }}
+              animate={isInView ? { width: "4rem" } : { width: 0 }}
               transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
             />
           </motion.div>
 
           <motion.div
-            className="grid md:grid-cols-2 gap-12 items-center"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 items-center"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={containerVariants}
