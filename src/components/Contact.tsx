@@ -22,12 +22,15 @@ import {
   AtSign,
   FileText,
   Sparkles,
+  AlertCircle,
 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 import { profile } from "@/config";
 
 export default function Contact() {
   const ref = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [formData, setFormData] = useState({
     firstName: "",
@@ -38,6 +41,7 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const mapLink = `https://maps.google.com/?q=${encodeURIComponent(
     profile.location.name,
   )}`;
@@ -277,23 +281,48 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      // EmailJS configuration
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+      // Prepare template parameters
+      const templateParams = {
+        from_name: `${formData.firstName} ${formData.lastName}`,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: "mehtaabhishek.dev@gmail.com",
+      };
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        subject: "",
-        message: "",
-      });
-    }, 3000);
+      // Send email using EmailJS
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      setIsSubmitted(true);
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      }, 3000);
+    } catch (err) {
+      console.error("Failed to send email:", err);
+      setError("Failed to send message. Please try again or email directly.");
+      setIsSubmitting(false);
+    } finally {
+      if (!error) {
+        setIsSubmitting(false);
+      }
+    }
   };
 
   return (
@@ -536,13 +565,13 @@ export default function Contact() {
               >
                 <motion.div className="flex items-center">
                   <motion.div variants={iconFloat} animate="animate">
-                    <Clock className="h-5 w-5 text-green-600 mr-3" />
+                    <Clock className="h-5 w-5 text-green-600 dark:text-green-400 mr-3" />
                   </motion.div>
                   <div>
-                    <p className="text-sm font-medium text-green-800">
+                    <p className="text-sm font-medium text-green-800 dark:text-green-300">
                       Quick Response
                     </p>
-                    <p className="text-xs text-green-600">
+                    <p className="text-xs text-green-600 dark:text-green-400">
                       Usually responds within 24 hours
                     </p>
                   </div>
@@ -559,7 +588,7 @@ export default function Contact() {
                   boxShadow: "0 25px 50px rgba(0, 0, 0, 0.1)",
                 }}
               >
-                <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm overflow-hidden relative">
+                <Card className="shadow-xl border-0 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm overflow-hidden relative">
                   {/* Card glow effect */}
                   <motion.div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -578,7 +607,7 @@ export default function Contact() {
                         <Send className="h-6 w-6 text-white" />
                       </motion.div>
                       <motion.span
-                        className="text-gray-800 font-bold"
+                        className="text-gray-800 dark:text-white font-bold"
                         whileHover={{
                           color: "#3B82F6",
                           transition: { duration: 0.3 },
@@ -591,12 +620,26 @@ export default function Contact() {
 
                   <CardContent className="relative">
                     <motion.form
+                      ref={formRef}
                       onSubmit={handleSubmit}
                       className="space-y-6"
                       initial="hidden"
                       animate={isInView ? "visible" : "hidden"}
                       variants={containerVariants}
                     >
+                      {/* Error Message */}
+                      {error && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start"
+                        >
+                          <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+                          <p className="text-sm text-red-700 dark:text-red-400">
+                            {error}
+                          </p>
+                        </motion.div>
+                      )}
                       {/* Name Fields */}
                       <motion.div className="grid grid-cols-2 gap-4">
                         <motion.div
@@ -612,7 +655,7 @@ export default function Contact() {
                               placeholder="First Name"
                               value={formData.firstName}
                               onChange={handleInputChange}
-                              className="pl-10 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 bg-white/80"
+                              className="pl-10 border-2 border-gray-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-300 !bg-white dark:!bg-slate-700 !text-gray-900 dark:!text-white placeholder:!text-gray-400 dark:placeholder:!text-gray-400"
                               required
                             />
                           </div>
@@ -630,7 +673,7 @@ export default function Contact() {
                               placeholder="Last Name"
                               value={formData.lastName}
                               onChange={handleInputChange}
-                              className="pl-10 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 bg-white/80"
+                              className="pl-10 border-2 border-gray-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-300 !bg-white dark:!bg-slate-700 !text-gray-900 dark:!text-white placeholder:!text-gray-400 dark:placeholder:!text-gray-400"
                               required
                             />
                           </div>
@@ -652,7 +695,7 @@ export default function Contact() {
                             placeholder="Email Address"
                             value={formData.email}
                             onChange={handleInputChange}
-                            className="pl-10 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 bg-white/80"
+                            className="pl-10 border-2 border-gray-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-300 !bg-white dark:!bg-slate-700 !text-gray-900 dark:!text-white placeholder:!text-gray-400 dark:placeholder:!text-gray-400"
                             required
                           />
                         </div>
@@ -672,7 +715,7 @@ export default function Contact() {
                             placeholder="Subject"
                             value={formData.subject}
                             onChange={handleInputChange}
-                            className="pl-10 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 bg-white/80"
+                            className="pl-10 border-2 border-gray-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-300 !bg-white dark:!bg-slate-700 !text-gray-900 dark:!text-white placeholder:!text-gray-400 dark:placeholder:!text-gray-400"
                             required
                           />
                         </div>
@@ -693,7 +736,7 @@ export default function Contact() {
                             rows={5}
                             value={formData.message}
                             onChange={handleInputChange}
-                            className="pl-10 border-2 border-gray-200 focus:border-blue-500 transition-all duration-300 resize-none bg-white/80"
+                            className="pl-10 border-2 border-gray-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-300 resize-none !bg-white dark:!bg-slate-700 !text-gray-900 dark:!text-white placeholder:!text-gray-400 dark:placeholder:!text-gray-400"
                             required
                           />
                         </div>
@@ -798,7 +841,7 @@ export default function Contact() {
               >
                 <MessageCircle className="h-6 w-6 text-blue-500" />
               </motion.div>
-              <span className="text-gray-700 font-semibold text-lg">
+              <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg">
                 Let&apos;s Build Something Amazing Together
               </span>
               <motion.div
