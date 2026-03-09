@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import { ThemeProvider } from "@/components/theme-provider";
+import { supabase } from "@/lib/supabase";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  // Check if there are any published blogs to show in the navbar
+  const { count } = await supabase
+    .from('blogs')
+    .select('*', { count: 'exact', head: true })
+    .eq('published', true);
+    
+  const hasBlogs = count ? count > 0 : false;
+
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={inter.className}>
@@ -34,7 +43,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
+          <Navbar hasBlogs={hasBlogs} />
           <main className="pt-20">{children}</main>
           <Footer />
           <Chatbot />

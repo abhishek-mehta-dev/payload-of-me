@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -18,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Image from "next/image";
 
 interface Message {
   id: string;
@@ -124,6 +126,7 @@ Please answer questions about Abhishek's background, skills, experience, and pro
 `;
 
 export default function Chatbot() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -253,6 +256,11 @@ export default function Chatbot() {
     "Show me his GitHub activity",
   ];
 
+  // Hide component completely on admin routes
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <>
       {/* Floating Chat Button */}
@@ -361,10 +369,12 @@ export default function Chatbot() {
               }}
             >
               <div className="relative h-12 w-12 rounded-full overflow-hidden bg-white/10 shadow-inner border border-white/20">
-                <img
+                <Image
                   src="/assets/robo-teddy.png"
                   alt="AI Assistant"
-                  className="h-full w-full object-cover transform hover:scale-110 transition-transform duration-300"
+                  fill
+                  sizes="48px"
+                  className="object-cover transform hover:scale-110 transition-transform duration-300"
                 />
               </div>
             </motion.div>

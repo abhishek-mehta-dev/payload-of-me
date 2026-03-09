@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   motion,
   AnimatePresence,
@@ -17,22 +17,28 @@ import {
   Briefcase,
   FolderOpen,
   Mail,
+  PenTool
 } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
 import NavbarLogo from "./NavbarLogo";
 import { ThemeToggle } from "./ThemeToggle";
 
-const navLinks = [
-  { label: "Home", href: "#home", icon: Home },
-  { label: "About", href: "#about", icon: User },
-  { label: "Skills", href: "#skills", icon: Code },
-  { label: "Experience", href: "#experience", icon: Briefcase },
-  { label: "Projects", href: "#projects", icon: FolderOpen },
-  { label: "Contact", href: "#contact", icon: Mail },
-];
+interface NavbarProps {
+  hasBlogs?: boolean;
+}
 
-export default function Navbar() {
+export default function Navbar({ hasBlogs = false }: NavbarProps) {
+  const navLinks = useMemo(() => [
+    { label: "Home", href: "/#home", icon: Home },
+    { label: "About", href: "/#about", icon: User },
+    { label: "Skills", href: "/#skills", icon: Code },
+    { label: "Experience", href: "/#experience", icon: Briefcase },
+    { label: "Projects", href: "/#projects", icon: FolderOpen },
+    ...(hasBlogs ? [{ label: "Blogs", href: "/blogs", icon: PenTool }] : []),
+    { label: "Contact", href: "/#contact", icon: Mail },
+  ], [hasBlogs]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("Home");
@@ -50,20 +56,30 @@ export default function Navbar() {
 
       const threshold = 180;
       const sections = navLinks.map((link) => ({
-        id: link.href.replace("#", ""),
+        id: link.href.replace("/#", "").replace("/", ""), // handle both page links and hashes
         label: link.label,
+        href: link.href
       }));
 
       // Special case: very top of page
       if (window.scrollY < 20) {
-        setActiveSection((prev) => (prev !== "Home" ? "Home" : prev));
+        // Only set Home as active if we are actually on the home page path
+        if (window.location.pathname === '/') {
+           setActiveSection((prev) => (prev !== "Home" ? "Home" : prev));
+        } else {
+           // If we're on /blogs etc, check pathname
+           const currentPath = window.location.pathname;
+           if (currentPath.startsWith('/blogs')) {
+             setActiveSection('Blogs');
+           }
+        }
         return;
       }
 
       // Check sections from bottom to top to find the first one that has passed the threshold
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
-        if (!section.id) continue;
+        if (!section.id || section.href.startsWith('/blogs')) continue; 
 
         const element = document.getElementById(section.id);
         if (element) {
@@ -79,8 +95,10 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
+    // Initial check on mount
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isScrolling]);
+  }, [isScrolling, navLinks]); // Added navLinks dependency
 
   // Fixed smooth scroll function with proper offset calculation
   const handleSmoothScroll = (
@@ -88,53 +106,68 @@ export default function Navbar() {
     href: string,
     closeMenu = false,
   ) => {
-    e.preventDefault();
 
     if (closeMenu) {
       setIsOpen(false);
     }
-
-    setTimeout(
-      () => {
-        setIsScrolling(true);
-
-        // Handle home link scroll to top
-        if (href === "#home" || href === "#" || href === "") {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-          setTimeout(() => setIsScrolling(false), 1000);
-          return;
+    
+    // If it's not a hash link (e.g. /blogs), let the default navigation happen
+    if (!href.includes('#')) {
+       return;
+    }
+    
+    // Only prevent default for hash links on the same page
+    if (window.location.pathname === '/' || href.startsWith('/#')) {
+        e.preventDefault();
+        
+        // If we are NOT on the homepage, but clicking a hash link, we need to navigate to homepage first
+        if (window.location.pathname !== '/' && href.startsWith('/#')) {
+            window.location.href = href;
+            return;
         }
 
-        // Clean the href to get the section ID
-        const sectionId = href.startsWith("#") ? href.substring(1) : href;
-        const target = document.getElementById(sectionId);
+        setTimeout(
+          () => {
+            setIsScrolling(true);
 
-        if (target) {
-          // Calculate exact offset
-          const rect = target.getBoundingClientRect();
-          const scrollTop =
-            window.pageYOffset || document.documentElement.scrollTop;
+            // Handle home link scroll to top
+            if (href === "/#home" || href === "#" || href === "") {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+              setTimeout(() => setIsScrolling(false), 1000);
+              return;
+            }
 
-          // Get actual navbar height
-          const navbar = document.querySelector("header");
-          const navbarHeight = navbar ? navbar.offsetHeight : 0;
+            // Clean the href to get the section ID
+            const sectionId = href.split("#")[1];
+            const target = document.getElementById(sectionId);
 
-          // Calculate final scroll position with some buffer
-          const targetPosition = rect.top + scrollTop - navbarHeight - 10;
+            if (target) {
+              // Calculate exact offset
+              const rect = target.getBoundingClientRect();
+              const scrollTop =
+                window.pageYOffset || document.documentElement.scrollTop;
 
-          window.scrollTo({
-            top: Math.max(0, targetPosition), // Ensure we don't scroll to negative values
-            behavior: "smooth",
-          });
-        }
+              // Get actual navbar height
+              const navbar = document.querySelector("header");
+              const navbarHeight = navbar ? navbar.offsetHeight : 0;
 
-        setTimeout(() => setIsScrolling(false), 1000);
-      },
-      closeMenu ? 300 : 0,
-    );
+              // Calculate final scroll position with some buffer
+              const targetPosition = rect.top + scrollTop - navbarHeight - 10;
+
+              window.scrollTo({
+                top: Math.max(0, targetPosition), // Ensure we don't scroll to negative values
+                behavior: "smooth",
+              });
+            }
+
+            setTimeout(() => setIsScrolling(false), 1000);
+          },
+          closeMenu ? 300 : 0,
+        );
+    }
   };
 
   // Animation variants
