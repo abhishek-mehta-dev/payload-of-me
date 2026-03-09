@@ -85,3 +85,21 @@ export async function saveBlog(data: {
   revalidatePath('/blogs');
   return { success: true };
 }
+
+export async function togglePublishBlog(id: number, currentStatus: boolean) {
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) throw new Error('Unauthorized');
+
+  const { error } = await supabase
+    .from('blogs')
+    .update({ published: !currentStatus })
+    .eq('id', id);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath('/admin');
+  revalidatePath('/blogs');
+  return { success: true };
+}

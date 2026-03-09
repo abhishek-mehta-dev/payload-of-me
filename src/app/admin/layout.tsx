@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard | Payload',
@@ -12,6 +13,17 @@ export default function AdminLayout({
 }) {
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-50 p-4 md:p-8 font-sans">
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: '#171717',
+            color: '#f5f5f5',
+            border: '1px solid #262626',
+            marginTop: '20px',
+          },
+        }}
+      />
       <div className="max-w-5xl mx-auto">
         <header className="mb-8 flex items-center justify-between border-b border-neutral-800 pb-4">
           <h1 className="text-2xl font-bold tracking-tight">Admin Dashboard</h1>

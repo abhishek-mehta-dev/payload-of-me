@@ -1,7 +1,8 @@
-import { checkAuth, getBlogs, logoutAction, deleteBlog } from './actions';
+import { checkAuth, getBlogs, logoutAction } from './actions';
 import LoginForm from './LoginForm';
 import Link from 'next/link';
-import { PlusIcon, TrashIcon, PencilIcon, LogOutIcon } from 'lucide-react';
+import { PlusIcon, LogOutIcon } from 'lucide-react';
+import { ActionButtons } from './ActionButtons';
 
 export default async function AdminPage() {
   const isAuthenticated = await checkAuth();
@@ -65,22 +66,7 @@ export default async function AdminPage() {
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <form
-                  action={async () => {
-                    'use server';
-                    await deleteBlog(blog.id);
-                  }}
-                >
-                  <button
-                    type="submit"
-                    className="p-2 text-neutral-500 hover:text-red-400 hover:bg-red-400/10 rounded-md transition"
-                    title="Delete post"
-                  >
-                    <TrashIcon size={18} />
-                  </button>
-                </form>
-              </div>
+              <ActionButtons blog={blog} />
             </div>
           ))}
         </div>
