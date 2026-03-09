@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useState } from 'react';
+import { useState } from 'react';
 import { loginAction } from './actions';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -23,7 +23,7 @@ export default function LoginForm() {
       } else {
         router.refresh();
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred.');
     } finally {
       setIsPending(false);

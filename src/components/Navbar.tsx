@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   motion,
   AnimatePresence,
@@ -29,7 +29,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ hasBlogs = false }: NavbarProps) {
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { label: "Home", href: "/#home", icon: Home },
     { label: "About", href: "/#about", icon: User },
     { label: "Skills", href: "/#skills", icon: Code },
@@ -37,7 +37,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
     { label: "Projects", href: "/#projects", icon: FolderOpen },
     ...(hasBlogs ? [{ label: "Blogs", href: "/blogs", icon: PenTool }] : []),
     { label: "Contact", href: "/#contact", icon: Mail },
-  ];
+  ], [hasBlogs]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

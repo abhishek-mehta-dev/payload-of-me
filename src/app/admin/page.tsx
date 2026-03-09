@@ -48,7 +48,7 @@ export default async function AdminPage() {
         </div>
       ) : (
         <div className="grid gap-4">
-          {blogs.map((blog: any) => (
+          {blogs.map((blog: { id: number; title: string; created_at: string; published: boolean }) => (
             <div
               key={blog.id}
               className="flex items-center justify-between p-4 border border-neutral-800 rounded-xl bg-neutral-900/50"

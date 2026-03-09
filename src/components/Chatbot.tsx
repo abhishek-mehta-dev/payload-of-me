@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Image from "next/image";
 
 interface Message {
   id: string;
@@ -147,11 +148,6 @@ export default function Chatbot() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
-  // Hide component completely on admin routes
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
-
   useEffect(() => {
     // Start wandering only if not open and not hovering
     if (isOpen || isHovering) {
@@ -259,6 +255,11 @@ export default function Chatbot() {
     "What's his professional experience?",
     "Show me his GitHub activity",
   ];
+
+  // Hide component completely on admin routes
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <>
@@ -368,10 +369,12 @@ export default function Chatbot() {
               }}
             >
               <div className="relative h-12 w-12 rounded-full overflow-hidden bg-white/10 shadow-inner border border-white/20">
-                <img
+                <Image
                   src="/assets/robo-teddy.png"
                   alt="AI Assistant"
-                  className="h-full w-full object-cover transform hover:scale-110 transition-transform duration-300"
+                  fill
+                  sizes="48px"
+                  className="object-cover transform hover:scale-110 transition-transform duration-300"
                 />
               </div>
             </motion.div>

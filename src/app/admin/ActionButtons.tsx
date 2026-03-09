@@ -5,7 +5,14 @@ import { deleteBlog, togglePublishBlog } from './actions';
 import { TrashIcon, GlobeIcon, EyeOffIcon } from 'lucide-react';
 import { useState } from 'react';
 
-export function ActionButtons({ blog }: { blog: any }) {
+type BlogType = {
+  id: number;
+  title: string;
+  published: boolean;
+  created_at: string;
+};
+
+export function ActionButtons({ blog }: { blog: BlogType }) {
   const [isPublishing, setIsPublishing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -30,8 +37,8 @@ export function ActionButtons({ blog }: { blog: any }) {
                 const res = await togglePublishBlog(blog.id, blog.published);
                 if (res.error) throw new Error(res.error);
                 toast.success(`Post ${action}ed successfully`);
-              } catch (err: any) {
-                toast.error(`Failed to ${action}: ${err.message}`);
+              } catch (err) {
+                toast.error(`Failed to ${action}: ${err instanceof Error ? err.message : String(err)}`);
               } finally {
                 setIsPublishing(false);
               }
@@ -65,8 +72,8 @@ export function ActionButtons({ blog }: { blog: any }) {
                 const res = await deleteBlog(blog.id);
                 if (res.error) throw new Error(res.error);
                 toast.success('Post deleted successfully');
-              } catch (err: any) {
-                toast.error(`Failed to delete: ${err.message}`);
+              } catch (err) {
+                toast.error(`Failed to delete: ${err instanceof Error ? err.message : String(err)}`);
               } finally {
                 setIsDeleting(false);
               }

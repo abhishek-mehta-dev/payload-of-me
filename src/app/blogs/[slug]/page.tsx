@@ -71,7 +71,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
-              a: ({ node, ...props }) => (
+              a: ({ node: _node, ...props }) => (
                 <a {...props} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline decoration-blue-500/30 underline-offset-2" />
               ),
             }}

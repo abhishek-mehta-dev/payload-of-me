@@ -5,7 +5,15 @@ import { useRef } from "react";
 import Link from 'next/link';
 import { ArrowRightIcon, BookOpen } from 'lucide-react';
 
-export default function BlogsList({ blogs }: { blogs: any[] }) {
+type BlogType = {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  created_at: string;
+};
+
+export default function BlogsList({ blogs }: { blogs: BlogType[] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
 

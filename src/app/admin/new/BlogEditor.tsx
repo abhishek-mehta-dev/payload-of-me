@@ -60,7 +60,7 @@ export default function BlogEditor() {
         router.push('/admin');
         router.refresh();
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred.');
     } finally {
       setIsPending(false);
