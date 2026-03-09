@@ -53,13 +53,20 @@ Built with modern web technologies and production-grade practices, this portfoli
 - **Dark Mode Support** - Fully styled for both themes
 - **Responsive Layout** - Works on all screen sizes
 
+### 📝 Dynamic Blog System (No Backend Required)
+- **Serverless Architecture** - Uses Supabase and Next.js Server Actions
+- **Admin Dashboard** - Password-protected Markdown editor
+- **Live Preview & Rendering** - React Markdown with GFM support
+- **Zero Ongoing Cost** - Runs 24/7 on free-tier serverless infrastructure
+
 ### 📂 Sections
 1. **Hero** - Introduction with animated elements
 2. **About** - Professional background and philosophy
 3. **Skills** - Technical expertise showcase
 4. **Experience** - Career journey and roles
 5. **Projects** - Featured work with detailed descriptions
-6. **Contact** - Get in touch form with social links
+6. **Blogs** - Dynamic serverless blog rendering
+7. **Contact** - Get in touch form with social links
 
 ---
 
@@ -78,6 +85,9 @@ Built with modern web technologies and production-grade practices, this portfoli
 - **Email**: EmailJS Browser SDK
 - **Fallback**: Custom JSON-based response system
 - **GitHub API**: Real-time data fetching
+
+### Database & Storage
+- **Database**: Supabase (Serverless Postgres)
 
 ### Development Tools
 - **Linting**: ESLint 9
@@ -116,6 +126,13 @@ GEMINI_API_KEY=your_gemini_api_key_here
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Admin Dashboard
+ADMIN_PASSWORD=your_secure_password
 ```
 
 ### Run Development Server
@@ -179,6 +196,10 @@ export const profile = {
 };
 ```
 
+### 4. Blog & Supabase Setup
+
+For detailed instructions on setting up the serverless blog architecture and your Supabase database, please refer to the dedicated [Blog Setup Guide](BLOG_SETUP.md).
+
 ---
 
 ## 📁 Project Structure
@@ -190,8 +211,10 @@ payload-of-me/
 │       └── images/          # Project images and assets
 ├── src/
 │   ├── app/
+│   │   ├── admin/           # Blog admin dashboard (protected)
 │   │   ├── api/
 │   │   │   └── chat/        # Chatbot API route
+│   │   ├── blogs/           # Public blog listings and articles
 │   │   ├── coming-soon/     # Coming soon page
 │   │   ├── oops/            # Error page
 │   │   ├── favicon.ico
@@ -202,6 +225,7 @@ payload-of-me/
 │   ├── components/
 │   │   ├── ui/              # Reusable UI components
 │   │   ├── About.tsx
+│   │   ├── BlogsSection.tsx # Recent blogs component
 │   │   ├── Chatbot.tsx      # AI chatbot component
 │   │   ├── Contact.tsx      # Contact form
 │   │   ├── Experience.tsx
@@ -218,6 +242,7 @@ payload-of-me/
 │   │   ├── fallback.ts      # Fallback service
 │   │   └── github.ts        # GitHub API integration
 │   ├── lib/
+│   │   ├── supabase.ts      # Database client
 │   │   └── utils.ts         # Utility functions
 │   └── config.ts            # Site configuration
 ├── .env.local               # Environment variables (create this)
@@ -227,6 +252,7 @@ payload-of-me/
 ├── tailwind.config.ts       # Tailwind configuration
 ├── tsconfig.json            # TypeScript configuration
 ├── package.json
+├── BLOG_SETUP.md            # Blog module instructions
 └── README.md
 ```
 
@@ -269,6 +295,16 @@ Features:
 - Responsive design
 - Book-flip animations
 
+### Dynamic Serverless Blog
+**Location**: `src/app/blogs/page.tsx` & `src/app/admin/page.tsx`
+
+Features:
+- Supabase PostgreSQL integration
+- Next.js Server Actions rendering
+- Custom Markdown editor
+- Auth-protected dashboard route
+- Native GitHub Flavored Markdown styling
+
 ---
 
 ## 🚢 Deployment
@@ -283,6 +319,9 @@ Features:
    - `NEXT_PUBLIC_EMAILJS_SERVICE_ID`
    - `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`
    - `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `ADMIN_PASSWORD`
 5. Deploy!
 
 ### Deploy to Netlify
@@ -378,6 +417,11 @@ npm run type-check
 3. Ensure template uses: `{{from_name}}`, `{{from_email}}`, `{{subject}}`, `{{message}}`, `{{submitted_on}}`
 4. Check browser console for errors
 
+### Blog / Supabase Issues
+1. Verify `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local`
+2. Check if the `blogs` table is properly created in Supabase SQL Editor.
+3. Validate `ADMIN_PASSWORD` is correctly spelling in the environment variable for logging into the `/admin` portal.
+
 ### Dark Mode Issues
 1. Clear browser cache
 2. Check if theme toggle is working
@@ -416,6 +460,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Radix UI](https://www.radix-ui.com/) - Unstyled UI primitives
 - [Google Gemini](https://ai.google.dev/) - AI integration
 - [EmailJS](https://www.emailjs.com/) - Email service
+- [Supabase](https://supabase.com/) - Serverless Database
 - [Lucide](https://lucide.dev/) - Icon library
 
 ---
@@ -445,7 +490,7 @@ Contributions, issues, and feature requests are welcome!
 
 ## 🔮 Future Enhancements
 
-- [ ] Blog section with MDX support
+- [x] Blog section with Markdown support
 - [ ] Project filtering and search
 - [ ] Analytics dashboard
 - [ ] Multi-language support
