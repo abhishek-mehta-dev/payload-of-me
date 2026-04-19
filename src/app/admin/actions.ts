@@ -86,6 +86,23 @@ export async function saveBlog(data: {
   return { success: true };
 }
 
+export async function updateBlog(
+  id: number,
+  data: { title: string; slug: string; excerpt: string; content: string; published: boolean }
+) {
+  const isAuthenticated = await checkAuth();
+  if (!isAuthenticated) throw new Error('Unauthorized');
+
+  const { error } = await supabase.from('blogs').update(data).eq('id', id);
+
+  if (error) return { error: error.message };
+
+  revalidatePath('/admin');
+  revalidatePath('/blogs');
+  revalidatePath(`/blogs/${data.slug}`);
+  return { success: true };
+}
+
 export async function togglePublishBlog(id: number, currentStatus: boolean) {
   const isAuthenticated = await checkAuth();
   if (!isAuthenticated) throw new Error('Unauthorized');
