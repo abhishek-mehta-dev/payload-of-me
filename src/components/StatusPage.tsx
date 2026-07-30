@@ -92,7 +92,7 @@ export default function StatusPage({
           </div>
 
           <p className="mt-10 font-mono text-xs text-muted-foreground/70">
-            // abhishek.mehta — portfolio runtime
+            {"// abhishek.mehta — portfolio runtime"}
           </p>
         </div>
       </div>
