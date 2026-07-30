@@ -1,10 +1,7 @@
 "use client";
 
-import { VscAzure } from "react-icons/vsc";
-import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { VscAzure } from "react-icons/vsc";
 import { Code, Database, Server, Brain, Wrench } from "lucide-react";
 import {
   SiPython,
@@ -35,461 +32,183 @@ import {
   SiOpenai,
   SiNestjs,
 } from "react-icons/si";
+import { gsap, useGSAP } from "@/lib/gsap";
+import SectionHeading from "@/components/SectionHeading";
+
+const skillCategories = [
+  {
+    title: "Programming Languages",
+    icon: Code,
+    skills: [
+      { name: "Python", icon: SiPython, color: "#3776AB" },
+      { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+      { name: "Go", icon: SiGo, color: "#00ADD8" },
+      { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+      { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
+    ],
+  },
+  {
+    title: "Frameworks & Libraries",
+    icon: Server,
+    skills: [
+      { name: "Express.js", icon: SiExpress, color: "#888888" },
+      { name: "Nest.js", icon: SiNestjs, color: "#e73665" },
+      { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+      { name: "Django", icon: SiDjango, color: "#44B78B" },
+      { name: "Django Rest Framework", icon: SiDjango, color: "#A30000" },
+      { name: "React.js", icon: SiReact, color: "#61DAFB" },
+      { name: "Next.js", icon: SiNextdotjs, color: "#888888" },
+      { name: "FastAPI", icon: SiFastapi, color: "#009688" },
+      { name: "LangChain", icon: SiLangchain, color: "#0FA958" },
+    ],
+  },
+  {
+    title: "Database Management",
+    icon: Database,
+    skills: [
+      { name: "SQL", icon: SiMysql, color: "#336791" },
+      { name: "NoSQL", icon: SiMongodb, color: "#47A248" },
+      { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+      { name: "PostgreSQL", icon: SiPostgresql, color: "#336791" },
+      { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+    ],
+  },
+  {
+    title: "API Development",
+    icon: Wrench,
+    skills: [
+      { name: "RESTful Services", icon: SiOpenapiinitiative, color: "#6BA539" },
+      {
+        name: "Third-party API Integrations",
+        icon: SiApollographql,
+        color: "#7c62d1",
+      },
+    ],
+  },
+  {
+    title: "Server & Infrastructure",
+    icon: Server,
+    skills: [
+      { name: "Linux Fundamentals", icon: SiLinux, color: "#FFD41F" },
+      { name: "Nginx", icon: SiNginx, color: "#009639" },
+      { name: "Docker", icon: SiDocker, color: "#2496ED" },
+      { name: "Github Actions", icon: SiGithubactions, color: "#2088FF" },
+    ],
+  },
+  {
+    title: "Emerging Technologies",
+    icon: Brain,
+    skills: [
+      { name: "Machine Learning Basics", icon: SiTensorflow, color: "#FF6F00" },
+      { name: "DevOps Tools", icon: SiKubernetes, color: "#326CE5" },
+      { name: "AI Agents", icon: SiOpenai, color: "#8f7bd8" },
+      { name: "AWS", icon: SiAwsamplify, color: "#FF9900" },
+      { name: "Azure", icon: VscAzure, color: "#0078D4" },
+      { name: "GCP", icon: SiGooglecloud, color: "#4285F4" },
+    ],
+  },
+];
+
 export default function Skills() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const rootRef = useRef<HTMLElement>(null);
 
-  const skillCategories = [
-    {
-      title: "Programming Languages",
-      icon: Code,
-      skills: [
-        { name: "Python", icon: SiPython, color: "#3776AB" },
-        { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-        { name: "Go", icon: SiGo, color: "#00ADD8" },
-        { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-        { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
-      ],
-      color: "bg-blue-500",
-      hoverColor: "#3B82F6",
-      gradient: "from-blue-500 to-blue-600",
-      shadowColor: "rgba(59, 130, 246, 0.3)",
-    },
+  useGSAP(
+    () => {
+      gsap.utils.toArray<HTMLElement>(".skill-card").forEach((card, i) => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: card, start: "top 85%", once: true },
+        });
+        tl.from(card, {
+          opacity: 0,
+          y: 60,
+          duration: 0.7,
+          delay: (i % 3) * 0.1,
+          ease: "power3.out",
+        }).from(
+          card.querySelectorAll(".skill-badge"),
+          {
+            opacity: 0,
+            y: 14,
+            scale: 0.92,
+            stagger: 0.045,
+            duration: 0.35,
+            ease: "power2.out",
+          },
+          "-=0.25",
+        );
+      });
 
-    {
-      title: "Frameworks & Libraries",
-      icon: Server,
-      skills: [
-        { name: "Express.js", icon: SiExpress, color: "#000000" },
-        { name: "Nest.js", icon: SiNestjs, color: "#e73665" },
-        { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
-        { name: "Django", icon: SiDjango, color: "#092E20" },
-        { name: "Django Rest Framework", icon: SiDjango, color: "#A30000" },
-        { name: "React.js", icon: SiReact, color: "#61DAFB" },
-        { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
-        { name: "FastAPI", icon: SiFastapi, color: "#009688" },
-        { name: "LangChain", icon: SiLangchain, color: "#0FA958" },
-      ],
-      color: "bg-green-500",
-      hoverColor: "#22C55E",
-      gradient: "from-green-500 to-green-600",
-      shadowColor: "rgba(34, 197, 94, 0.3)",
+      gsap.from(".skills-pill", {
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        ease: "power3.out",
+        scrollTrigger: { trigger: ".skills-pill", start: "top 92%", once: true },
+      });
     },
-    {
-      title: "Database Management",
-      icon: Database,
-      skills: [
-        { name: "SQL", icon: SiMysql, color: "#336791" },
-        { name: "NoSQL", icon: SiMongodb, color: "#47A248" },
-        { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
-        { name: "PostgreSQL", icon: SiPostgresql, color: "#336791" },
-        { name: "MySQL", icon: SiMysql, color: "#4479A1" },
-      ],
-      color: "bg-purple-500",
-      hoverColor: "#9333EA",
-      gradient: "from-purple-500 to-purple-600",
-      shadowColor: "rgba(147, 51, 234, 0.3)",
-    },
-    {
-      title: "API Development",
-      icon: Wrench,
-      skills: [
-        {
-          name: "RESTful Services",
-          icon: SiOpenapiinitiative,
-          color: "#6BA539",
-        },
-        {
-          name: "Third-party API Integrations",
-          icon: SiApollographql,
-          color: "#311C87",
-        },
-      ],
-      color: "bg-orange-500",
-      hoverColor: "#F97316",
-      gradient: "from-orange-500 to-orange-600",
-      shadowColor: "rgba(249, 115, 22, 0.3)",
-    },
-    {
-      title: "Server & Infrastructure",
-      icon: Server,
-      skills: [
-        { name: "Linux Fundamentals", icon: SiLinux, color: "#FFD41F" },
-        { name: "Nginx", icon: SiNginx, color: "#009639" },
-        { name: "Docker", icon: SiDocker, color: "#2496ED" },
-        { name: "Github Actions", icon: SiGithubactions, color: "#2088FF" },
-      ],
-      color: "bg-red-500",
-      hoverColor: "#EF4444",
-      gradient: "from-red-500 to-red-600",
-      shadowColor: "rgba(239, 68, 68, 0.3)",
-    },
-
-    {
-      title: "Emerging Technologies",
-      icon: Brain,
-      skills: [
-        {
-          name: "Machine Learning Basics",
-          icon: SiTensorflow,
-          color: "#FF6F00",
-        },
-        { name: "DevOps Tools", icon: SiKubernetes, color: "#326CE5" },
-        { name: "AI Agents", icon: SiOpenai, color: "#412991" },
-        { name: "AWS", icon: SiAwsamplify, color: "#FF9900" },
-        { name: "Azure", icon: VscAzure, color: "#0078D4" },
-        { name: "GCP", icon: SiGooglecloud, color: "#4285F4" },
-      ],
-      color: "bg-indigo-500",
-      hoverColor: "#6366F1",
-      gradient: "from-indigo-500 to-indigo-600",
-      shadowColor: "rgba(99, 102, 241, 0.3)",
-    },
-  ];
-
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const cardVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 80,
-      scale: 0.8,
-      rotateX: -15,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotateX: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        type: "spring",
-        stiffness: 100,
-      },
-    }),
-  };
-
-  const badgeVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      scale: 0,
-      y: 20,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.05,
-        duration: 0.5,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 200,
-      },
-    }),
-  };
-  const titleVariants: Variants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 100,
-      },
-    },
-  };
-
-  const iconFloat: Variants = {
-    animate: {
-      y: [0, -8, 0],
-      rotate: [0, 5, -5, 0],
-      transition: {
-        duration: 4,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      },
-    },
-  };
-
-  const pulseAnimation: Variants = {
-    animate: {
-      scale: [1, 1.05, 1],
-      transition: {
-        duration: 2,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      },
-    },
-  };
+    { scope: rootRef },
+  );
 
   return (
     <section
       id="skills"
-      className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-blue-900/10 relative overflow-hidden"
+      ref={rootRef}
+      className="section-responsive relative overflow-hidden bg-surface/40"
     >
-      {/* Animated background elements */}
-      <motion.div
-        className="absolute top-20 left-10 w-40 h-40 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-2xl"
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.3, 0.6, 0.3],
-          x: [0, 50, 0],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-32 h-32 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-2xl"
-        animate={{
-          scale: [1, 1.4, 1],
-          opacity: [0.2, 0.5, 0.2],
-          x: [0, -30, 0],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-green-500/3 dark:bg-green-500/10 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.3, 0.1],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-      />
+      <div className="container-responsive">
+        <SectionHeading
+          index="02"
+          label="Skills"
+          title="Technical"
+          accent="Expertise"
+          subtitle="A comprehensive overview of my technical skills and expertise across various domains"
+        />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        <div className="max-w-4xl sm:max-w-5xl lg:max-w-6xl mx-auto">
-          {/* Section Title */}
-          <motion.div
-            className="text-center mb-12 sm:mb-16"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={titleVariants}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              <motion.span
-                className="inline-block"
-                whileHover={{
-                  scale: 1.05,
-                  color: "#3B82F6",
-                  transition: { duration: 0.3 },
-                }}
-              >
-                Technical
-              </motion.span>{" "}
-              <motion.span
-                className="inline-block bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent"
-                whileHover={{
-                  scale: 1.05,
-                  transition: { duration: 0.3 },
-                }}
-              >
-                Expertise
-              </motion.span>
-            </motion.h2>
-            <motion.div
-              className="w-20 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 mx-auto rounded-full"
-              initial={{ width: 0 }}
-              animate={isInView ? { width: "5rem" } : { width: 0 }}
-              transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
-            />
-            <motion.p
-              className="text-gray-600 dark:text-gray-300 mt-4 text-base sm:text-lg max-w-xl sm:max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-            >
-              A comprehensive overview of my technical skills and expertise
-              across various domains
-            </motion.p>
-          </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {skillCategories.map(({ title, icon: Icon, skills }, index) => (
+            <div key={title} className="skill-card panel panel-hover p-6 flex flex-col">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <span className="p-2.5 rounded-md bg-brand/10 border border-brand/25">
+                    <Icon className="h-5 w-5 text-brand" />
+                  </span>
+                  <h3 className="font-display font-semibold leading-tight">
+                    {title}
+                  </h3>
+                </div>
+                <span className="font-mono text-xs text-muted-foreground shrink-0">
+                  0{index + 1}
+                </span>
+              </div>
 
-          {/* Skills Grid */}
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={containerVariants}
-          >
-            {skillCategories.map((category, index) => (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                custom={index}
-                whileHover={{
-                  scale: 1.05,
-                  y: -10,
-                  rotateY: 5,
-                  boxShadow: `0 25px 50px ${category.shadowColor}`,
-                }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Card className="h-full hover:shadow-2xl transition-all duration-500 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg overflow-hidden relative group">
-                  {/* Card glow effect */}
-                  <motion.div
-                    className={`absolute inset-0 bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
-                  />
+              <div className="flex flex-wrap gap-2">
+                {skills.map(({ name, icon: SkillIcon, color }) => (
+                  <span
+                    key={name}
+                    className="skill-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-line bg-surface text-sm font-medium text-muted-foreground hover:text-foreground hover:border-brand/50 transition-colors duration-300 cursor-default"
+                  >
+                    <SkillIcon color={color} className="shrink-0 text-base" />
+                    {name}
+                  </span>
+                ))}
+              </div>
 
-                  <CardHeader className="relative">
-                    <CardTitle className="flex items-center text-lg">
-                      <motion.div
-                        className={`p-3 rounded-xl bg-gradient-to-r ${category.gradient} mr-4 shadow-lg`}
-                        variants={iconFloat}
-                        animate="animate"
-                        whileHover={{
-                          scale: 1.1,
-                          rotate: 360,
-                          transition: { duration: 0.6 },
-                        }}
-                      >
-                        <category.icon className="h-6 w-6 text-white" />
-                      </motion.div>
-                      <motion.span
-                        className="text-gray-800 dark:text-gray-100 font-semibold"
-                        whileHover={{
-                          color: category.hoverColor,
-                          transition: { duration: 0.3 },
-                        }}
-                      >
-                        {category.title}
-                      </motion.span>
-                    </CardTitle>
-                  </CardHeader>
+              <div className="mt-auto pt-5 flex items-center justify-between font-mono text-xs text-muted-foreground">
+                <span>{skills.length} Skills</span>
+                <span className="w-2 h-2 rounded-full bg-brand" />
+              </div>
+            </div>
+          ))}
+        </div>
 
-                  <CardContent className="relative">
-                    <motion.div
-                      className="grid grid-cols-2 gap-3"
-                      initial="hidden"
-                      animate={isInView ? "visible" : "hidden"}
-                      variants={containerVariants}
-                    >
-                      {category.skills.map((skill, skillIndex) => (
-                        <motion.div
-                          key={skillIndex}
-                          variants={badgeVariants}
-                          custom={skillIndex}
-                          whileHover={{
-                            scale: 1.05,
-                            y: -2,
-                            boxShadow: `0 8px 25px ${category.shadowColor}`,
-                          }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Badge
-                            variant="secondary"
-                            className="flex items-center gap-2 text-sm font-medium px-3 py-2 
-                 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200
-                 border border-gray-200 dark:border-slate-600 hover:border-gray-300 dark:hover:border-slate-500
-                 transition-all duration-300 cursor-pointer w-full justify-start overflow-hidden whitespace-nowrap"
-                          >
-                            <skill.icon
-                              color={skill.color}
-                              className="shrink-0"
-                            />
-                            <span className="truncate">{skill.name}</span>
-                          </Badge>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-
-                    {/* Skill count indicator */}
-                    <motion.div
-                      className="mt-4 flex items-center justify-between"
-                      initial={{ opacity: 0 }}
-                      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                      transition={{ delay: index * 0.1 + 1 }}
-                    >
-                      <motion.span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                        {category.skills.length} Skills
-                      </motion.span>
-                      <motion.div
-                        className={`w-2 h-2 rounded-full bg-gradient-to-r ${category.gradient}`}
-                        variants={pulseAnimation}
-                        animate="animate"
-                      />
-                    </motion.div>
-                  </CardContent>
-
-                  {/* Decorative corner element */}
-                  <motion.div
-                    className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl ${category.gradient} opacity-10 rounded-bl-full`}
-                    initial={{ scale: 0 }}
-                    animate={isInView ? { scale: 1 } : { scale: 0 }}
-                    transition={{ delay: index * 0.1 + 0.5, duration: 0.6 }}
-                  />
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Bottom CTA */}
-          <motion.div
-            className="text-center mt-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ delay: 2, duration: 0.8 }}
-          >
-            <motion.div
-              className="inline-flex items-center space-x-3 px-8 py-4 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-indigo-500/10 rounded-full border border-blue-200/50 backdrop-blur-sm"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 15px 35px rgba(59, 130, 246, 0.2)",
-                borderColor: "rgba(59, 130, 246, 0.3)",
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: 15,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                }}
-              >
-                <Brain className="h-6 w-6 text-blue-500" />
-              </motion.div>
-              <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg">
-                Always Learning New Technologies
-              </span>
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{
-                  duration: 2,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-              >
-                <Code className="h-6 w-6 text-purple-500" />
-              </motion.div>
-            </motion.div>
-          </motion.div>
+        <div className="text-center mt-14">
+          <div className="skills-pill inline-flex items-center gap-3 px-6 py-3.5 rounded-full border border-line bg-card font-mono text-sm">
+            <Brain className="h-5 w-5 text-brand" />
+            <span className="text-muted-foreground">
+              Always Learning New Technologies
+            </span>
+            <Code className="h-5 w-5 text-brand" />
+          </div>
         </div>
       </div>
     </section>

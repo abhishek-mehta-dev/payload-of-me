@@ -1,592 +1,214 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-  Variants,
-} from "framer-motion";
-import {
-  Menu,
-  X,
-  Home,
-  User,
-  Code,
-  Briefcase,
-  FolderOpen,
-  Mail,
-  PenTool
-} from "lucide-react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import clsx from "clsx";
+import { Menu, X } from "lucide-react";
 import NavbarLogo from "./NavbarLogo";
 import { ThemeToggle } from "./ThemeToggle";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { scrollToSection } from "@/lib/lenis-store";
 
 interface NavbarProps {
   hasBlogs?: boolean;
 }
 
 export default function Navbar({ hasBlogs = false }: NavbarProps) {
-  const navLinks = useMemo(() => [
-    { label: "Home", href: "/#home", icon: Home },
-    { label: "About", href: "/#about", icon: User },
-    { label: "Skills", href: "/#skills", icon: Code },
-    { label: "Experience", href: "/#experience", icon: Briefcase },
-    { label: "Projects", href: "/#projects", icon: FolderOpen },
-    ...(hasBlogs ? [{ label: "Blogs", href: "/blogs", icon: PenTool }] : []),
-    { label: "Contact", href: "/#contact", icon: Mail },
-  ], [hasBlogs]);
+  const navLinks = useMemo(
+    () => [
+      { label: "Home", href: "/#home" },
+      { label: "About", href: "/#about" },
+      { label: "Skills", href: "/#skills" },
+      { label: "Experience", href: "/#experience" },
+      { label: "Projects", href: "/#projects" },
+      ...(hasBlogs ? [{ label: "Blogs", href: "/blogs" }] : []),
+      { label: "Contact", href: "/#contact" },
+    ],
+    [hasBlogs],
+  );
 
+  const headerRef = useRef<HTMLElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("Home");
-  const { scrollY } = useScroll();
 
-  const [isScrolling, setIsScrolling] = useState(false);
+  // Hide on scroll down, show on scroll up
+  useGSAP(() => {
+    const showAnim = gsap
+      .from(headerRef.current, {
+        yPercent: -100,
+        paused: true,
+        duration: 0.35,
+        ease: "power2.out",
+      })
+      .progress(1);
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 20);
+    ScrollTrigger.create({
+      start: "top top",
+      end: "max",
+      onUpdate: (self) => {
+        if (self.direction === -1) showAnim.play();
+        else if (self.scroll() > 120) showAnim.reverse();
+        setScrolled(self.scroll() > 20);
+      },
+    });
   });
 
+  // Scroll spy
   useEffect(() => {
     const handleScroll = () => {
-      if (isScrolling) return;
-
-      const threshold = 180;
-      const sections = navLinks.map((link) => ({
-        id: link.href.replace("/#", "").replace("/", ""), // handle both page links and hashes
-        label: link.label,
-        href: link.href
-      }));
-
-      // Special case: very top of page
-      if (window.scrollY < 20) {
-        // Only set Home as active if we are actually on the home page path
-        if (window.location.pathname === '/') {
-           setActiveSection((prev) => (prev !== "Home" ? "Home" : prev));
-        } else {
-           // If we're on /blogs etc, check pathname
-           const currentPath = window.location.pathname;
-           if (currentPath.startsWith('/blogs')) {
-             setActiveSection('Blogs');
-           }
+      if (window.scrollY < 40) {
+        if (window.location.pathname === "/") {
+          setActiveSection("Home");
+        } else if (window.location.pathname.startsWith("/blogs")) {
+          setActiveSection("Blogs");
         }
         return;
       }
 
-      // Check sections from bottom to top to find the first one that has passed the threshold
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (!section.id || section.href.startsWith('/blogs')) continue; 
-
-        const element = document.getElementById(section.id);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= threshold) {
-            setActiveSection((prev) =>
-              prev !== section.label ? section.label : prev,
-            );
-            return;
-          }
+      const threshold = 180;
+      for (let i = navLinks.length - 1; i >= 0; i--) {
+        const link = navLinks[i];
+        if (!link.href.includes("#")) continue;
+        const id = link.href.split("#")[1];
+        const element = document.getElementById(id);
+        if (element && element.getBoundingClientRect().top <= threshold) {
+          setActiveSection((prev) => (prev !== link.label ? link.label : prev));
+          return;
         }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    // Initial check on mount
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isScrolling, navLinks]); // Added navLinks dependency
+  }, [navLinks]);
 
-  // Fixed smooth scroll function with proper offset calculation
-  const handleSmoothScroll = (
-    e: React.MouseEvent,
-    href: string,
-    closeMenu = false,
-  ) => {
-
-    if (closeMenu) {
-      setIsOpen(false);
-    }
-    
-    // If it's not a hash link (e.g. /blogs), let the default navigation happen
-    if (!href.includes('#')) {
-       return;
-    }
-    
-    // Only prevent default for hash links on the same page
-    if (window.location.pathname === '/' || href.startsWith('/#')) {
-        e.preventDefault();
-        
-        // If we are NOT on the homepage, but clicking a hash link, we need to navigate to homepage first
-        if (window.location.pathname !== '/' && href.startsWith('/#')) {
-            window.location.href = href;
-            return;
-        }
-
-        setTimeout(
-          () => {
-            setIsScrolling(true);
-
-            // Handle home link scroll to top
-            if (href === "/#home" || href === "#" || href === "") {
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              });
-              setTimeout(() => setIsScrolling(false), 1000);
-              return;
-            }
-
-            // Clean the href to get the section ID
-            const sectionId = href.split("#")[1];
-            const target = document.getElementById(sectionId);
-
-            if (target) {
-              // Calculate exact offset
-              const rect = target.getBoundingClientRect();
-              const scrollTop =
-                window.pageYOffset || document.documentElement.scrollTop;
-
-              // Get actual navbar height
-              const navbar = document.querySelector("header");
-              const navbarHeight = navbar ? navbar.offsetHeight : 0;
-
-              // Calculate final scroll position with some buffer
-              const targetPosition = rect.top + scrollTop - navbarHeight - 10;
-
-              window.scrollTo({
-                top: Math.max(0, targetPosition), // Ensure we don't scroll to negative values
-                behavior: "smooth",
-              });
-            }
-
-            setTimeout(() => setIsScrolling(false), 1000);
-          },
-          closeMenu ? 300 : 0,
-        );
-    }
-  };
-
-  // Animation variants
-  const headerVariants: Variants = {
-    hidden: {
-      y: -100,
-      opacity: 0,
-    },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const logoVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.8,
-      x: -50,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 120,
-      },
-    },
-  };
-
-  const navItemVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: -20,
-      scale: 0.8,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.6,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 150,
-      },
-    }),
-  };
-
-  const mobileMenuVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      height: 0,
-      scale: 0.95,
-    },
-    visible: {
-      opacity: 1,
-      height: "auto",
-      scale: 1,
-      transition: {
+  // Animate mobile menu items in when it opens
+  useEffect(() => {
+    if (isOpen && mobileMenuRef.current) {
+      gsap.from(mobileMenuRef.current.querySelectorAll(".mobile-link"), {
+        opacity: 0,
+        y: 30,
+        stagger: 0.06,
         duration: 0.4,
-        ease: "easeOut",
-        staggerChildren: 0.05,
-        delayChildren: 0.1,
-      },
-    },
-    exit: {
-      opacity: 0,
-      height: 0,
-      scale: 0.95,
-      transition: {
-        duration: 0.3,
-        ease: "easeIn",
-      },
-    },
-  };
+        ease: "power3.out",
+      });
+    }
+  }, [isOpen]);
 
-  const mobileItemVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      x: -30,
-      scale: 0.9,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      x: 0,
-      scale: 1,
-      transition: {
-        delay: i * 0.05,
-        duration: 0.4,
-        ease: "easeOut",
-      },
-    }),
-    exit: {
-      opacity: 0,
-      x: -30,
-      scale: 0.9,
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    setIsOpen(false);
 
-  const buttonVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      scale: 0,
-      rotate: -180,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      rotate: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 200,
-      },
-    },
-  };
+    if (!href.includes("#")) return; // e.g. /blogs — normal navigation
 
-  const iconRotateVariants: Variants = {
-    closed: {
-      rotate: 0,
-      scale: 1,
-    },
-    open: {
-      rotate: 180,
-      scale: 1.1,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-  };
+    if (window.location.pathname !== "/") {
+      // Navigate to homepage first; browser handles the hash
+      return;
+    }
 
-  const backgroundVariants: Variants = {
-    initial: {
-      opacity: 0,
-      backdropFilter: "blur(0px)",
-    },
-    scrolled: {
-      opacity: 1,
-      backdropFilter: "blur(20px)",
-      transition: {
-        duration: 0.3,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const activeIndicatorVariants: Variants = {
-    hidden: {
-      scale: 0,
-      opacity: 0,
-    },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 20,
-      },
-    },
+    e.preventDefault();
+    const id = href.split("#")[1];
+    if (id === "home") scrollToSection(0);
+    else scrollToSection(`#${id}`);
   };
 
   return (
-    <motion.header
-      className={clsx(
-        "fixed top-0 left-0 w-full z-50 transition-all duration-300 block",
-        scrolled
-          ? "backdrop-blur-xl bg-background/80 dark:bg-[#0B1120]/90 shadow-lg border-b border-border/40"
-          : "backdrop-blur-md bg-background/50 dark:bg-[#0B1120]/80",
-      )}
-      initial="hidden"
-      animate="visible"
-      variants={headerVariants}
-    >
-      {/* Animated background */}
-      <motion.div
-        className="absolute inset-0"
-        variants={backgroundVariants}
-        initial="initial"
-        animate={scrolled ? "scrolled" : "initial"}
-      />
+    <>
+      <header
+        ref={headerRef}
+        className={clsx(
+          "fixed top-0 left-0 w-full z-50 transition-[background-color,border-color,backdrop-filter] duration-300 border-b",
+          scrolled
+            ? "bg-background/85 backdrop-blur-xl border-line"
+            : "bg-transparent border-transparent",
+        )}
+      >
+        <div className="container-responsive flex items-center justify-between h-[72px]">
+          <Link href="/" aria-label="Home">
+            <NavbarLogo />
+          </Link>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <motion.div variants={logoVariants}>
-            <Link href="/" className="relative group">
-              <NavbarLogo />
-            </Link>
-          </motion.div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((item, index) => {
-              const isActive =
-                activeSection.toLowerCase() === item.label.toLowerCase();
+              const isActive = activeSection === item.label;
               return (
-                <motion.div
+                <a
                   key={item.href}
-                  variants={navItemVariants}
-                  custom={index}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className={clsx(
+                    "group relative px-3.5 py-2 font-mono text-sm transition-colors duration-300",
+                    isActive
+                      ? "text-brand"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
                 >
-                  <a
-                    href={item.href}
-                    onClick={(e) => handleSmoothScroll(e, item.href)}
-                    className="relative group px-3 sm:px-4 py-2 rounded-full text-muted-foreground font-medium hover:text-foreground transition-all duration-300 flex items-center space-x-2 text-sm sm:text-base"
-                  >
-                    {/* Icon */}
-                    <motion.div
-                      className="relative z-10"
-                      animate={{
-                        rotate: isActive ? [0, 360] : 0,
-                      }}
-                      transition={{
-                        duration: 0.6,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </motion.div>
-
-                    {/* Label */}
-                    <span className="relative z-10">{item.label}</span>
-
-                    {/* Active indicator */}
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-                          variants={activeIndicatorVariants}
-                          initial="hidden"
-                          animate="visible"
-                          exit="hidden"
-                          layoutId="activeTab"
-                        />
-                      )}
-                    </AnimatePresence>
-
-                    {/* Hover background */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300"
-                      whileHover={{ scale: 1.05 }}
-                    />
-
-                    {/* Glow effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 blur-md"
-                      whileHover={{ scale: 1.1 }}
-                    />
-                  </a>
-                </motion.div>
+                  <span className="text-brand/60 text-xs mr-1.5">
+                    0{index + 1}
+                  </span>
+                  {item.label}
+                  <span
+                    className={clsx(
+                      "absolute left-3.5 right-3.5 -bottom-px h-px bg-brand transition-transform duration-300 origin-left",
+                      isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+                    )}
+                  />
+                </a>
               );
             })}
           </nav>
 
-          {/* Theme Toggle & Mobile Menu Button */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <ThemeToggle />
-
-            <motion.button
-              className="md:hidden relative p-3 sm:p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 transition-all duration-300 min-w-[44px] min-h-[44px] touch-manipulation"
+            <button
+              className="md:hidden p-2.5 rounded-md border border-line bg-card hover:border-brand transition-colors"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={`${isOpen ? "Close" : "Open"} Menu`}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
-              variants={buttonVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
-              <div className="relative w-5 h-5 sm:w-6 sm:h-6">
-                <motion.div
-                  variants={iconRotateVariants}
-                  animate={isOpen ? "open" : "closed"}
-                >
-                  <AnimatePresence mode="wait">
-                    {!isOpen ? (
-                      <motion.div
-                        key="menu"
-                        initial={{ opacity: 0, rotate: -90 }}
-                        animate={{ opacity: 1, rotate: 0 }}
-                        exit={{ opacity: 0, rotate: 90 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Menu className="absolute inset-0 w-6 h-6 text-foreground" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="close"
-                        initial={{ opacity: 0, rotate: -90 }}
-                        animate={{ opacity: 1, rotate: 0 }}
-                        exit={{ opacity: 0, rotate: 90 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <X className="absolute inset-0 w-6 h-6 text-foreground" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              </div>
-            </motion.button>
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              className="md:hidden overflow-hidden"
-              variants={mobileMenuVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              id="mobile-menu"
-              role="navigation"
-              aria-label="Mobile Navigation"
-            >
-              <motion.div
-                className="py-4 sm:py-6 space-y-1 sm:space-y-2 bg-background/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl mx-2 sm:mx-4 mb-4 shadow-xl border border-border/10 max-h-[70vh] overflow-y-auto"
-                whileHover={{ scale: 1.02 }}
+      {/* Mobile full-screen menu */}
+      {isOpen && (
+        <div
+          ref={mobileMenuRef}
+          id="mobile-menu"
+          role="navigation"
+          aria-label="Mobile Navigation"
+          className="fixed inset-0 z-40 md:hidden bg-background/97 backdrop-blur-xl flex flex-col justify-center px-8"
+        >
+          {navLinks.map((item, index) => {
+            const isActive = activeSection === item.label;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={clsx(
+                  "mobile-link flex items-baseline gap-4 py-4 border-b border-line font-display text-3xl font-semibold transition-colors",
+                  isActive ? "text-brand" : "text-foreground hover:text-brand",
+                )}
               >
-                {navLinks.map((item, index) => {
-                  const isActive =
-                    activeSection.toLowerCase() === item.label.toLowerCase();
-                  return (
-                    <motion.a
-                      key={item.href}
-                      href={item.href}
-                      onClick={(e) => handleSmoothScroll(e, item.href, true)}
-                      className="flex items-center space-x-3 sm:space-x-4 mx-3 sm:mx-4 px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-muted-foreground font-medium hover:text-foreground hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 relative group text-sm sm:text-base min-h-[44px] touch-manipulation"
-                      variants={mobileItemVariants}
-                      custom={index}
-                      whileHover={{
-                        scale: 1.02,
-                        x: 5,
-                        boxShadow: "0 10px 30px rgba(59, 130, 246, 0.2)",
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {/* Icon */}
-                      <motion.div
-                        className="relative z-10"
-                        animate={{
-                          rotate: isActive ? [0, 360] : 0,
-                          scale: isActive ? [1, 1.2, 1] : 1,
-                        }}
-                        transition={{
-                          duration: 0.6,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        <item.icon className="h-5 w-5" />
-                      </motion.div>
-
-                      {/* Label */}
-                      <span className="relative z-10">{item.label}</span>
-
-                      {/* Active indicator */}
-                      {isActive && (
-                        <motion.div
-                          className="absolute right-4 w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        />
-                      )}
-
-                      {/* Hover glow */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        whileHover={{ scale: 1.02 }}
-                      />
-                    </motion.a>
-                  );
-                })}
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Floating particles */}
-      {[...Array(5)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-blue-400/30 rounded-full"
-          style={{
-            left: `${20 + i * 15}%`,
-            top: `${20 + Math.sin(i) * 10}%`,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.3, 0.8, 0.3],
-            scale: [1, 1.5, 1],
-          }}
-          transition={{
-            duration: 3 + i,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-            delay: i * 0.5,
-          }}
-        />
-      ))}
-    </motion.header>
+                <span className="font-mono text-sm text-brand/70">
+                  0{index + 1}
+                </span>
+                {item.label}
+              </a>
+            );
+          })}
+          <p className="mobile-link mt-10 font-mono text-xs text-muted-foreground">
+            $ contact --now → mehtaabhishek.dev@gmail.com
+          </p>
+        </div>
+      )}
+    </>
   );
 }

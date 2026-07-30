@@ -5,10 +5,12 @@ import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import BlogsSection from "@/components/BlogsSection";
 import Contact from "@/components/Contact";
+import Preloader from "@/components/Preloader";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <Preloader />
       <Hero />
       <About />
       <Skills />
