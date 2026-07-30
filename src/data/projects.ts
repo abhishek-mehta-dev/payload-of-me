@@ -276,7 +276,7 @@ export const projects: Project[] = [
       "LangChain",
       "Hugging Face",
     ],
-    liveUrl: "/comming-soon",
+    liveUrl: "/coming-soon",
     githubUrl: "https://github.com/abhishek-mehta-dev/DocuAI-Pro",
     featured: true,
     status: "Development",

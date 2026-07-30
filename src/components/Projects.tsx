@@ -6,21 +6,14 @@ import {
   ExternalLink,
   Github,
   Code2,
-  User,
   CheckCircle,
   MoveHorizontal,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { gsap, useGSAP } from "@/lib/gsap";
 import SectionHeading from "@/components/SectionHeading";
+import ProjectDetailsDialog from "@/components/ProjectDetailsDialog";
 import { projects, type Project } from "@/data/projects";
+import { getTechMeta } from "@/lib/tech-icons";
 
 function statusClasses(status: string) {
   switch (status) {
@@ -38,9 +31,9 @@ function statusClasses(status: string) {
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <article className="project-card panel overflow-hidden flex flex-col lg:w-[72vw] lg:max-w-[1000px] lg:shrink-0 lg:h-full">
-      {/* Browser-chrome image */}
-      <div className="relative border-b border-line bg-surface">
+    <article className="project-card panel overflow-hidden flex flex-col lg:w-[min(720px,70vw)] lg:shrink-0 lg:h-full lg:max-h-[78vh]">
+      {/* Browser-chrome image — capped so actions stay visible */}
+      <div className="relative border-b border-line bg-surface shrink-0">
         <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-line">
           <span className="term-dot bg-red-500/80" />
           <span className="term-dot bg-yellow-500/80" />
@@ -54,12 +47,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {project.status}
           </span>
         </div>
-        <div className="relative aspect-video lg:aspect-[21/9] overflow-hidden group">
+        <div className="relative aspect-[16/9] lg:aspect-[2.2/1] lg:max-h-[220px] overflow-hidden group">
           <Image
             src={project.image || "/placeholder.svg"}
             alt={project.title}
             fill
-            sizes="(min-width: 1024px) 72vw, 100vw"
+            sizes="(min-width: 1024px) 70vw, 100vw"
             className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
           />
           <span className="absolute bottom-3 left-3 font-mono text-xs px-2.5 py-1 rounded bg-background/85 backdrop-blur border border-line text-muted-foreground">
@@ -69,9 +62,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       </div>
 
       {/* Body */}
-      <div className="p-6 sm:p-8 flex flex-col gap-5 flex-1">
-        <div className="flex items-start justify-between gap-4">
-          <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight">
+      <div className="p-5 sm:p-6 flex flex-col gap-4 flex-1 min-h-0">
+        <div className="flex items-start justify-between gap-4 shrink-0">
+          <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-bold leading-tight">
             {project.title}
           </h3>
           <span className="font-mono text-sm text-muted-foreground shrink-0">
@@ -80,32 +73,56 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </span>
         </div>
 
-        <p className="text-muted-foreground leading-relaxed text-sm sm:text-base line-clamp-4">
+        <p className="text-muted-foreground leading-relaxed text-sm line-clamp-2 shrink-0">
           {project.description}
         </p>
 
-        <div className="flex flex-wrap gap-2">
-          {project.technologies.slice(0, 8).map((tech) => (
-            <span
-              key={tech}
-              className="px-2.5 py-1 rounded-md border border-line bg-surface text-xs sm:text-sm text-muted-foreground"
+        {/* Preview of technical work so it's obvious details exist */}
+        <ul className="space-y-1.5 shrink-0 hidden sm:block">
+          {project.responsibilities.slice(0, 2).map((item) => (
+            <li
+              key={item.slice(0, 40)}
+              className="flex items-start gap-2 text-xs sm:text-sm text-muted-foreground"
             >
-              {tech}
-            </span>
+              <CheckCircle className="h-3.5 w-3.5 text-brand mt-0.5 shrink-0" />
+              <span className="line-clamp-1">{item}</span>
+            </li>
           ))}
-          {project.technologies.length > 8 && (
-            <span className="px-2.5 py-1 rounded-md border border-brand/30 bg-brand/5 text-xs sm:text-sm font-mono text-brand">
-              +{project.technologies.length - 8} more
+          {project.responsibilities.length > 2 && (
+            <li className="font-mono text-xs text-brand pl-5">
+              +{project.responsibilities.length - 2} more technical points
+            </li>
+          )}
+        </ul>
+
+        <div className="flex flex-wrap gap-2 shrink-0">
+          {project.technologies.slice(0, 6).map((tech) => {
+            const { icon: Icon, color } = getTechMeta(tech);
+            return (
+              <span
+                key={tech}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-line bg-surface text-xs text-muted-foreground"
+              >
+                <Icon className="text-sm shrink-0" style={{ color }} />
+                {tech}
+              </span>
+            );
+          })}
+          {project.technologies.length > 6 && (
+            <span className="px-2.5 py-1 rounded-md border border-brand/30 bg-brand/5 text-xs font-mono text-brand">
+              +{project.technologies.length - 6} more
             </span>
           )}
         </div>
 
-        <div className="mt-auto flex flex-col sm:flex-row gap-3 pt-2">
+        {/* Always-visible actions */}
+        <div className="mt-auto shrink-0 flex flex-col sm:flex-row gap-2.5 pt-3 border-t border-line">
+          <ProjectDetailsDialog project={project} />
           <a
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-brand flex-1 !px-4 !py-2.5 text-sm"
+            className="btn-ghost-brand flex-1 !px-4 !py-2.5 text-sm"
           >
             <ExternalLink className="h-4 w-4" />
             Live Demo
@@ -123,81 +140,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             )}
             Code
           </a>
-
-          <Dialog>
-            <DialogTrigger asChild>
-              <button className="btn-ghost-brand flex-1 !px-4 !py-2.5 text-sm">
-                <User className="h-4 w-4" />
-                Roles & Details
-              </button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle className="font-display text-2xl font-bold mb-2">
-                  {project.title}
-                </DialogTitle>
-                <DialogDescription className="text-muted-foreground text-base">
-                  Roles and responsibilities in this project
-                </DialogDescription>
-              </DialogHeader>
-
-              <div className="space-y-8 mt-4">
-                <div>
-                  <h4 className="font-display text-lg font-semibold mb-3 flex items-center gap-2">
-                    <User className="h-5 w-5 text-brand" />
-                    My Roles
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {project.roles.map((role) => (
-                      <span
-                        key={role}
-                        className="px-3 py-1.5 rounded-md bg-brand text-brand-foreground text-sm font-medium"
-                      >
-                        {role}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-display text-lg font-semibold mb-3 flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-brand" />
-                    Key Responsibilities
-                  </h4>
-                  <div className="space-y-2.5">
-                    {project.responsibilities.map((item) => (
-                      <div
-                        key={item.slice(0, 40)}
-                        className="flex items-start gap-3 p-3 rounded-md border border-line bg-surface/60"
-                      >
-                        <CheckCircle className="h-4 w-4 text-brand mt-1 shrink-0" />
-                        <span className="text-sm text-muted-foreground leading-relaxed">
-                          {item}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-display text-lg font-semibold mb-3 flex items-center gap-2">
-                    <Code2 className="h-5 w-5 text-brand" />
-                    Technologies Used
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2.5 py-1 rounded-md border border-line bg-surface text-sm text-muted-foreground"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
     </article>

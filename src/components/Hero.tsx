@@ -29,9 +29,12 @@ import {
   SiDocker,
   SiNestjs,
   SiPostgresql,
+  SiRedis,
 } from "react-icons/si";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { scrollToSection } from "@/lib/lenis-store";
+import HeroLogStream from "@/components/HeroLogStream";
+import SkillsConstellation from "@/components/SkillsConstellation";
 
 const techStack = [
   { name: "Node.js", icon: SiNodedotjs },
@@ -41,6 +44,7 @@ const techStack = [
   { name: "Next.js", icon: SiNextdotjs },
   { name: "MongoDB", icon: SiMongodb },
   { name: "PostgreSQL", icon: SiPostgresql },
+  { name: "Redis", icon: SiRedis },
   { name: "Docker", icon: SiDocker },
   { name: "TypeScript", icon: SiTypescript },
   { name: "Django", icon: SiDjango },
@@ -57,24 +61,28 @@ const stats = [
 
 const services = [
   {
+    code: "01",
     title: "Full-Stack Development",
     icon: Globe,
-    description: "End-to-End System Engineering",
+    description: "End-to-end apps from API to UI",
   },
   {
+    code: "02",
     title: "Backend APIs",
     icon: Server,
-    description: "Scalable server solutions",
+    description: "REST & services built to scale",
   },
   {
+    code: "03",
     title: "Database Design",
     icon: Database,
-    description: "Optimized data architecture",
+    description: "Schemas tuned for real traffic",
   },
   {
+    code: "04",
     title: "Server Architecture",
     icon: Cpu,
-    description: "Robust server infrastructure",
+    description: "Nginx, PM2, SSH & prod hardening",
   },
 ];
 
@@ -161,7 +169,11 @@ export default function Hero() {
           },
           "-=0.3",
         )
-        .from(".hero-rotator-wrap", { opacity: 0, y: 24, duration: 0.6 }, "-=0.45")
+        .from(
+          ".hero-rotator-wrap",
+          { opacity: 0, y: 24, duration: 0.6 },
+          "-=0.45",
+        )
         .from(".hero-terminal", { opacity: 0, y: 30, duration: 0.7 }, "-=0.35")
         .from(
           ".hero-cta > *",
@@ -170,19 +182,30 @@ export default function Hero() {
         )
         .from(
           ".hero-social",
-          { opacity: 0, scale: 0.6, stagger: 0.07, duration: 0.4, ease: "back.out(2)" },
+          {
+            opacity: 0,
+            scale: 0.6,
+            stagger: 0.07,
+            duration: 0.4,
+            ease: "back.out(2)",
+          },
           "-=0.3",
         )
         .from(".hero-scroll-hint", { opacity: 0, duration: 0.8 }, "-=0.1");
 
       // --- Rotating job titles ---
-      const rotatorItems = gsap.utils.toArray<HTMLElement>(".hero-rotator-item");
+      const rotatorItems =
+        gsap.utils.toArray<HTMLElement>(".hero-rotator-item");
       if (rotatorItems.length > 1 && !reduced) {
         const rotator = gsap.timeline({ repeat: -1, delay: 3 });
         rotatorItems.forEach((item, i) => {
           const next = rotatorItems[(i + 1) % rotatorItems.length];
           rotator
-            .to(item, { yPercent: -100, opacity: 0, duration: 0.55, ease: "power3.in" }, `+=2.6`)
+            .to(
+              item,
+              { yPercent: -100, opacity: 0, duration: 0.55, ease: "power3.in" },
+              `+=2.6`,
+            )
             .fromTo(
               next,
               { yPercent: 100, opacity: 0 },
@@ -193,54 +216,100 @@ export default function Hero() {
       }
 
       // --- Stats counters on scroll ---
-      gsap.utils.toArray<HTMLElement>(".hero-stat").forEach((el, i) => {
-        const numEl = el.querySelector<HTMLElement>(".hero-stat-num");
-        const target = Number(numEl?.dataset.value ?? 0);
-        gsap.from(el, {
+      const statsRoot = rootRef.current?.querySelector(".hero-stats");
+      if (statsRoot) {
+        gsap.from(".hero-stat", {
           opacity: 0,
-          y: 40,
-          duration: 0.6,
-          delay: i * 0.08,
+          y: 36,
+          duration: 0.7,
+          stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".hero-stats", start: "top 85%", once: true },
+          scrollTrigger: {
+            trigger: statsRoot,
+            start: "top 85%",
+            once: true,
+          },
         });
-        if (numEl && !reduced) {
-          const counter = { v: 0 };
-          gsap.to(counter, {
-            v: target,
-            duration: 1.4,
-            delay: i * 0.08,
-            ease: "power2.out",
-            scrollTrigger: { trigger: ".hero-stats", start: "top 85%", once: true },
-            onUpdate: () => {
-              numEl.textContent = String(Math.round(counter.v));
-            },
+
+        gsap.utils
+          .toArray<HTMLElement>(".hero-stat-num")
+          .forEach((numEl, i) => {
+            const target = Number(numEl.dataset.value ?? 0);
+            if (reduced) {
+              numEl.textContent = String(target);
+              return;
+            }
+            const counter = { v: 0 };
+            gsap.to(counter, {
+              v: target,
+              duration: 1.5,
+              delay: i * 0.1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: statsRoot,
+                start: "top 85%",
+                once: true,
+              },
+              onUpdate: () => {
+                numEl.textContent = String(Math.round(counter.v));
+              },
+            });
           });
-        }
-      });
+      }
 
       // --- Services reveal ---
       gsap.from(".hero-service", {
         opacity: 0,
-        y: 40,
-        stagger: 0.1,
-        duration: 0.6,
+        y: 48,
+        rotateX: 8,
+        transformOrigin: "top center",
+        stagger: 0.12,
+        duration: 0.75,
         ease: "power3.out",
-        scrollTrigger: { trigger: ".hero-services", start: "top 85%", once: true },
+        scrollTrigger: {
+          trigger: ".hero-services",
+          start: "top 85%",
+          once: true,
+        },
+      });
+
+      gsap.from(".hero-section-label", {
+        opacity: 0,
+        x: -16,
+        duration: 0.55,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".hero-metrics-block",
+          start: "top 88%",
+          once: true,
+        },
       });
 
       // --- Marquee reveal ---
       gsap.from(".hero-marquee", {
         opacity: 0,
-        duration: 1,
-        scrollTrigger: { trigger: ".hero-marquee", start: "top 95%", once: true },
+        y: 24,
+        duration: 0.9,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".hero-marquee",
+          start: "top 95%",
+          once: true,
+        },
       });
 
       // --- Magnetic social buttons (desktop) ---
       if (window.matchMedia("(pointer: fine)").matches && !reduced) {
         gsap.utils.toArray<HTMLElement>(".hero-social").forEach((btn) => {
-          const xTo = gsap.quickTo(btn, "x", { duration: 0.4, ease: "power3.out" });
-          const yTo = gsap.quickTo(btn, "y", { duration: 0.4, ease: "power3.out" });
+          const xTo = gsap.quickTo(btn, "x", {
+            duration: 0.4,
+            ease: "power3.out",
+          });
+          const yTo = gsap.quickTo(btn, "y", {
+            duration: 0.4,
+            ease: "power3.out",
+          });
           btn.addEventListener("mousemove", (e) => {
             const rect = btn.getBoundingClientRect();
             xTo((e.clientX - rect.left - rect.width / 2) * 0.4);
@@ -264,11 +333,28 @@ export default function Hero() {
     >
       {/* Ambient brand glow */}
       <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[70rem] h-[36rem] rounded-full blur-3xl opacity-15"
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[70rem] h-[36rem] rounded-full blur-3xl opacity-10"
         style={{ background: "var(--brand)" }}
       />
 
-      <div className="container-responsive min-h-screen flex flex-col justify-center pt-32 pb-16">
+      {/* Left accent — constellation (behind copy, fades into content) */}
+      <div
+        className="pointer-events-none absolute top-[18%] left-0 z-[1] hidden lg:block w-[min(420px,34vw)] h-[min(420px,34vw)] opacity-40"
+        style={{
+          maskImage: "linear-gradient(to right, black 40%, transparent 92%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, black 40%, transparent 92%)",
+        }}
+      >
+        <SkillsConstellation />
+      </div>
+
+      {/* Right — server logs (full, clearly visible) */}
+      <div className="pointer-events-none absolute top-[8%] right-0 z-[1] hidden md:block h-[min(78vh,720px)] w-[min(520px,48vw)] lg:w-[min(560px,46vw)] opacity-80 lg:opacity-100">
+        <HeroLogStream />
+      </div>
+
+      <div className="container-responsive relative z-10 min-h-screen flex flex-col justify-center pt-32 pb-16">
         {/* Eyebrow */}
         <p className="hero-eyebrow font-mono text-sm sm:text-base text-brand mb-6">
           <span className="text-muted-foreground">$ whoami</span>
@@ -278,11 +364,11 @@ export default function Hero() {
 
         {/* Massive name */}
         <h1 className="hero-name font-display font-bold tracking-tight leading-[0.95] text-[13vw] sm:text-7xl lg:text-8xl xl:text-9xl mb-6">
-          Abhishek Mehta<span className="text-brand">.</span>
+          Abhishek Mehta<span className="text-brand"></span>
         </h1>
 
         {/* Rotating titles */}
-        <div className="hero-rotator-wrap flex items-center gap-3 mb-10 h-10 sm:h-12">
+        <div className="hero-rotator-wrap flex items-center gap-3 mb-10 h-10 sm:h-12 max-w-3xl">
           <span className="font-mono text-brand text-xl">→</span>
           <div className="relative h-full flex-1 overflow-hidden">
             {titles.map((title, i) => (
@@ -301,7 +387,7 @@ export default function Hero() {
         <div className="hero-terminal panel max-w-3xl overflow-hidden mb-10">
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-line bg-surface">
             <span className="font-mono text-xs text-muted-foreground">
-              terminal — zsh
+              terminal — bash
             </span>
             <div className="flex gap-1.5">
               <span className="term-dot bg-red-500/80" />
@@ -369,57 +455,117 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="container-responsive pb-16">
-        <div className="hero-stats grid grid-cols-2 lg:grid-cols-4 border border-line rounded-lg overflow-hidden">
-          {stats.map(({ value, suffix, label, icon: Icon }) => (
-            <div
-              key={label}
-              className="hero-stat p-6 sm:p-8 border-line [&:not(:last-child)]:border-b lg:[&:not(:last-child)]:border-b-0 odd:border-r lg:[&:not(:last-child)]:border-r bg-card/50"
-            >
-              <Icon className="h-5 w-5 text-brand mb-4" />
-              <div className="font-display text-4xl sm:text-5xl font-bold">
-                <span className="hero-stat-num" data-value={value}>
-                  {value}
-                </span>
-                <span className="text-brand">{suffix}</span>
-              </div>
-              <p className="mt-2 text-sm text-muted-foreground font-mono">
-                {label}
-              </p>
+      {/* Metrics + capabilities */}
+      <div className="hero-metrics-block relative border-t border-line">
+        <div className="container-responsive py-16 sm:py-20 space-y-14 sm:space-y-16">
+          {/* Stats */}
+          <div>
+            <p className="hero-section-label font-mono text-xs sm:text-sm text-brand mb-6 tracking-wide">
+              <span className="text-muted-foreground">$</span> metrics --summary
+            </p>
+            <div className="hero-stats grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {stats.map(({ value, suffix, label, icon: Icon }, i) => (
+                <div
+                  key={label}
+                  className="hero-stat group relative overflow-hidden rounded-lg border border-line bg-card/60 p-5 sm:p-7 transition-colors duration-300 hover:border-brand/50"
+                >
+                  <div
+                    className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background:
+                        "radial-gradient(120% 80% at 0% 0%, color-mix(in oklch, var(--brand) 12%, transparent), transparent 55%)",
+                    }}
+                  />
+                  <div className="relative flex items-start justify-between gap-3 mb-5">
+                    <Icon className="h-5 w-5 text-brand transition-transform duration-300 group-hover:scale-110" />
+                    <span className="font-mono text-[10px] sm:text-xs text-muted-foreground/70 tabular-nums">
+                      0{i + 1}
+                    </span>
+                  </div>
+                  <div className="relative font-display text-4xl sm:text-5xl font-bold tracking-tight">
+                    <span className="hero-stat-num" data-value={value}>
+                      {value}
+                    </span>
+                    <span className="text-brand">{suffix}</span>
+                  </div>
+                  <p className="relative mt-2.5 text-xs sm:text-sm text-muted-foreground font-mono leading-snug">
+                    {label}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      {/* Services */}
-      <div className="container-responsive pb-16">
-        <div className="hero-services grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {services.map(({ title, icon: Icon, description }) => (
-            <div key={title} className="hero-service panel panel-hover p-6">
-              <Icon className="h-7 w-7 text-brand mb-4" />
-              <h4 className="font-display font-semibold text-base mb-1">
-                {title}
-              </h4>
-              <p className="text-sm text-muted-foreground">{description}</p>
+          {/* Services */}
+          <div>
+            <p className="hero-section-label font-mono text-xs sm:text-sm text-brand mb-6 tracking-wide">
+              <span className="text-muted-foreground">$</span> services --list
+            </p>
+            <div className="hero-services grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {services.map(({ code, title, icon: Icon, description }) => (
+                <div
+                  key={title}
+                  className="hero-service group relative overflow-hidden rounded-lg border border-line bg-card/60 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]"
+                >
+                  <div className="absolute left-0 top-0 h-full w-[2px] origin-top scale-y-0 bg-brand transition-transform duration-300 group-hover:scale-y-100" />
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line bg-background/60 text-brand transition-colors duration-300 group-hover:border-brand/40 group-hover:bg-brand/10">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="font-mono text-xs text-muted-foreground/60 group-hover:text-brand transition-colors">
+                      {code}
+                    </span>
+                  </div>
+                  <h4 className="font-display font-semibold text-base sm:text-[1.05rem] mb-1.5 leading-snug">
+                    {title}
+                  </h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {description}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 
       {/* Tech stack marquee */}
-      <div className="hero-marquee border-y border-line py-5 overflow-hidden">
-        <div className="marquee-track gap-10 px-5">
-          {[...techStack, ...techStack].map(({ name, icon: Icon }, i) => (
-            <span
-              key={`${name}-${i}`}
-              className="flex items-center gap-3 font-mono text-sm sm:text-base text-muted-foreground whitespace-nowrap"
-            >
-              <Icon className="text-xl text-brand" />
-              {name}
-              <span className="ml-6 text-line select-none">{"//"}</span>
-            </span>
-          ))}
+      <div className="hero-marquee border-y border-line bg-card/30 overflow-hidden">
+        <div className="container-responsive pt-5 pb-2">
+          <p className="hero-section-label font-mono text-xs text-muted-foreground">
+            <span className="text-brand">$</span> stack --watch
+          </p>
+        </div>
+        <div className="py-3 overflow-hidden">
+          <div className="marquee-track gap-10 px-5">
+            {[...techStack, ...techStack].map(({ name, icon: Icon }, i) => (
+              <span
+                key={`a-${name}-${i}`}
+                className="flex items-center gap-3 font-mono text-sm sm:text-base text-muted-foreground whitespace-nowrap"
+              >
+                <Icon className="text-xl text-brand" />
+                {name}
+                <span className="ml-6 text-line select-none">{"//"}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="pb-5 overflow-hidden border-t border-line/60">
+          <div className="marquee-track marquee-track-reverse gap-10 px-5 pt-3">
+            {[...techStack]
+              .reverse()
+              .concat([...techStack].reverse())
+              .map(({ name, icon: Icon }, i) => (
+                <span
+                  key={`b-${name}-${i}`}
+                  className="flex items-center gap-3 font-mono text-sm sm:text-base text-muted-foreground/80 whitespace-nowrap"
+                >
+                  <Icon className="text-lg text-brand/80" />
+                  {name}
+                  <span className="ml-6 text-line select-none">{"//"}</span>
+                </span>
+              ))}
+          </div>
         </div>
       </div>
     </section>

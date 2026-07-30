@@ -1,6 +1,7 @@
 import type Lenis from "lenis";
 
 let lenisInstance: Lenis | null = null;
+let lockCount = 0;
 
 export function setLenis(lenis: Lenis | null) {
   lenisInstance = lenis;
@@ -8,6 +9,26 @@ export function setLenis(lenis: Lenis | null) {
 
 export function getLenis() {
   return lenisInstance;
+}
+
+/** Pause Lenis + lock document scroll (for modals / drawers). */
+export function lockPageScroll() {
+  lockCount += 1;
+  if (lockCount === 1) {
+    lenisInstance?.stop();
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  }
+}
+
+/** Resume Lenis + unlock document scroll. */
+export function unlockPageScroll() {
+  lockCount = Math.max(0, lockCount - 1);
+  if (lockCount === 0) {
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+    lenisInstance?.start();
+  }
 }
 
 /**

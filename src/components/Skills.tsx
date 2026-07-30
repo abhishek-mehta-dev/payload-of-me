@@ -1,8 +1,15 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { VscAzure } from "react-icons/vsc";
-import { Code, Database, Server, Brain, Wrench } from "lucide-react";
+import {
+  Code,
+  Database,
+  Server,
+  Brain,
+  Wrench,
+  ArrowUpRight,
+} from "lucide-react";
 import {
   SiPython,
   SiJavascript,
@@ -31,14 +38,18 @@ import {
   SiTensorflow,
   SiOpenai,
   SiNestjs,
+  SiRedis,
+  SiOpenbsd,
 } from "react-icons/si";
 import { gsap, useGSAP } from "@/lib/gsap";
 import SectionHeading from "@/components/SectionHeading";
+import SkillsConstellation from "@/components/SkillsConstellation";
 
 const skillCategories = [
   {
     title: "Programming Languages",
     icon: Code,
+    accent: "Languages",
     skills: [
       { name: "Python", icon: SiPython, color: "#3776AB" },
       { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
@@ -50,6 +61,7 @@ const skillCategories = [
   {
     title: "Frameworks & Libraries",
     icon: Server,
+    accent: "Frameworks",
     skills: [
       { name: "Express.js", icon: SiExpress, color: "#888888" },
       { name: "Nest.js", icon: SiNestjs, color: "#e73665" },
@@ -65,17 +77,18 @@ const skillCategories = [
   {
     title: "Database Management",
     icon: Database,
+    accent: "Data",
     skills: [
-      { name: "SQL", icon: SiMysql, color: "#336791" },
-      { name: "NoSQL", icon: SiMongodb, color: "#47A248" },
       { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
       { name: "PostgreSQL", icon: SiPostgresql, color: "#336791" },
+      { name: "Redis", icon: SiRedis, color: "#DC382D" },
       { name: "MySQL", icon: SiMysql, color: "#4479A1" },
     ],
   },
   {
     title: "API Development",
     icon: Wrench,
+    accent: "APIs",
     skills: [
       { name: "RESTful Services", icon: SiOpenapiinitiative, color: "#6BA539" },
       {
@@ -88,16 +101,19 @@ const skillCategories = [
   {
     title: "Server & Infrastructure",
     icon: Server,
+    accent: "Infra",
     skills: [
       { name: "Linux Fundamentals", icon: SiLinux, color: "#FFD41F" },
       { name: "Nginx", icon: SiNginx, color: "#009639" },
       { name: "Docker", icon: SiDocker, color: "#2496ED" },
       { name: "Github Actions", icon: SiGithubactions, color: "#2088FF" },
+      { name: "SSH", icon: SiOpenbsd, color: "#000000" },
     ],
   },
   {
     title: "Emerging Technologies",
     icon: Brain,
+    accent: "Emerging",
     skills: [
       { name: "Machine Learning Basics", icon: SiTensorflow, color: "#FF6F00" },
       { name: "DevOps Tools", icon: SiKubernetes, color: "#326CE5" },
@@ -111,40 +127,98 @@ const skillCategories = [
 
 export default function Skills() {
   const rootRef = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(0);
 
   useGSAP(
     () => {
-      gsap.utils.toArray<HTMLElement>(".skill-card").forEach((card, i) => {
+      // Zigzag rows: odd slide from left, even from right
+      gsap.utils.toArray<HTMLElement>(".skill-lane").forEach((lane, i) => {
+        const fromLeft = i % 2 === 0;
+        const indexEl = lane.querySelector(".skill-lane-index");
+        const chips = lane.querySelectorAll(".skill-chip");
+
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: card, start: "top 85%", once: true },
-        });
-        tl.from(card, {
-          opacity: 0,
-          y: 60,
-          duration: 0.7,
-          delay: (i % 3) * 0.1,
-          ease: "power3.out",
-        }).from(
-          card.querySelectorAll(".skill-badge"),
-          {
-            opacity: 0,
-            y: 14,
-            scale: 0.92,
-            stagger: 0.045,
-            duration: 0.35,
-            ease: "power2.out",
+          scrollTrigger: {
+            trigger: lane,
+            start: "top 82%",
+            once: true,
+            onEnter: () => setActive(i),
           },
-          "-=0.25",
-        );
+        });
+
+        tl.from(lane, {
+          opacity: 0,
+          x: fromLeft ? -80 : 80,
+          y: 40,
+          duration: 0.85,
+          ease: "power3.out",
+        });
+
+        if (indexEl) {
+          tl.from(
+            indexEl,
+            {
+              scale: 0,
+              duration: 0.45,
+              ease: "back.out(2.2)",
+            },
+            "-=0.55",
+          );
+        }
+
+        if (chips.length) {
+          tl.from(
+            chips,
+            {
+              opacity: 0,
+              y: 18,
+              scale: 0.88,
+              stagger: 0.04,
+              duration: 0.35,
+              ease: "power2.out",
+            },
+            "-=0.3",
+          );
+        }
       });
 
-      gsap.from(".skills-pill", {
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        ease: "power3.out",
-        scrollTrigger: { trigger: ".skills-pill", start: "top 92%", once: true },
-      });
+      const pill = rootRef.current?.querySelector(".skills-pill");
+      if (pill) {
+        gsap.from(pill, {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: pill,
+            start: "top 92%",
+            once: true,
+          },
+        });
+      }
+
+      // Magnetic chips on desktop
+      if (window.matchMedia("(pointer: fine)").matches) {
+        gsap.utils.toArray<HTMLElement>(".skill-chip").forEach((chip) => {
+          const xTo = gsap.quickTo(chip, "x", {
+            duration: 0.35,
+            ease: "power3.out",
+          });
+          const yTo = gsap.quickTo(chip, "y", {
+            duration: 0.35,
+            ease: "power3.out",
+          });
+          chip.addEventListener("mousemove", (e) => {
+            const rect = chip.getBoundingClientRect();
+            xTo((e.clientX - rect.left - rect.width / 2) * 0.25);
+            yTo((e.clientY - rect.top - rect.height / 2) * 0.25);
+          });
+          chip.addEventListener("mouseleave", () => {
+            xTo(0);
+            yTo(0);
+          });
+        });
+      }
     },
     { scope: rootRef },
   );
@@ -155,7 +229,12 @@ export default function Skills() {
       ref={rootRef}
       className="section-responsive relative overflow-hidden bg-surface/40"
     >
-      <div className="container-responsive">
+      {/* Orbiting stack constellation — desktop */}
+      <div className="pointer-events-none absolute top-24 right-0 w-[min(420px,38vw)] h-[min(420px,38vw)] opacity-80 hidden xl:block">
+        <SkillsConstellation active={active} />
+      </div>
+
+      <div className="container-responsive relative z-10">
         <SectionHeading
           index="02"
           label="Skills"
@@ -164,44 +243,138 @@ export default function Skills() {
           subtitle="A comprehensive overview of my technical skills and expertise across various domains"
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {skillCategories.map(({ title, icon: Icon, skills }, index) => (
-            <div key={title} className="skill-card panel panel-hover p-6 flex flex-col">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <span className="p-2.5 rounded-md bg-brand/10 border border-brand/25">
-                    <Icon className="h-5 w-5 text-brand" />
+        {/* Sticky index rail + zigzag lanes */}
+        <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-10 lg:gap-14">
+          {/* Left rail — category jump list */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-28 space-y-1">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
+                Index
+              </p>
+              {skillCategories.map((cat, i) => (
+                <button
+                  key={cat.title}
+                  type="button"
+                  onClick={() => {
+                    setActive(i);
+                    document
+                      .getElementById(`skill-lane-${i}`)
+                      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }}
+                  className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-md font-mono text-xs transition-colors duration-300 ${
+                    active === i
+                      ? "bg-brand/10 text-brand border border-brand/30"
+                      : "text-muted-foreground hover:text-foreground border border-transparent"
+                  }`}
+                >
+                  <span className="tabular-nums opacity-70">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="font-display font-semibold leading-tight">
-                    {title}
-                  </h3>
-                </div>
-                <span className="font-mono text-xs text-muted-foreground shrink-0">
-                  0{index + 1}
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {skills.map(({ name, icon: SkillIcon, color }) => (
-                  <span
-                    key={name}
-                    className="skill-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-line bg-surface text-sm font-medium text-muted-foreground hover:text-foreground hover:border-brand/50 transition-colors duration-300 cursor-default"
-                  >
-                    <SkillIcon color={color} className="shrink-0 text-base" />
-                    {name}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-auto pt-5 flex items-center justify-between font-mono text-xs text-muted-foreground">
-                <span>{skills.length} Skills</span>
-                <span className="w-2 h-2 rounded-full bg-brand" />
-              </div>
+                  <span className="truncate">{cat.accent}</span>
+                </button>
+              ))}
             </div>
-          ))}
+          </aside>
+
+          {/* Zigzag spine layout */}
+          <div className="relative">
+            {/* Center spine (desktop) */}
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 hidden md:block"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent, var(--brand), transparent)",
+                opacity: 0.35,
+              }}
+            />
+
+            <div className="space-y-8 md:space-y-16">
+              {skillCategories.map(
+                ({ title, icon: Icon, accent, skills }, index) => {
+                  const isLeft = index % 2 === 0;
+                  return (
+                    <article
+                      key={title}
+                      id={`skill-lane-${index}`}
+                      className={`skill-lane relative md:w-[calc(50%-1.5rem)] ${
+                        isLeft ? "md:mr-auto md:pr-4" : "md:ml-auto md:pl-4"
+                      }`}
+                    >
+                      {/* Spine node — sits on the center rail */}
+                      <span
+                        className={`skill-lane-index pointer-events-none hidden md:flex absolute top-10 w-10 h-10 rounded-full border-2 border-brand bg-background items-center justify-center font-mono text-xs text-brand z-10 ${
+                          isLeft
+                            ? "right-0 translate-x-[calc(100%+1.5rem-1.25rem)]"
+                            : "left-0 -translate-x-[calc(100%+1.5rem-1.25rem)]"
+                        }`}
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <div className="panel panel-hover p-6 sm:p-8 overflow-hidden relative">
+                        {/* Giant watermark number */}
+                        <span
+                          aria-hidden
+                          className="pointer-events-none absolute -bottom-6 -right-2 font-display text-[7rem] font-bold leading-none text-stroke opacity-40 select-none"
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        <div className="relative flex items-start justify-between gap-4 mb-6">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="p-2.5 rounded-md bg-brand/10 border border-brand/25 shrink-0">
+                              <Icon className="h-5 w-5 text-brand" />
+                            </span>
+                            <div className="min-w-0">
+                              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-brand mb-1">
+                                {accent}
+                              </p>
+                              <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight">
+                                {title}
+                              </h3>
+                            </div>
+                          </div>
+                          <span className="hidden sm:inline-flex items-center gap-1 font-mono text-xs text-muted-foreground shrink-0">
+                            {skills.length}
+                            <ArrowUpRight className="h-3.5 w-3.5 text-brand" />
+                          </span>
+                        </div>
+
+                        {/* Skill chips — staggered wrap, slightly rotated first row feel */}
+                        <div
+                          className={`relative flex flex-wrap gap-2.5 ${
+                            isLeft ? "" : "md:justify-end"
+                          }`}
+                        >
+                          {skills.map(
+                            ({ name, icon: SkillIcon, color }, skillIdx) => (
+                              <span
+                                key={name}
+                                className="skill-chip inline-flex items-center gap-2 px-3.5 py-2 rounded-md border border-line bg-surface/90 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-brand/60 hover:bg-brand/5 transition-colors duration-300 cursor-default will-change-transform"
+                                style={{
+                                  // subtle offset for a less rigid alignment
+                                  marginTop: skillIdx % 3 === 1 ? "0.35rem" : 0,
+                                }}
+                              >
+                                <SkillIcon
+                                  color={color}
+                                  className="shrink-0 text-base"
+                                />
+                                {name}
+                              </span>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                },
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="text-center mt-14">
+        <div className="text-center mt-16">
           <div className="skills-pill inline-flex items-center gap-3 px-6 py-3.5 rounded-full border border-line bg-card font-mono text-sm">
             <Brain className="h-5 w-5 text-brand" />
             <span className="text-muted-foreground">
