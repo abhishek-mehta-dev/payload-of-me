@@ -218,15 +218,18 @@ export default function Chatbot() {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    if (isOpen || isHovering) {
+    // Keep FAB parked on touch / small screens — wandering covers CTAs
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    const wide = window.matchMedia("(min-width: 768px)").matches;
+    if (!fine || !wide || isOpen || isHovering) {
       setPosition({ x: 0, y: 0 });
       return;
     }
 
     const moveInterval = setInterval(() => {
       setPosition({
-        x: Math.floor(Math.random() * -500),
-        y: Math.floor(Math.random() * -400),
+        x: Math.floor(Math.random() * -280),
+        y: Math.floor(Math.random() * -220),
       });
     }, 5000);
 
@@ -317,7 +320,7 @@ export default function Chatbot() {
     <>
       {/* Floating FAB — wanders until open / hovered */}
       <motion.div
-        className="fixed bottom-6 right-6 z-50"
+        className="fixed z-50 bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]"
         initial={{ scale: 0, rotate: -180, x: 0, y: 0 }}
         animate={{
           scale: 1,
@@ -345,7 +348,7 @@ export default function Chatbot() {
           />
 
           <motion.div
-            className="absolute bottom-full right-0 mb-3 whitespace-nowrap rounded-md border border-line bg-card px-3 py-1.5 font-mono text-xs text-muted-foreground shadow-lg"
+            className="absolute bottom-full right-0 mb-3 hidden md:block whitespace-nowrap rounded-md border border-line bg-card px-3 py-1.5 font-mono text-xs text-muted-foreground shadow-lg"
             initial={{ opacity: 0, y: 8, scale: 0.95 }}
             animate={{
               opacity: [0, 1, 1, 0],
@@ -412,7 +415,7 @@ export default function Chatbot() {
             className={`fixed z-50 ${
               isExpanded
                 ? "inset-4 sm:inset-8 md:inset-12"
-                : "bottom-24 right-6 w-[min(100vw-1.5rem,400px)]"
+                : "bottom-[max(5.5rem,env(safe-area-inset-bottom)+4.5rem)] right-[max(0.75rem,env(safe-area-inset-right))] left-[max(0.75rem,env(safe-area-inset-left))] w-auto max-w-[400px] ml-auto"
             }`}
           >
             <div

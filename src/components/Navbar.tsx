@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import NavbarLogo from "./NavbarLogo";
 import { ThemeToggle } from "./ThemeToggle";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { scrollToSection } from "@/lib/lenis-store";
+import { scrollToSection, lockPageScroll, unlockPageScroll } from "@/lib/lenis-store";
 
 interface NavbarProps {
   hasBlogs?: boolean;
@@ -35,6 +35,8 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
 
   // Hide on scroll down, show on scroll up
   useGSAP(() => {
+    if (!headerRef.current) return;
+
     const showAnim = gsap
       .from(headerRef.current, {
         yPercent: -100,
@@ -85,9 +87,12 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [navLinks]);
 
-  // Animate mobile menu items in when it opens
+  // Animate mobile menu items in when it opens + lock scroll
   useEffect(() => {
-    if (isOpen && mobileMenuRef.current) {
+    if (!isOpen) return;
+
+    lockPageScroll();
+    if (mobileMenuRef.current) {
       gsap.from(mobileMenuRef.current.querySelectorAll(".mobile-link"), {
         opacity: 0,
         y: 30,
@@ -96,6 +101,8 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
         ease: "power3.out",
       });
     }
+
+    return () => unlockPageScroll();
   }, [isOpen]);
 
   const handleNavClick = (e: React.MouseEvent, href: string) => {
@@ -131,7 +138,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
             {navLinks.map((item, index) => {
               const isActive = activeSection === item.label;
               return (
@@ -140,7 +147,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={clsx(
-                    "group relative px-3.5 py-2 font-mono text-sm transition-colors duration-300",
+                    "group relative px-2.5 xl:px-3.5 py-2 font-mono text-sm transition-colors duration-300",
                     isActive
                       ? "text-brand"
                       : "text-muted-foreground hover:text-foreground",
@@ -164,7 +171,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
           <div className="flex items-center gap-3">
             <ThemeToggle />
             <button
-              className="md:hidden p-2.5 rounded-md border border-line bg-card hover:border-brand transition-colors"
+              className="lg:hidden p-2.5 rounded-md border border-line bg-card hover:border-brand transition-colors"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={`${isOpen ? "Close" : "Open"} Menu`}
               aria-expanded={isOpen}
@@ -183,7 +190,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
           id="mobile-menu"
           role="navigation"
           aria-label="Mobile Navigation"
-          className="fixed inset-0 z-40 md:hidden bg-background/97 backdrop-blur-xl flex flex-col justify-center px-8"
+          className="fixed inset-0 z-40 lg:hidden bg-background/97 backdrop-blur-xl flex flex-col justify-center px-6 sm:px-8 overflow-y-auto overscroll-contain pt-24 pb-10"
         >
           {navLinks.map((item, index) => {
             const isActive = activeSection === item.label;
@@ -193,7 +200,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
                 className={clsx(
-                  "mobile-link flex items-baseline gap-4 py-4 border-b border-line font-display text-3xl font-semibold transition-colors",
+                  "mobile-link flex min-h-14 items-baseline gap-4 py-3.5 border-b border-line font-display text-2xl sm:text-3xl font-semibold transition-colors",
                   isActive ? "text-brand" : "text-foreground hover:text-brand",
                 )}
               >
@@ -204,7 +211,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
               </a>
             );
           })}
-          <p className="mobile-link mt-10 font-mono text-xs text-muted-foreground">
+          <p className="mobile-link mt-8 font-mono text-[11px] sm:text-xs text-muted-foreground break-all">
             $ contact --now → mehtaabhishek.dev@gmail.com
           </p>
         </div>

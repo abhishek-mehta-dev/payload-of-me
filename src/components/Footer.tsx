@@ -208,8 +208,9 @@ export default function Footer() {
               {quickLinks.map(({ name, href }, i) => (
                 <button
                   key={name}
+                  type="button"
                   onClick={() => scrollToSection(href)}
-                  className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-brand transition-colors duration-300 text-left"
+                  className="group flex min-h-11 items-center gap-3 text-sm text-muted-foreground hover:text-brand transition-colors duration-300 text-left"
                 >
                   <span className="font-mono text-xs text-brand/70 w-5 tabular-nums">
                     0{i + 1}
@@ -242,8 +243,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 pt-6 border-t border-line flex flex-col gap-5 sm:gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-center sm:text-left order-2 sm:order-1">
+        <div className="mt-10 pt-6 border-t border-line flex flex-col gap-5 lg:gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="text-center lg:text-left order-2 lg:order-1">
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Abhishek Mehta. All rights reserved.
             </p>
@@ -252,7 +253,7 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="order-1 sm:order-2 flex justify-center">
+          <div className="order-1 lg:order-2 flex justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-line bg-card font-mono text-xs text-muted-foreground">
               <Star className="h-3.5 w-3.5 text-brand shrink-0" />
               Thank you for visiting!
@@ -260,7 +261,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="order-3 flex items-center justify-center sm:justify-end gap-2.5">
+          <div className="order-3 flex items-center justify-center lg:justify-end gap-2.5">
             {socialLinks.map(({ icon: Icon, href, label }) => (
               <a
                 key={label}
@@ -287,7 +288,7 @@ export default function Footer() {
       {/* Full-bleed torch watermark */}
       <div
         ref={torchZoneRef}
-        className={`footer-torch-zone relative w-screen left-1/2 -translate-x-1/2 overflow-hidden border-t border-line/50 px-[4vw] ${
+        className={`footer-torch-zone relative w-full overflow-hidden border-t border-line/50 px-[4vw] ${
           finePointer && !reduced ? "cursor-none" : ""
         }`}
         style={{

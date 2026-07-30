@@ -47,7 +47,7 @@ export default function BlogsList({ blogs }: { blogs: BlogType[] }) {
   return (
     <section
       id="blogs"
-      className="py-20 md:py-32 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30 dark:from-slate-950 dark:via-slate-900/50 dark:to-blue-900/10 relative overflow-hidden px-6"
+      className="section-responsive relative overflow-hidden px-0"
     >
       {/* Ambient blobs — same as Projects section */}
       <motion.div
@@ -61,7 +61,7 @@ export default function BlogsList({ blogs }: { blogs: BlogType[] }) {
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       />
 
-      <div className="max-w-6xl mx-auto relative z-10" ref={ref}>
+      <div className="container-responsive relative z-10" ref={ref}>
 
         {/* ── Section header — mirrors Projects heading style ── */}
         <motion.div

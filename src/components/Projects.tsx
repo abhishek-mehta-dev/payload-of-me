@@ -31,7 +31,7 @@ function statusClasses(status: string) {
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <article className="project-card panel overflow-hidden flex flex-col lg:w-[min(720px,70vw)] lg:shrink-0 lg:h-full lg:max-h-[78vh]">
+    <article className="project-card panel overflow-hidden flex flex-col lg:w-[min(560px,68vw)] xl:w-[min(720px,70vw)] lg:shrink-0 lg:h-full lg:max-h-[min(70vh,560px)] xl:max-h-[78vh]">
       {/* Browser-chrome image — capped so actions stay visible */}
       <div className="relative border-b border-line bg-surface shrink-0">
         <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-line">
@@ -47,12 +47,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {project.status}
           </span>
         </div>
-        <div className="relative aspect-[16/9] lg:aspect-[2.2/1] lg:max-h-[220px] overflow-hidden group">
+        <div className="relative aspect-[16/9] lg:aspect-[2.4/1] lg:max-h-[140px] xl:aspect-[2.2/1] xl:max-h-[220px] overflow-hidden group">
           <Image
             src={project.image || "/placeholder.svg"}
             alt={project.title}
             fill
-            sizes="(min-width: 1024px) 70vw, 100vw"
+            sizes="(min-width: 1024px) 68vw, 100vw"
             className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
           />
           <span className="absolute bottom-3 left-3 font-mono text-xs px-2.5 py-1 rounded bg-background/85 backdrop-blur border border-line text-muted-foreground">
@@ -62,9 +62,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       </div>
 
       {/* Body */}
-      <div className="p-5 sm:p-6 flex flex-col gap-4 flex-1 min-h-0">
+      <div className="p-4 sm:p-5 lg:p-4 xl:p-6 flex flex-col gap-3 lg:gap-3 xl:gap-4 flex-1 min-h-0">
         <div className="flex items-start justify-between gap-4 shrink-0">
-          <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-bold leading-tight">
+          <h3 className="font-display text-lg sm:text-xl lg:text-xl xl:text-2xl font-bold leading-tight">
             {project.title}
           </h3>
           <span className="font-mono text-sm text-muted-foreground shrink-0">
@@ -78,7 +78,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </p>
 
         {/* Preview of technical work so it's obvious details exist */}
-        <ul className="space-y-1.5 shrink-0 hidden sm:block">
+        <ul className="space-y-1.5 shrink-0 block lg:hidden xl:block">
           {project.responsibilities.slice(0, 2).map((item) => (
             <li
               key={item.slice(0, 40)}
@@ -116,7 +116,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </div>
 
         {/* Always-visible actions */}
-        <div className="mt-auto shrink-0 flex flex-col sm:flex-row gap-2.5 pt-3 border-t border-line">
+        <div className="mt-auto shrink-0 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-2.5 pt-3 border-t border-line">
           <ProjectDetailsDialog project={project} />
           <a
             href={project.liveUrl}
@@ -161,14 +161,16 @@ export default function Projects() {
         "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
         () => {
           const track = trackRef.current;
-          if (!track) return;
-          const getAmount = () => track.scrollWidth - window.innerWidth;
+          const pin = pinRef.current;
+          if (!track || !pin) return;
+          const getAmount = () =>
+            Math.max(0, track.scrollWidth - window.innerWidth);
 
           gsap.to(track, {
             x: () => -getAmount(),
             ease: "none",
             scrollTrigger: {
-              trigger: pinRef.current,
+              trigger: pin,
               start: "top top",
               end: () => "+=" + getAmount(),
               pin: true,
@@ -218,26 +220,26 @@ export default function Projects() {
           accent="Projects"
           subtitle="A showcase of my recent work and technical projects demonstrating Full-stack development skills"
         />
-        <p className="hidden lg:flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground -mt-10 mb-4">
+        <p className="hidden lg:flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground -mt-6 lg:-mt-8 xl:-mt-10 mb-4">
           <MoveHorizontal className="h-4 w-4 text-brand" />
           keep scrolling — the deck moves sideways
         </p>
       </div>
 
-      {/* Pinned horizontal deck (desktop) / vertical stack (mobile) */}
-      <div ref={pinRef} className="lg:h-screen lg:flex lg:flex-col lg:justify-center">
+      {/* Pinned horizontal deck (lg+) / vertical stack (below) */}
+      <div ref={pinRef} className="lg:h-[100svh] lg:flex lg:flex-col lg:justify-center">
         <div
           ref={trackRef}
-          className="flex flex-col gap-10 px-4 sm:px-6 pb-16 lg:pb-0 lg:flex-row lg:gap-10 lg:px-[6vw] lg:items-stretch lg:h-[78vh] lg:will-change-transform"
+          className="flex flex-col gap-8 sm:gap-10 px-4 sm:px-6 pb-16 lg:pb-0 lg:flex-row lg:gap-8 xl:gap-10 lg:px-[4vw] xl:px-[6vw] lg:items-stretch lg:h-[min(70vh,560px)] xl:h-[78vh] lg:will-change-transform"
         >
           {projects.map((project, index) => (
             <ProjectCard key={project.title} project={project} index={index} />
           ))}
 
           {/* End card */}
-          <div className="project-card hidden lg:flex flex-col items-start justify-center shrink-0 w-[40vw] max-w-[480px] p-10">
+          <div className="project-card hidden lg:flex flex-col items-start justify-center shrink-0 w-[36vw] xl:w-[40vw] max-w-[480px] p-8 xl:p-10">
             <p className="section-label mb-4">{"// that's the deck"}</p>
-            <h3 className="font-display text-4xl font-bold leading-tight mb-6">
+            <h3 className="font-display text-3xl xl:text-4xl font-bold leading-tight mb-6">
               More Projects
               <br />
               <span className="text-brand">Coming Soon</span>
@@ -255,7 +257,7 @@ export default function Projects() {
         </div>
 
         {/* Progress bar (desktop) */}
-        <div className="hidden lg:block mx-[6vw] mt-8 h-px bg-line relative overflow-hidden">
+        <div className="hidden lg:block mx-[4vw] xl:mx-[6vw] mt-6 xl:mt-8 h-px bg-line relative overflow-hidden">
           <div
             ref={progressRef}
             className="absolute inset-0 bg-brand origin-left"
@@ -264,9 +266,9 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Mobile-only bottom CTA (desktop version lives in the deck) */}
-      <div className="lg:hidden text-center pb-16">
-        <div className="inline-flex items-center gap-3 px-6 py-3.5 rounded-full border border-line bg-card font-mono text-sm">
+      {/* Stack-mode bottom CTA */}
+      <div className="lg:hidden text-center pb-24 sm:pb-16 px-4">
+        <div className="inline-flex max-w-[calc(100%-2rem)] flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-3.5 rounded-full border border-line bg-card font-mono text-xs sm:text-sm">
           <Code2 className="h-5 w-5 text-brand" />
           <span className="text-muted-foreground">More Projects Coming Soon</span>
           <Github className="h-5 w-5 text-brand" />

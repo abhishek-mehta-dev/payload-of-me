@@ -230,7 +230,7 @@ export default function Skills() {
       className="section-responsive relative overflow-hidden bg-surface/40"
     >
       {/* Orbiting stack constellation — desktop */}
-      <div className="pointer-events-none absolute top-24 right-0 w-[min(420px,38vw)] h-[min(420px,38vw)] opacity-80 hidden xl:block">
+      <div className="pointer-events-none absolute top-24 right-0 w-[min(360px,32vw)] h-[min(360px,32vw)] opacity-70 hidden lg:block xl:w-[min(420px,38vw)] xl:h-[min(420px,38vw)] xl:opacity-80">
         <SkillsConstellation active={active} />
       </div>
 
@@ -243,8 +243,8 @@ export default function Skills() {
           subtitle="A comprehensive overview of my technical skills and expertise across various domains"
         />
 
-        {/* Sticky index rail + zigzag lanes */}
-        <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-10 lg:gap-14">
+        {/* Sticky index rail + zigzag lanes — desktop format from lg */}
+        <div className="grid grid-cols-1 lg:grid-cols-[132px_1fr] xl:grid-cols-[180px_1fr] gap-8 lg:gap-8 xl:gap-14">
           {/* Left rail — category jump list */}
           <aside className="hidden lg:block">
             <div className="sticky top-28 space-y-1">
@@ -261,7 +261,7 @@ export default function Skills() {
                       .getElementById(`skill-lane-${i}`)
                       ?.scrollIntoView({ behavior: "smooth", block: "center" });
                   }}
-                  className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-md font-mono text-xs transition-colors duration-300 ${
+                  className={`w-full text-left flex items-center gap-2 xl:gap-3 px-2.5 xl:px-3 py-2 xl:py-2.5 rounded-md font-mono text-[11px] xl:text-xs transition-colors duration-300 ${
                     active === i
                       ? "bg-brand/10 text-brand border border-brand/30"
                       : "text-muted-foreground hover:text-foreground border border-transparent"
@@ -278,9 +278,8 @@ export default function Skills() {
 
           {/* Zigzag spine layout */}
           <div className="relative">
-            {/* Center spine (desktop) */}
             <div
-              className="pointer-events-none absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 hidden md:block"
+              className="pointer-events-none absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 hidden lg:block"
               style={{
                 background:
                   "linear-gradient(to bottom, transparent, var(--brand), transparent)",
@@ -288,7 +287,7 @@ export default function Skills() {
               }}
             />
 
-            <div className="space-y-8 md:space-y-16">
+            <div className="space-y-8 lg:space-y-12 xl:space-y-16">
               {skillCategories.map(
                 ({ title, icon: Icon, accent, skills }, index) => {
                   const isLeft = index % 2 === 0;
@@ -296,31 +295,31 @@ export default function Skills() {
                     <article
                       key={title}
                       id={`skill-lane-${index}`}
-                      className={`skill-lane relative md:w-[calc(50%-1.5rem)] ${
-                        isLeft ? "md:mr-auto md:pr-4" : "md:ml-auto md:pl-4"
+                      className={`skill-lane relative lg:w-[calc(50%-1rem)] xl:w-[calc(50%-1.5rem)] ${
+                        isLeft
+                          ? "lg:mr-auto lg:pr-3 xl:pr-4"
+                          : "lg:ml-auto lg:pl-3 xl:pl-4"
                       }`}
                     >
-                      {/* Spine node — sits on the center rail */}
                       <span
-                        className={`skill-lane-index pointer-events-none hidden md:flex absolute top-10 w-10 h-10 rounded-full border-2 border-brand bg-background items-center justify-center font-mono text-xs text-brand z-10 ${
+                        className={`skill-lane-index pointer-events-none hidden lg:flex absolute top-8 xl:top-10 w-8 h-8 xl:w-10 xl:h-10 rounded-full border-2 border-brand bg-background items-center justify-center font-mono text-[10px] xl:text-xs text-brand z-10 ${
                           isLeft
-                            ? "right-0 translate-x-[calc(100%+1.5rem-1.25rem)]"
-                            : "left-0 -translate-x-[calc(100%+1.5rem-1.25rem)]"
+                            ? "right-0 translate-x-[calc(100%+0.75rem)] xl:translate-x-[calc(100%+1.5rem-1.25rem)]"
+                            : "left-0 -translate-x-[calc(100%+0.75rem)] xl:-translate-x-[calc(100%+1.5rem-1.25rem)]"
                         }`}
                       >
                         {String(index + 1).padStart(2, "0")}
                       </span>
 
-                      <div className="panel panel-hover p-6 sm:p-8 overflow-hidden relative">
-                        {/* Giant watermark number */}
+                      <div className="panel panel-hover p-5 sm:p-6 lg:p-5 xl:p-8 overflow-hidden relative">
                         <span
                           aria-hidden
-                          className="pointer-events-none absolute -bottom-6 -right-2 font-display text-[7rem] font-bold leading-none text-stroke opacity-40 select-none"
+                          className="pointer-events-none absolute -bottom-6 -right-2 font-display text-[5.5rem] xl:text-[7rem] font-bold leading-none text-stroke opacity-40 select-none"
                         >
                           {String(index + 1).padStart(2, "0")}
                         </span>
 
-                        <div className="relative flex items-start justify-between gap-4 mb-6">
+                        <div className="relative flex items-start justify-between gap-4 mb-5 xl:mb-6">
                           <div className="flex items-center gap-3 min-w-0">
                             <span className="p-2.5 rounded-md bg-brand/10 border border-brand/25 shrink-0">
                               <Icon className="h-5 w-5 text-brand" />
@@ -340,19 +339,17 @@ export default function Skills() {
                           </span>
                         </div>
 
-                        {/* Skill chips — staggered wrap, slightly rotated first row feel */}
                         <div
-                          className={`relative flex flex-wrap gap-2.5 ${
-                            isLeft ? "" : "md:justify-end"
+                          className={`relative flex flex-wrap gap-2 lg:gap-2 xl:gap-2.5 ${
+                            isLeft ? "" : "lg:justify-end"
                           }`}
                         >
                           {skills.map(
                             ({ name, icon: SkillIcon, color }, skillIdx) => (
                               <span
                                 key={name}
-                                className="skill-chip inline-flex items-center gap-2 px-3.5 py-2 rounded-md border border-line bg-surface/90 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-brand/60 hover:bg-brand/5 transition-colors duration-300 cursor-default will-change-transform"
+                                className="skill-chip inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-md border border-line bg-surface/90 text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground hover:border-brand/60 hover:bg-brand/5 transition-colors duration-300 cursor-default will-change-transform"
                                 style={{
-                                  // subtle offset for a less rigid alignment
                                   marginTop: skillIdx % 3 === 1 ? "0.35rem" : 0,
                                 }}
                               >
@@ -375,7 +372,7 @@ export default function Skills() {
         </div>
 
         <div className="text-center mt-16">
-          <div className="skills-pill inline-flex items-center gap-3 px-6 py-3.5 rounded-full border border-line bg-card font-mono text-sm">
+          <div className="skills-pill inline-flex max-w-full flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-3.5 rounded-full border border-line bg-card font-mono text-xs sm:text-sm">
             <Brain className="h-5 w-5 text-brand" />
             <span className="text-muted-foreground">
               Always Learning New Technologies

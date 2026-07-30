@@ -10,10 +10,11 @@ const NavbarLogo = () => {
 
       {/* Wordmark */}
       <div className="flex flex-col">
-        <span className="font-display text-lg font-bold tracking-tight leading-none group-hover:text-brand transition-colors duration-300">
-          Abhishek Mehta
+        <span className="font-display text-base sm:text-lg font-bold tracking-tight leading-none group-hover:text-brand transition-colors duration-300">
+          <span className="sm:hidden">A. Mehta</span>
+          <span className="hidden sm:inline">Abhishek Mehta</span>
         </span>
-        <span className="hidden sm:block font-mono text-[10px] text-muted-foreground tracking-wider uppercase mt-1">
+        <span className="hidden xl:block font-mono text-[10px] text-muted-foreground tracking-wider uppercase mt-1">
           Full-stack developer • Turning Ideas into Clean Software
         </span>
       </div>

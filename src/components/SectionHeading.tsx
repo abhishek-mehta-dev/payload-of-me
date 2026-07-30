@@ -27,6 +27,8 @@ export default function SectionHeading({
 
   useGSAP(
     () => {
+      if (!ref.current) return;
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ref.current,
@@ -35,26 +37,36 @@ export default function SectionHeading({
         },
       });
 
-      tl.from(".sh-label", {
-        opacity: 0,
-        x: -24,
-        duration: 0.5,
-        ease: "power3.out",
-      })
-        .from(
-          ".sh-title",
+      const label = ref.current.querySelector(".sh-label");
+      const title = ref.current.querySelector(".sh-title");
+      const rule = ref.current.querySelector(".sh-rule");
+      const sub = ref.current.querySelector(".sh-subtitle");
+
+      if (label) {
+        tl.from(label, {
+          opacity: 0,
+          x: -24,
+          duration: 0.5,
+          ease: "power3.out",
+        });
+      }
+      if (title) {
+        tl.from(
+          title,
           { yPercent: 110, duration: 0.8, ease: "power4.out" },
           "-=0.25",
-        )
-        .from(
-          ".sh-rule",
+        );
+      }
+      if (rule) {
+        tl.from(
+          rule,
           { scaleX: 0, duration: 0.7, ease: "power3.inOut" },
           "-=0.5",
         );
-
-      if (subtitle) {
+      }
+      if (subtitle && sub) {
         tl.from(
-          ".sh-subtitle",
+          sub,
           { opacity: 0, y: 16, duration: 0.5, ease: "power2.out" },
           "-=0.4",
         );
@@ -69,7 +81,7 @@ export default function SectionHeading({
         {index} / {label}
       </p>
       <div className="overflow-hidden">
-        <h2 className="sh-title font-display text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight leading-[1.05]">
+        <h2 className="sh-title font-display text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-7xl font-bold tracking-tight leading-[1.05]">
           {title} {accent && <span className="text-brand">{accent}</span>}
         </h2>
       </div>
