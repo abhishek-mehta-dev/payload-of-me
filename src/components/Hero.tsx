@@ -146,12 +146,15 @@ export default function Hero() {
       ).matches;
 
       // --- Intro timeline (delayed slightly so the preloader wipes first) ---
-      const split = new SplitText(".hero-name", {
+      const nameEl = rootRef.current?.querySelector(".hero-name");
+      if (!nameEl) return;
+
+      const split = new SplitText(nameEl, {
         type: "chars",
         mask: "chars",
         charsClass: "hero-char",
       });
-
+      if (!split.chars?.length) return;
       const intro = gsap.timeline({
         delay: reduced ? 0 : 2.1,
         defaults: { ease: "power4.out" },
@@ -217,19 +220,29 @@ export default function Hero() {
 
       // --- Stats counters on scroll ---
       const statsRoot = rootRef.current?.querySelector(".hero-stats");
+      const metricsBlock = rootRef.current?.querySelector(".hero-metrics-block");
+      const serviceRoot = rootRef.current?.querySelector(".hero-services");
+      const serviceCards = gsap.utils.toArray<HTMLElement>(".hero-service");
+      const sectionLabels = gsap.utils.toArray<HTMLElement>(".hero-section-label");
+      const marquee = rootRef.current?.querySelector(".hero-marquee");
+
       if (statsRoot) {
-        gsap.from(".hero-stat", {
-          opacity: 0,
-          y: 36,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: statsRoot,
-            start: "top 85%",
-            once: true,
-          },
-        });
+        const stats = gsap.utils.toArray<HTMLElement>(".hero-stat");
+        if (stats.length) {
+          gsap.from(stats, {
+            opacity: 0,
+            y: 36,
+            duration: 0.7,
+            stagger: 0.1,
+            ease: "power3.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: statsRoot,
+              start: "top 85%",
+              once: true,
+            },
+          });
+        }
 
         gsap.utils
           .toArray<HTMLElement>(".hero-stat-num")
@@ -257,47 +270,62 @@ export default function Hero() {
           });
       }
 
-      // --- Services reveal ---
-      gsap.from(".hero-service", {
-        opacity: 0,
-        y: 48,
-        rotateX: 8,
-        transformOrigin: "top center",
-        stagger: 0.12,
-        duration: 0.75,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".hero-services",
-          start: "top 85%",
-          once: true,
-        },
-      });
+      // --- Services reveal (same metrics block trigger — avoids stuck opacity:0) ---
+      if (serviceCards.length && serviceRoot) {
+        if (reduced) {
+          gsap.set(serviceCards, { clearProps: "opacity,transform" });
+        } else {
+          gsap.fromTo(
+            serviceCards,
+            { opacity: 0, y: 36 },
+            {
+              opacity: 1,
+              y: 0,
+              stagger: 0.1,
+              duration: 0.7,
+              ease: "power3.out",
+              immediateRender: false,
+              scrollTrigger: {
+                trigger: serviceRoot,
+                start: "top 90%",
+                once: true,
+              },
+            },
+          );
+        }
+      }
 
-      gsap.from(".hero-section-label", {
-        opacity: 0,
-        x: -16,
-        duration: 0.55,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".hero-metrics-block",
-          start: "top 88%",
-          once: true,
-        },
-      });
+      if (sectionLabels.length && metricsBlock) {
+        gsap.from(sectionLabels, {
+          opacity: 0,
+          x: -16,
+          duration: 0.55,
+          stagger: 0.15,
+          ease: "power3.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: metricsBlock,
+            start: "top 88%",
+            once: true,
+          },
+        });
+      }
 
       // --- Marquee reveal ---
-      gsap.from(".hero-marquee", {
-        opacity: 0,
-        y: 24,
-        duration: 0.9,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".hero-marquee",
-          start: "top 95%",
-          once: true,
-        },
-      });
+      if (marquee) {
+        gsap.from(marquee, {
+          opacity: 0,
+          y: 24,
+          duration: 0.9,
+          ease: "power2.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: marquee,
+            start: "top 95%",
+            once: true,
+          },
+        });
+      }
 
       // --- Magnetic social buttons (desktop) ---
       if (window.matchMedia("(pointer: fine)").matches && !reduced) {
@@ -337,44 +365,54 @@ export default function Hero() {
         style={{ background: "var(--brand)" }}
       />
 
-      {/* Left accent — constellation (behind copy, fades into content) */}
+      {/* Left accent — constellation (desktop from lg, scaled for 1024) */}
       <div
-        className="pointer-events-none absolute top-[18%] left-0 z-[1] hidden lg:block w-[min(420px,34vw)] h-[min(420px,34vw)] opacity-40"
+        className="pointer-events-none absolute top-[16%] left-0 z-[1] hidden lg:block w-[min(280px,26vw)] xl:w-[min(420px,34vw)] h-[min(280px,26vw)] xl:h-[min(420px,34vw)] opacity-30 xl:opacity-40"
         style={{
-          maskImage: "linear-gradient(to right, black 40%, transparent 92%)",
+          maskImage: "linear-gradient(to right, black 35%, transparent 90%)",
           WebkitMaskImage:
-            "linear-gradient(to right, black 40%, transparent 92%)",
+            "linear-gradient(to right, black 35%, transparent 90%)",
         }}
       >
         <SkillsConstellation />
       </div>
 
-      {/* Right — server logs (full, clearly visible) */}
-      <div className="pointer-events-none absolute top-[8%] right-0 z-[1] hidden md:block h-[min(78vh,720px)] w-[min(520px,48vw)] lg:w-[min(560px,46vw)] opacity-80 lg:opacity-100">
+      {/* Right — server logs (desktop from lg, faded so copy stays readable) */}
+      <div
+        className="pointer-events-none absolute top-[6%] right-0 z-[1] hidden lg:block h-[min(72vh,640px)] w-[min(340px,34vw)] xl:w-[min(560px,42vw)] opacity-55 xl:opacity-90"
+        style={{
+          maskImage: "linear-gradient(to left, black 45%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to left, black 45%, transparent 100%)",
+        }}
+      >
         <HeroLogStream />
       </div>
 
-      <div className="container-responsive relative z-10 min-h-screen flex flex-col justify-center pt-32 pb-16">
+      <div className="container-responsive relative z-10 min-h-[100svh] lg:min-h-screen flex flex-col justify-center pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-14 lg:pb-16">
+        <div className="relative z-10 max-w-xl lg:max-w-[52%] xl:max-w-3xl">
         {/* Eyebrow */}
-        <p className="hero-eyebrow font-mono text-sm sm:text-base text-brand mb-6">
+        <p className="hero-eyebrow font-mono text-sm sm:text-base text-brand mb-4 sm:mb-5 lg:mb-6">
           <span className="text-muted-foreground">$ whoami</span>
           <span className="mx-3 text-line">|</span>
           ~/👋 Hello, I&apos;m
         </p>
 
         {/* Massive name */}
-        <h1 className="hero-name font-display font-bold tracking-tight leading-[0.95] text-[13vw] sm:text-7xl lg:text-8xl xl:text-9xl mb-6">
+        <h1 className="hero-name font-display font-bold tracking-tight leading-[0.95] text-[11vw] sm:text-6xl md:text-7xl lg:text-[3.35rem] xl:text-8xl 2xl:text-9xl mb-4 sm:mb-5 lg:mb-6 break-words">
           Abhishek Mehta<span className="text-brand"></span>
         </h1>
 
         {/* Rotating titles */}
-        <div className="hero-rotator-wrap flex items-center gap-3 mb-10 h-10 sm:h-12 max-w-3xl">
-          <span className="font-mono text-brand text-xl">→</span>
-          <div className="relative h-full flex-1 overflow-hidden">
+        <div className="hero-rotator-wrap flex items-start sm:items-center gap-2 sm:gap-3 mb-7 sm:mb-8 lg:mb-10 min-h-10 sm:h-12 lg:h-12 xl:h-14 max-w-3xl">
+          <span className="font-mono text-brand text-lg sm:text-xl shrink-0 mt-1 sm:mt-0">
+            →
+          </span>
+          <div className="relative min-h-10 sm:h-full flex-1 overflow-hidden">
             {titles.map((title, i) => (
               <span
                 key={title}
-                className="hero-rotator-item absolute inset-0 flex items-center font-display text-2xl sm:text-3xl lg:text-4xl font-semibold text-muted-foreground"
+                className="hero-rotator-item absolute inset-0 flex items-center font-display text-xl sm:text-2xl md:text-3xl lg:text-[1.65rem] xl:text-4xl font-semibold text-muted-foreground leading-tight"
                 style={{ opacity: i === 0 ? 1 : 0 }}
               >
                 {title}
@@ -395,17 +433,19 @@ export default function Hero() {
               <span className="term-dot bg-brand" />
             </div>
           </div>
-          <div className="p-5 sm:p-6 font-mono text-sm sm:text-base space-y-3">
-            <div className="whitespace-nowrap overflow-hidden text-foreground">
-              <span className="text-brand">$ </span>
-              {typed}
-              <span className="caret-blink inline-block w-2 h-4 sm:h-5 bg-brand align-middle ml-0.5" />
+            <div className="p-4 sm:p-6 font-mono text-xs sm:text-base space-y-3">
+            <div className="overflow-x-auto text-foreground">
+              <span className="whitespace-nowrap">
+                <span className="text-brand">$ </span>
+                {typed}
+                <span className="caret-blink inline-block w-2 h-4 sm:h-5 bg-brand align-middle ml-0.5" />
+              </span>
             </div>
-            <div className="text-muted-foreground">
+            <div className="text-muted-foreground leading-relaxed">
               <span className="text-line"># </span>
               Building scalable applications with modern tech stacks
             </div>
-            <div className="text-muted-foreground">
+            <div className="text-muted-foreground leading-relaxed">
               <span className="text-line"># </span>
               Transforming ideas into elegant, performant solutions
             </div>
@@ -453,11 +493,12 @@ export default function Hero() {
             <ArrowDown className="h-4 w-4 animate-bounce" />
           </button>
         </div>
+        </div>
       </div>
 
       {/* Metrics + capabilities */}
       <div className="hero-metrics-block relative border-t border-line">
-        <div className="container-responsive py-16 sm:py-20 space-y-14 sm:space-y-16">
+        <div className="container-responsive py-10 sm:py-16 lg:py-14 xl:py-20 space-y-10 sm:space-y-12 lg:space-y-12 xl:space-y-16">
           {/* Stats */}
           <div>
             <p className="hero-section-label font-mono text-xs sm:text-sm text-brand mb-6 tracking-wide">
@@ -467,7 +508,7 @@ export default function Hero() {
               {stats.map(({ value, suffix, label, icon: Icon }, i) => (
                 <div
                   key={label}
-                  className="hero-stat group relative overflow-hidden rounded-lg border border-line bg-card/60 p-5 sm:p-7 transition-colors duration-300 hover:border-brand/50"
+                  className="hero-stat group relative overflow-hidden rounded-lg border border-line bg-card/60 p-4 sm:p-5 lg:p-5 xl:p-7 transition-colors duration-300 hover:border-brand/50"
                 >
                   <div
                     className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -505,7 +546,7 @@ export default function Hero() {
               {services.map(({ code, title, icon: Icon, description }) => (
                 <div
                   key={title}
-                  className="hero-service group relative overflow-hidden rounded-lg border border-line bg-card/60 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]"
+                  className="hero-service group relative overflow-hidden rounded-lg border border-line bg-card/60 p-5 sm:p-6 lg:p-5 xl:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]"
                 >
                   <div className="absolute left-0 top-0 h-full w-[2px] origin-top scale-y-0 bg-brand transition-transform duration-300 group-hover:scale-y-100" />
                   <div className="flex items-center justify-between mb-5">

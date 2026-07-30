@@ -43,6 +43,7 @@ export default function About() {
         .map((el) => new SplitText(el, { type: "lines", mask: "lines" }));
 
       splits.forEach((split, i) => {
+        if (!split.lines?.length || !split.elements?.[0]) return;
         gsap.from(split.lines, {
           yPercent: 110,
           duration: 0.8,
@@ -57,31 +58,40 @@ export default function About() {
         });
       });
 
-      gsap.from(".about-subtitle", {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        ease: "power3.out",
-        scrollTrigger: { trigger: ".about-subtitle", start: "top 88%", once: true },
-      });
+      const subtitle = rootRef.current?.querySelector(".about-subtitle");
+      if (subtitle) {
+        gsap.from(subtitle, {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: { trigger: subtitle, start: "top 88%", once: true },
+        });
+      }
 
-      // Info cards slide in from the right
-      gsap.from(".about-card", {
-        opacity: 0,
-        x: 60,
-        stagger: 0.15,
-        duration: 0.7,
-        ease: "power3.out",
-        scrollTrigger: { trigger: ".about-cards", start: "top 80%", once: true },
-      });
+      const cardsRoot = rootRef.current?.querySelector(".about-cards");
+      const cards = gsap.utils.toArray<HTMLElement>(".about-card");
+      if (cardsRoot && cards.length) {
+        gsap.from(cards, {
+          opacity: 0,
+          x: 60,
+          stagger: 0.15,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: cardsRoot, start: "top 80%", once: true },
+        });
+      }
 
-      gsap.from(".about-pill", {
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        ease: "power3.out",
-        scrollTrigger: { trigger: ".about-pill", start: "top 92%", once: true },
-      });
+      const pill = rootRef.current?.querySelector(".about-pill");
+      if (pill) {
+        gsap.from(pill, {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: { trigger: pill, start: "top 92%", once: true },
+        });
+      }
     },
     { scope: rootRef },
   );
@@ -113,7 +123,7 @@ export default function About() {
               ))}
             </div>
 
-            <div className="about-pill mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-full border border-line bg-card font-mono text-sm">
+            <div className="about-pill mt-10 inline-flex max-w-full flex-wrap items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3 rounded-full border border-line bg-card font-mono text-xs sm:text-sm">
               <Code className="h-4 w-4 text-brand" />
               <span className="text-muted-foreground">
                 Always Learning, Always Growing

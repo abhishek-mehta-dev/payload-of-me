@@ -159,7 +159,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={rootRef}
-      className="section-responsive relative overflow-hidden"
+      className="section-responsive relative overflow-hidden pb-24 sm:pb-16"
     >
       <div className="container-responsive">
         <SectionHeading
@@ -170,7 +170,7 @@ export default function Contact() {
           subtitle="Ready to bring your ideas to life? Let's discuss your next project and create something amazing together."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-10 xl:gap-16">
           {/* Left: contact info */}
           <div className="contact-left">
             <h3 className="font-display text-2xl sm:text-3xl font-semibold mb-4 flex items-center gap-3">
@@ -256,7 +256,7 @@ export default function Contact() {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input
                   name="firstName"
                   placeholder="First Name"
@@ -330,7 +330,7 @@ export default function Contact() {
         </div>
 
         <div className="text-center mt-16">
-          <div className="contact-pill inline-flex items-center gap-3 px-6 py-3.5 rounded-full border border-line bg-card font-mono text-sm">
+          <div className="contact-pill inline-flex max-w-full flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-3.5 rounded-full border border-line bg-card font-mono text-xs sm:text-sm">
             <MessageCircle className="h-5 w-5 text-brand" />
             <span className="text-muted-foreground">
               Let&apos;s Build Something Amazing Together

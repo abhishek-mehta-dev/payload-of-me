@@ -9,7 +9,7 @@ import Preloader from "@/components/Preloader";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground pb-[env(safe-area-inset-bottom)]">
       <Preloader />
       <Hero />
       <About />
@@ -18,6 +18,6 @@ export default function Home() {
       <Projects />
       <BlogsSection />
       <Contact />
-    </main>
+    </div>
   );
 }

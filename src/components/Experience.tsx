@@ -91,43 +91,58 @@ export default function Experience() {
         "(prefers-reduced-motion: reduce)",
       ).matches;
 
-      gsap.from(".exp-line", {
-        scaleY: 0,
-        transformOrigin: "top center",
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".exp-timeline",
-          start: "top 70%",
-          end: "bottom 55%",
-          scrub: reduced ? false : 0.5,
-        },
-      });
+      const line = rootRef.current?.querySelector(".exp-line");
+      const timeline = rootRef.current?.querySelector(".exp-timeline");
+      if (line && timeline) {
+        gsap.from(line, {
+          scaleY: 0,
+          transformOrigin: "top center",
+          ease: "none",
+          scrollTrigger: {
+            trigger: timeline,
+            start: "top 70%",
+            end: "bottom 55%",
+            scrub: reduced ? false : 0.5,
+          },
+        });
+      }
 
-      gsap.from(".exp-milestone", {
-        opacity: 0,
-        y: 28,
-        stagger: 0.1,
-        duration: 0.6,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".exp-milestones",
-          start: "top 88%",
-          once: true,
-        },
-      });
-
+      const milestonesRoot = rootRef.current?.querySelector(".exp-milestones");
+      const milestoneCards = gsap.utils.toArray<HTMLElement>(".exp-milestone");
+      if (milestonesRoot && milestoneCards.length) {
+        gsap.from(milestoneCards, {
+          opacity: 0,
+          y: 28,
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: milestonesRoot,
+            start: "top 88%",
+            once: true,
+          },
+        });
+      }
       gsap.utils.toArray<HTMLElement>(".exp-item").forEach((item, i) => {
+        const node = item.querySelector(".exp-node");
+        const card = item.querySelector(".exp-card");
+        const highlights = item.querySelectorAll(".exp-highlight");
+        const tags = item.querySelectorAll(".exp-tag");
+
         const tl = gsap.timeline({
           scrollTrigger: { trigger: item, start: "top 82%", once: true },
         });
 
-        tl.from(item.querySelector(".exp-node"), {
-          scale: 0,
-          duration: 0.45,
-          ease: "back.out(2.4)",
-        })
-          .from(
-            item.querySelector(".exp-card"),
+        if (node) {
+          tl.from(node, {
+            scale: 0,
+            duration: 0.45,
+            ease: "back.out(2.4)",
+          });
+        }
+        if (card) {
+          tl.from(
+            card,
             {
               opacity: 0,
               y: 40,
@@ -136,9 +151,11 @@ export default function Experience() {
               ease: "power3.out",
             },
             "-=0.2",
-          )
-          .from(
-            item.querySelectorAll(".exp-highlight"),
+          );
+        }
+        if (highlights.length) {
+          tl.from(
+            highlights,
             {
               opacity: 0,
               x: -12,
@@ -147,9 +164,11 @@ export default function Experience() {
               ease: "power2.out",
             },
             "-=0.35",
-          )
-          .from(
-            item.querySelectorAll(".exp-tag"),
+          );
+        }
+        if (tags.length) {
+          tl.from(
+            tags,
             {
               opacity: 0,
               y: 10,
@@ -159,16 +178,19 @@ export default function Experience() {
             },
             "-=0.25",
           );
+        }
       });
 
-      gsap.from(".exp-cta", {
-        opacity: 0,
-        y: 28,
-        duration: 0.65,
-        ease: "power3.out",
-        scrollTrigger: { trigger: ".exp-cta", start: "top 92%", once: true },
-      });
-    },
+      const cta = rootRef.current?.querySelector(".exp-cta");
+      if (cta) {
+        gsap.from(cta, {
+          opacity: 0,
+          y: 28,
+          duration: 0.65,
+          ease: "power3.out",
+          scrollTrigger: { trigger: cta, start: "top 92%", once: true },
+        });
+      }    },
     { scope: rootRef },
   );
 
@@ -194,7 +216,7 @@ export default function Experience() {
         />
 
         {/* Quick milestone strip */}
-        <div className="exp-milestones grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-12 sm:mb-16">
+        <div className="exp-milestones grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-12 sm:mb-16">
           {milestones.map(({ icon: Icon, label, detail }) => (
             <div
               key={label}
@@ -205,7 +227,7 @@ export default function Experience() {
               </span>
               <div className="min-w-0">
                 <p className="font-display font-semibold text-sm">{label}</p>
-                <p className="font-mono text-xs text-muted-foreground truncate">
+                <p className="font-mono text-xs text-muted-foreground leading-snug">
                   {detail}
                 </p>
               </div>

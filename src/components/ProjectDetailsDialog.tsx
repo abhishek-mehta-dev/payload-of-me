@@ -138,7 +138,7 @@ export default function ProjectDetailsDialog({
         </div>
 
         {/* Tabs */}
-        <div className="shrink-0 flex gap-1 px-4 sm:px-5 pt-3 border-b border-line bg-surface/40">
+        <div className="shrink-0 flex gap-1 px-3 sm:px-5 pt-3 border-b border-line bg-surface/40 overflow-x-auto scrollbar-none">
           {tabs.map(({ id, label, icon: Icon }) => {
             const active = tab === id;
             return (
@@ -146,14 +146,14 @@ export default function ProjectDetailsDialog({
                 key={id}
                 type="button"
                 onClick={() => setTab(id)}
-                className={`relative flex items-center gap-2 px-3.5 py-2.5 font-mono text-xs sm:text-sm transition-colors ${
+                className={`relative flex shrink-0 items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2.5 min-h-11 font-mono text-[11px] sm:text-sm transition-colors ${
                   active
                     ? "text-brand"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 <Icon className="h-3.5 w-3.5" />
-                {label}
+                <span className="whitespace-nowrap">{label}</span>
                 {active && (
                   <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-brand" />
                 )}
@@ -186,7 +186,7 @@ export default function ProjectDetailsDialog({
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {[
                   {
                     label: "Built",
