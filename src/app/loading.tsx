@@ -78,7 +78,7 @@ export default function Loading() {
         </div>
 
         <p className="mt-5 text-center font-mono text-[10px] tracking-wider text-muted-foreground/70">
-          // abhishek.mehta — portfolio runtime
+          {"// abhishek.mehta — portfolio runtime"}
         </p>
       </div>
     </div>
