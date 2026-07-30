@@ -1,11 +1,15 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { VscAzure } from "react-icons/vsc";
-import { motion, useInView, Variants } from "framer-motion";
-import { useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Code, Database, Server, Brain, Wrench } from "lucide-react";
+import {
+  Code,
+  Database,
+  Server,
+  Brain,
+  Wrench,
+  ArrowUpRight,
+} from "lucide-react";
 import {
   SiPython,
   SiJavascript,
@@ -34,462 +38,350 @@ import {
   SiTensorflow,
   SiOpenai,
   SiNestjs,
+  SiRedis,
+  SiOpenbsd,
 } from "react-icons/si";
+import { gsap, useGSAP } from "@/lib/gsap";
+import SectionHeading from "@/components/SectionHeading";
+import SkillsConstellation from "@/components/SkillsConstellation";
+
+const skillCategories = [
+  {
+    title: "Programming Languages",
+    icon: Code,
+    accent: "Languages",
+    skills: [
+      { name: "Python", icon: SiPython, color: "#3776AB" },
+      { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+      { name: "Go", icon: SiGo, color: "#00ADD8" },
+      { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+      { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
+    ],
+  },
+  {
+    title: "Frameworks & Libraries",
+    icon: Server,
+    accent: "Frameworks",
+    skills: [
+      { name: "Express.js", icon: SiExpress, color: "#888888" },
+      { name: "Nest.js", icon: SiNestjs, color: "#e73665" },
+      { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+      { name: "Django", icon: SiDjango, color: "#44B78B" },
+      { name: "Django Rest Framework", icon: SiDjango, color: "#A30000" },
+      { name: "React.js", icon: SiReact, color: "#61DAFB" },
+      { name: "Next.js", icon: SiNextdotjs, color: "#888888" },
+      { name: "FastAPI", icon: SiFastapi, color: "#009688" },
+      { name: "LangChain", icon: SiLangchain, color: "#0FA958" },
+    ],
+  },
+  {
+    title: "Database Management",
+    icon: Database,
+    accent: "Data",
+    skills: [
+      { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+      { name: "PostgreSQL", icon: SiPostgresql, color: "#336791" },
+      { name: "Redis", icon: SiRedis, color: "#DC382D" },
+      { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+    ],
+  },
+  {
+    title: "API Development",
+    icon: Wrench,
+    accent: "APIs",
+    skills: [
+      { name: "RESTful Services", icon: SiOpenapiinitiative, color: "#6BA539" },
+      {
+        name: "Third-party API Integrations",
+        icon: SiApollographql,
+        color: "#7c62d1",
+      },
+    ],
+  },
+  {
+    title: "Server & Infrastructure",
+    icon: Server,
+    accent: "Infra",
+    skills: [
+      { name: "Linux Fundamentals", icon: SiLinux, color: "#FFD41F" },
+      { name: "Nginx", icon: SiNginx, color: "#009639" },
+      { name: "Docker", icon: SiDocker, color: "#2496ED" },
+      { name: "Github Actions", icon: SiGithubactions, color: "#2088FF" },
+      { name: "SSH", icon: SiOpenbsd, color: "#000000" },
+    ],
+  },
+  {
+    title: "Emerging Technologies",
+    icon: Brain,
+    accent: "Emerging",
+    skills: [
+      { name: "Machine Learning Basics", icon: SiTensorflow, color: "#FF6F00" },
+      { name: "DevOps Tools", icon: SiKubernetes, color: "#326CE5" },
+      { name: "AI Agents", icon: SiOpenai, color: "#8f7bd8" },
+      { name: "AWS", icon: SiAwsamplify, color: "#FF9900" },
+      { name: "Azure", icon: VscAzure, color: "#0078D4" },
+      { name: "GCP", icon: SiGooglecloud, color: "#4285F4" },
+    ],
+  },
+];
+
 export default function Skills() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const rootRef = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(0);
 
-  const skillCategories = [
-    {
-      title: "Programming Languages",
-      icon: Code,
-      skills: [
-        { name: "Python", icon: SiPython, color: "#3776AB" },
-        { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-        { name: "Go", icon: SiGo, color: "#00ADD8" },
-        { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-        { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
-      ],
-      color: "bg-blue-500",
-      hoverColor: "#3B82F6",
-      gradient: "from-blue-500 to-blue-600",
-      shadowColor: "rgba(59, 130, 246, 0.3)",
-    },
+  useGSAP(
+    () => {
+      // Zigzag rows: odd slide from left, even from right
+      gsap.utils.toArray<HTMLElement>(".skill-lane").forEach((lane, i) => {
+        const fromLeft = i % 2 === 0;
+        const indexEl = lane.querySelector(".skill-lane-index");
+        const chips = lane.querySelectorAll(".skill-chip");
 
-    {
-      title: "Frameworks & Libraries",
-      icon: Server,
-      skills: [
-        { name: "Express.js", icon: SiExpress, color: "#000000" },
-        { name: "Nest.js", icon: SiNestjs, color: "#e73665" },
-        { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
-        { name: "Django", icon: SiDjango, color: "#092E20" },
-        { name: "Django Rest Framework", icon: SiDjango, color: "#A30000" },
-        { name: "React.js", icon: SiReact, color: "#61DAFB" },
-        { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
-        { name: "FastAPI", icon: SiFastapi, color: "#009688" },
-        { name: "LangChain", icon: SiLangchain, color: "#0FA958" },
-      ],
-      color: "bg-green-500",
-      hoverColor: "#22C55E",
-      gradient: "from-green-500 to-green-600",
-      shadowColor: "rgba(34, 197, 94, 0.3)",
-    },
-    {
-      title: "Database Management",
-      icon: Database,
-      skills: [
-        { name: "SQL", icon: SiMysql, color: "#336791" },
-        { name: "NoSQL", icon: SiMongodb, color: "#47A248" },
-        { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
-        { name: "PostgreSQL", icon: SiPostgresql, color: "#336791" },
-        { name: "MySQL", icon: SiMysql, color: "#4479A1" },
-      ],
-      color: "bg-purple-500",
-      hoverColor: "#9333EA",
-      gradient: "from-purple-500 to-purple-600",
-      shadowColor: "rgba(147, 51, 234, 0.3)",
-    },
-    {
-      title: "API Development",
-      icon: Wrench,
-      skills: [
-        {
-          name: "RESTful Services",
-          icon: SiOpenapiinitiative,
-          color: "#6BA539",
-        },
-        {
-          name: "Third-party API Integrations",
-          icon: SiApollographql,
-          color: "#311C87",
-        },
-      ],
-      color: "bg-orange-500",
-      hoverColor: "#F97316",
-      gradient: "from-orange-500 to-orange-600",
-      shadowColor: "rgba(249, 115, 22, 0.3)",
-    },
-    {
-      title: "Server & Infrastructure",
-      icon: Server,
-      skills: [
-        { name: "Linux Fundamentals", icon: SiLinux, color: "#FFD41F" },
-        { name: "Nginx", icon: SiNginx, color: "#009639" },
-        { name: "Docker", icon: SiDocker, color: "#2496ED" },
-        { name: "Github Actions", icon: SiGithubactions, color: "#2088FF" },
-      ],
-      color: "bg-red-500",
-      hoverColor: "#EF4444",
-      gradient: "from-red-500 to-red-600",
-      shadowColor: "rgba(239, 68, 68, 0.3)",
-    },
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: lane,
+            start: "top 82%",
+            once: true,
+            onEnter: () => setActive(i),
+          },
+        });
 
-    {
-      title: "Emerging Technologies",
-      icon: Brain,
-      skills: [
-        {
-          name: "Machine Learning Basics",
-          icon: SiTensorflow,
-          color: "#FF6F00",
-        },
-        { name: "DevOps Tools", icon: SiKubernetes, color: "#326CE5" },
-        { name: "AI Agents", icon: SiOpenai, color: "#412991" },
-        { name: "AWS", icon: SiAwsamplify, color: "#FF9900" },
-        { name: "Azure", icon: VscAzure, color: "#0078D4" },
-        { name: "GCP", icon: SiGooglecloud, color: "#4285F4" },
-      ],
-      color: "bg-indigo-500",
-      hoverColor: "#6366F1",
-      gradient: "from-indigo-500 to-indigo-600",
-      shadowColor: "rgba(99, 102, 241, 0.3)",
-    },
-  ];
+        tl.from(lane, {
+          opacity: 0,
+          x: fromLeft ? -80 : 80,
+          y: 40,
+          duration: 0.85,
+          ease: "power3.out",
+        });
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
+        if (indexEl) {
+          tl.from(
+            indexEl,
+            {
+              scale: 0,
+              duration: 0.45,
+              ease: "back.out(2.2)",
+            },
+            "-=0.55",
+          );
+        }
 
-  const cardVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 80,
-      scale: 0.8,
-      rotateX: -15,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotateX: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        type: "spring",
-        stiffness: 100,
-      },
-    }),
-  };
+        if (chips.length) {
+          tl.from(
+            chips,
+            {
+              opacity: 0,
+              y: 18,
+              scale: 0.88,
+              stagger: 0.04,
+              duration: 0.35,
+              ease: "power2.out",
+            },
+            "-=0.3",
+          );
+        }
+      });
 
-  const badgeVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      scale: 0,
-      y: 20,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.05,
-        duration: 0.5,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 200,
-      },
-    }),
-  };
-  const titleVariants: Variants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 100,
-      },
-    },
-  };
+      const pill = rootRef.current?.querySelector(".skills-pill");
+      if (pill) {
+        gsap.from(pill, {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: pill,
+            start: "top 92%",
+            once: true,
+          },
+        });
+      }
 
-  const iconFloat: Variants = {
-    animate: {
-      y: [0, -8, 0],
-      rotate: [0, 5, -5, 0],
-      transition: {
-        duration: 4,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      },
+      // Magnetic chips on desktop
+      if (window.matchMedia("(pointer: fine)").matches) {
+        gsap.utils.toArray<HTMLElement>(".skill-chip").forEach((chip) => {
+          const xTo = gsap.quickTo(chip, "x", {
+            duration: 0.35,
+            ease: "power3.out",
+          });
+          const yTo = gsap.quickTo(chip, "y", {
+            duration: 0.35,
+            ease: "power3.out",
+          });
+          chip.addEventListener("mousemove", (e) => {
+            const rect = chip.getBoundingClientRect();
+            xTo((e.clientX - rect.left - rect.width / 2) * 0.25);
+            yTo((e.clientY - rect.top - rect.height / 2) * 0.25);
+          });
+          chip.addEventListener("mouseleave", () => {
+            xTo(0);
+            yTo(0);
+          });
+        });
+      }
     },
-  };
-
-  const pulseAnimation: Variants = {
-    animate: {
-      scale: [1, 1.05, 1],
-      transition: {
-        duration: 2,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      },
-    },
-  };
+    { scope: rootRef },
+  );
 
   return (
     <section
       id="skills"
-      className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-blue-900/10 relative overflow-hidden"
+      ref={rootRef}
+      className="section-responsive relative overflow-hidden bg-surface/40"
     >
-      {/* Animated background elements */}
-      <motion.div
-        className="absolute top-20 left-10 w-40 h-40 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-2xl"
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.3, 0.6, 0.3],
-          x: [0, 50, 0],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-32 h-32 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-2xl"
-        animate={{
-          scale: [1, 1.4, 1],
-          opacity: [0.2, 0.5, 0.2],
-          x: [0, -30, 0],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-green-500/3 dark:bg-green-500/10 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.3, 0.1],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-      />
+      {/* Orbiting stack constellation — desktop */}
+      <div className="pointer-events-none absolute top-24 right-0 w-[min(420px,38vw)] h-[min(420px,38vw)] opacity-80 hidden xl:block">
+        <SkillsConstellation active={active} />
+      </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        <div className="max-w-4xl sm:max-w-5xl lg:max-w-6xl mx-auto">
-          {/* Section Title */}
-          <motion.div
-            className="text-center mb-12 sm:mb-16"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={titleVariants}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              <motion.span
-                className="inline-block"
-                whileHover={{
-                  scale: 1.05,
-                  color: "#3B82F6",
-                  transition: { duration: 0.3 },
-                }}
-              >
-                Technical
-              </motion.span>{" "}
-              <motion.span
-                className="inline-block bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent"
-                whileHover={{
-                  scale: 1.05,
-                  transition: { duration: 0.3 },
-                }}
-              >
-                Expertise
-              </motion.span>
-            </motion.h2>
-            <motion.div
-              className="w-20 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 mx-auto rounded-full"
-              initial={{ width: 0 }}
-              animate={isInView ? { width: "5rem" } : { width: 0 }}
-              transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
-            />
-            <motion.p
-              className="text-gray-600 dark:text-gray-300 mt-4 text-base sm:text-lg max-w-xl sm:max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-            >
-              A comprehensive overview of my technical skills and expertise
-              across various domains
-            </motion.p>
-          </motion.div>
+      <div className="container-responsive relative z-10">
+        <SectionHeading
+          index="02"
+          label="Skills"
+          title="Technical"
+          accent="Expertise"
+          subtitle="A comprehensive overview of my technical skills and expertise across various domains"
+        />
 
-          {/* Skills Grid */}
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={containerVariants}
-          >
-            {skillCategories.map((category, index) => (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                custom={index}
-                whileHover={{
-                  scale: 1.05,
-                  y: -10,
-                  rotateY: 5,
-                  boxShadow: `0 25px 50px ${category.shadowColor}`,
-                }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Card className="h-full hover:shadow-2xl transition-all duration-500 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg overflow-hidden relative group">
-                  {/* Card glow effect */}
-                  <motion.div
-                    className={`absolute inset-0 bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
-                  />
+        {/* Sticky index rail + zigzag lanes */}
+        <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-10 lg:gap-14">
+          {/* Left rail — category jump list */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-28 space-y-1">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
+                Index
+              </p>
+              {skillCategories.map((cat, i) => (
+                <button
+                  key={cat.title}
+                  type="button"
+                  onClick={() => {
+                    setActive(i);
+                    document
+                      .getElementById(`skill-lane-${i}`)
+                      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }}
+                  className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-md font-mono text-xs transition-colors duration-300 ${
+                    active === i
+                      ? "bg-brand/10 text-brand border border-brand/30"
+                      : "text-muted-foreground hover:text-foreground border border-transparent"
+                  }`}
+                >
+                  <span className="tabular-nums opacity-70">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="truncate">{cat.accent}</span>
+                </button>
+              ))}
+            </div>
+          </aside>
 
-                  <CardHeader className="relative">
-                    <CardTitle className="flex items-center text-lg">
-                      <motion.div
-                        className={`p-3 rounded-xl bg-gradient-to-r ${category.gradient} mr-4 shadow-lg`}
-                        variants={iconFloat}
-                        animate="animate"
-                        whileHover={{
-                          scale: 1.1,
-                          rotate: 360,
-                          transition: { duration: 0.6 },
-                        }}
-                      >
-                        <category.icon className="h-6 w-6 text-white" />
-                      </motion.div>
-                      <motion.span
-                        className="text-gray-800 dark:text-gray-100 font-semibold"
-                        whileHover={{
-                          color: category.hoverColor,
-                          transition: { duration: 0.3 },
-                        }}
-                      >
-                        {category.title}
-                      </motion.span>
-                    </CardTitle>
-                  </CardHeader>
-
-                  <CardContent className="relative">
-                    <motion.div
-                      className="grid grid-cols-2 gap-3"
-                      initial="hidden"
-                      animate={isInView ? "visible" : "hidden"}
-                      variants={containerVariants}
-                    >
-                      {category.skills.map((skill, skillIndex) => (
-                        <motion.div
-                          key={skillIndex}
-                          variants={badgeVariants}
-                          custom={skillIndex}
-                          whileHover={{
-                            scale: 1.05,
-                            y: -2,
-                            boxShadow: `0 8px 25px ${category.shadowColor}`,
-                          }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Badge
-                            variant="secondary"
-                            className="flex items-center gap-2 text-sm font-medium px-3 py-2 
-                 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-200
-                 border border-gray-200 dark:border-slate-600 hover:border-gray-300 dark:hover:border-slate-500
-                 transition-all duration-300 cursor-pointer w-full justify-start overflow-hidden whitespace-nowrap"
-                          >
-                            <skill.icon
-                              color={skill.color}
-                              className="shrink-0"
-                            />
-                            <span className="truncate">{skill.name}</span>
-                          </Badge>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-
-                    {/* Skill count indicator */}
-                    <motion.div
-                      className="mt-4 flex items-center justify-between"
-                      initial={{ opacity: 0 }}
-                      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                      transition={{ delay: index * 0.1 + 1 }}
-                    >
-                      <motion.span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                        {category.skills.length} Skills
-                      </motion.span>
-                      <motion.div
-                        className={`w-2 h-2 rounded-full bg-gradient-to-r ${category.gradient}`}
-                        variants={pulseAnimation}
-                        animate="animate"
-                      />
-                    </motion.div>
-                  </CardContent>
-
-                  {/* Decorative corner element */}
-                  <motion.div
-                    className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl ${category.gradient} opacity-10 rounded-bl-full`}
-                    initial={{ scale: 0 }}
-                    animate={isInView ? { scale: 1 } : { scale: 0 }}
-                    transition={{ delay: index * 0.1 + 0.5, duration: 0.6 }}
-                  />
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Bottom CTA */}
-          <motion.div
-            className="text-center mt-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ delay: 2, duration: 0.8 }}
-          >
-            <motion.div
-              className="inline-flex items-center space-x-3 px-8 py-4 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-indigo-500/10 rounded-full border border-blue-200/50 backdrop-blur-sm"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 15px 35px rgba(59, 130, 246, 0.2)",
-                borderColor: "rgba(59, 130, 246, 0.3)",
+          {/* Zigzag spine layout */}
+          <div className="relative">
+            {/* Center spine (desktop) */}
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 hidden md:block"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent, var(--brand), transparent)",
+                opacity: 0.35,
               }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: 15,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                }}
-              >
-                <Brain className="h-6 w-6 text-blue-500" />
-              </motion.div>
-              <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg">
-                Always Learning New Technologies
-              </span>
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{
-                  duration: 2,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-              >
-                <Code className="h-6 w-6 text-purple-500" />
-              </motion.div>
-            </motion.div>
-          </motion.div>
+            />
+
+            <div className="space-y-8 md:space-y-16">
+              {skillCategories.map(
+                ({ title, icon: Icon, accent, skills }, index) => {
+                  const isLeft = index % 2 === 0;
+                  return (
+                    <article
+                      key={title}
+                      id={`skill-lane-${index}`}
+                      className={`skill-lane relative md:w-[calc(50%-1.5rem)] ${
+                        isLeft ? "md:mr-auto md:pr-4" : "md:ml-auto md:pl-4"
+                      }`}
+                    >
+                      {/* Spine node — sits on the center rail */}
+                      <span
+                        className={`skill-lane-index pointer-events-none hidden md:flex absolute top-10 w-10 h-10 rounded-full border-2 border-brand bg-background items-center justify-center font-mono text-xs text-brand z-10 ${
+                          isLeft
+                            ? "right-0 translate-x-[calc(100%+1.5rem-1.25rem)]"
+                            : "left-0 -translate-x-[calc(100%+1.5rem-1.25rem)]"
+                        }`}
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <div className="panel panel-hover p-6 sm:p-8 overflow-hidden relative">
+                        {/* Giant watermark number */}
+                        <span
+                          aria-hidden
+                          className="pointer-events-none absolute -bottom-6 -right-2 font-display text-[7rem] font-bold leading-none text-stroke opacity-40 select-none"
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        <div className="relative flex items-start justify-between gap-4 mb-6">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="p-2.5 rounded-md bg-brand/10 border border-brand/25 shrink-0">
+                              <Icon className="h-5 w-5 text-brand" />
+                            </span>
+                            <div className="min-w-0">
+                              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-brand mb-1">
+                                {accent}
+                              </p>
+                              <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight">
+                                {title}
+                              </h3>
+                            </div>
+                          </div>
+                          <span className="hidden sm:inline-flex items-center gap-1 font-mono text-xs text-muted-foreground shrink-0">
+                            {skills.length}
+                            <ArrowUpRight className="h-3.5 w-3.5 text-brand" />
+                          </span>
+                        </div>
+
+                        {/* Skill chips — staggered wrap, slightly rotated first row feel */}
+                        <div
+                          className={`relative flex flex-wrap gap-2.5 ${
+                            isLeft ? "" : "md:justify-end"
+                          }`}
+                        >
+                          {skills.map(
+                            ({ name, icon: SkillIcon, color }, skillIdx) => (
+                              <span
+                                key={name}
+                                className="skill-chip inline-flex items-center gap-2 px-3.5 py-2 rounded-md border border-line bg-surface/90 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-brand/60 hover:bg-brand/5 transition-colors duration-300 cursor-default will-change-transform"
+                                style={{
+                                  // subtle offset for a less rigid alignment
+                                  marginTop: skillIdx % 3 === 1 ? "0.35rem" : 0,
+                                }}
+                              >
+                                <SkillIcon
+                                  color={color}
+                                  className="shrink-0 text-base"
+                                />
+                                {name}
+                              </span>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                },
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center mt-16">
+          <div className="skills-pill inline-flex items-center gap-3 px-6 py-3.5 rounded-full border border-line bg-card font-mono text-sm">
+            <Brain className="h-5 w-5 text-brand" />
+            <span className="text-muted-foreground">
+              Always Learning New Technologies
+            </span>
+            <Code className="h-5 w-5 text-brand" />
+          </div>
         </div>
       </div>
     </section>

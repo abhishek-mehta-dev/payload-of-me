@@ -9,17 +9,14 @@ import {
   Bot,
   User,
   Sparkles,
-  Zap,
-  Brain,
   Minimize2,
   Maximize2,
   Minus,
+  Terminal,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import Image from "next/image";
 
 interface Message {
   id: string;
@@ -47,13 +44,13 @@ You are a helpful assistant for Abhishek Mehta's portfolio website. Here's compr
 - Express.js, Nest.js, Node.js, Django, Django Rest Framework, React.js, Next.js, FastAPI, LangChain
 
 *Database Management:*
-- SQL, NoSQL, MongoDB, PostgreSQL, MySQL
+- SQL, NoSQL, MongoDB, PostgreSQL, MySQL, Redis
 
 *API Development:*
 - RESTful Services, Third-party API Integrations, GraphQL
 
 *Server & Infrastructure:*
-- Linux Fundamentals, Nginx, Docker, GitHub Actions
+- Linux Fundamentals, Nginx, Docker, GitHub Actions, PM2, SSH
 
 *Emerging Technologies:*
 - Machine Learning Basics, DevOps Tools, AI Agents, AWS, Azure, GCP
@@ -61,45 +58,110 @@ You are a helpful assistant for Abhishek Mehta's portfolio website. Here's compr
 **Featured Projects:**
 
 1. **DAHN – Hospice Nurse Documentation Support App** (Live)
-   - Full-stack healthcare application with Next.js, Node.js, Express.js, MongoDB
-   - HIPAA-compliant data encryption for Protected Health Information (PHI) in database
-   - Administrative, technical, and physical safeguards to prevent patient data breaches
-   - Role-based access control (RBAC) with audit logging for Admins, Agencies, and Nurses
-   - Stripe integration for subscription billing and automated renewals
-   - Patient notes system with secure CRUD operations and soft-delete features
-   - Secure video upload functionality and automated invoice generation
-   - AWS EC2 deployment with PM2 for server management and monitoring
+   - Live: https://www.getdahn.com
+   - Full-stack hospice nurse documentation app (MERN) with auth, payments, and admin dashboard
+   - Stack: React.js, Next.js, Node.js, Express.js, MongoDB, Stripe API
+   - Roles: Full-Stack Developer, DevOps Engineer
+   - Built secure RBAC healthcare SaaS with Next.js, Node.js, Express.js, and MongoDB
+   - HIPAA-compliant architecture with encrypted PHI/patient notes storage
+   - Administrative, technical, and physical safeguards for patient data privacy
+   - Clinical notes module: create, auto-draft, update, audit logging, soft-delete
+   - RBAC for Admins, Agencies, and Nurses with permission-based workflows
+   - Stripe subscriptions: plans, coupons, renewals, invoice generation
+   - Email MFA, secure sessions, multi-device login tracking
+   - Secure media/file uploads for clinical documentation
+   - TanStack React Query for frontend performance and sync
+   - AWS EC2 deployment/monitoring with PM2; GitHub CI/CD
 
-2. **Dynamic Landing Page & Automation Integration** (Live)
-   - Node.js server integrated with Bubble.io workflows
-   - Auto-generates dynamic Webflow landing pages for individual leads
-   - Webhook server for automation data processing
-   - API integration between Node.js, Bubble.io, and Webflow
-   - Automated workflows for data-driven page creation
+2. **Signature K9 – Dog Training LMS & Subscription Platform** (Live)
+   - Live: https://portal.signaturek9trainingacademy.com
+   - End-to-end subscription LMS for The 30-Day Reset program
+   - Stack: TypeScript, Next.js, React, NestJS, Prisma, PostgreSQL, Stripe, PayPal, AWS S3/CloudFront, hls.js, Nginx, JWT, Swagger, Puppeteer
+   - Roles: Full-Stack Developer, Platform Engineer
+   - Next.js App Router frontend + modular NestJS API + PostgreSQL
+   - Curriculum navigation, HLS/MP4 playback with resume progress, quiz gating, certification
+   - Stripe Elements + PayPal checkout, 3DS recovery, plan changes, vaulted payment methods
+   - Learner dashboard: progress, community, upgrades, plan-gated training guides
+   - Community with categories, threads, media, admin moderation
+   - Admin consoles for courses, users, billing, FAQ, community, certification quizzes
+   - CloudFront signed cookies, HLS.js adaptive streaming, MP4 fallback
+   - JWT access/refresh cookies, role guards, plan-based access control
+   - Certificate PDF generation and milestone email notifications
+   - S3 uploads, CloudFront delivery, FFmpeg HLS transcoding
+   - Production nginx reverse proxy, CORS, CDN media on dedicated domain
 
 3. **Taxificient – Enterprise Mobility & Intelligent Fleet Dispatch SaaS** (In Progress)
-   - Enterprise SaaS with dynamic RBAC for drivers, passengers, and dispatchers
-   - Vehicle management: registration, maintenance scheduling, driver assignment
-   - Google Maps integration with Haversine distance calculation
-   - Dispatcher allocation with bulk assignment and real-time acceptance
-   - WebSocket-based chat (one-to-many, many-to-one) within ride contexts
-   - Firebase Cloud Messaging for lifecycle push notifications
-   - Production deployment with WebSocket debugging and secure Firebase setup
-   - Built with Nest.js, TypeORM, React.js, Next.js, PostgreSQL, Socket.io
+   - Backend: https://backend.taxificient.ai/
+   - Ride booking, dispatch automation, and fleet management for mobility operators
+   - Stack: Next.js, React.js, Nest.js, TypeORM, PostgreSQL, Redis, Socket.io, Firebase Admin, Google Maps API
+   - Roles: Full-Stack Architect, DevOps Engineer
+   - Dynamic RBAC for Super Admins, Company Admins, Dispatchers, Drivers, Passengers
+   - Secure user impersonation for higher-level admins
+   - Passenger booking: pickup/drop-off, multi-stop, fare estimation, live status
+   - Dispatcher allocation with bulk assignment and accept/reject flows
+   - Live driver GPS tracking for passengers and dispatch teams
+   - Vehicle/fleet management: registration, maintenance, driver assignment
+   - Google Maps geolocation, routes, places, Haversine fare distance
+   - WebSocket chat with typing indicators and read receipts
+   - Firebase Cloud Messaging for ride lifecycle notifications
+   - Subscription billing with renewals and plan-gated access
+   - Redis caching/pub-sub/queues; production AWS Linux + PM2
 
-4. **DocuAI Pro** (Development)
-   - AI-powered document chatbot with Retrieval-Augmented Generation (RAG)
-   - FastAPI backend with Next.js frontend
-   - LangChain and FAISS for document processing and vector search
-   - Hugging Face models for natural language understanding
-   - OAuth authentication and PayPal subscription management
-   - ChatGPT-like conversational interface
+4. **VentSpace AI – Mental Health Companion & Admin Intelligence Platform** (Live)
+   - Live: https://ai.ventspaceapp.com/admin
+   - AI microservice for anonymous mental health companion + Pyrl™ Admin dashboard
+   - Stack: TypeScript, Node.js, Express.js, Next.js, TypeORM, MySQL, Socket.IO, OpenAI (GPT-4o-mini, Whisper, Moderation), Recharts, JWT, Nginx
+   - Roles: Full-Stack Developer, Platform Engineer
+   - Express/TypeORM backend + Next.js admin + Nginx routing (/, /api, /socket)
+   - Real-time chat, OpenAI summaries, voice transcription, mood tracking, nightly reflections
+   - Multi-tier safety engine (self-harm, harm-to-others, abuse) with crisis resources and audit logs
+   - Laravel SSO/JWT cookie auth and user sync into AI database
+   - Pyrl™ Admin: 8 analytics modules (KPIs, mood journey, conversation health, emotional trends, reflections, crisis, AI insights, research)
+   - TanStack React Query, Zod, Recharts, range filters (7d/30d/90d/all)
+   - Anonymized admin analytics APIs and production WebSocket /socket path fix
 
-5. **Stripe Connect Integration** (Completed)
-   - Full-featured Stripe Connect application with Next.js
-   - Multi-vendor payment platform with secure onboarding flows
-   - Account management and payment analytics dashboard
-   - MongoDB integration for vendor and transaction data
+5. **Next Level Speed – Subscription Training & Mentorship Platform** (Live)
+   - Live: https://portal.nextlevelspeedmiami.com
+   - Sports performance platform: subscriptions, video programs, community, elite mentorship, admin ops
+   - Stack: TypeScript, Next.js, NestJS, Prisma, PostgreSQL, Stripe, JWT, SSE, Puppeteer, GitHub Actions, Vercel, PM2
+   - Roles: Full-Stack Developer, Platform Engineer
+   - Modular NestJS API + Next.js App Router frontend
+   - JWT cookie auth, checkout-token flows, subscription-gated access
+   - Stripe payment intents, saved cards, cancel/resume, upgrades, invoices
+   - Program/module/lesson portal with React Player and progress persistence
+   - Community articles, FAQ, support forms, SSE in-app notifications
+   - Admin dashboards, CRUD, mentorship management, CSV transaction export
+   - Elite Mentorship seat capacity with race-safe payment verification
+   - GitHub Actions → Vercel frontend; optional VPS SSH + PM2 backend deploys
+
+6. **Dynamic Landing Page & Automation Integration** (Live)
+   - Live: https://go.neuropage.io/profile?u=abhishek-mehta-neuropage
+   - Node.js server + Bubble.io workflows auto-generating Webflow landing pages per lead
+   - Stack: Node.js, Express.js, Bubble.io, Webflow, REST API, PM2
+   - Roles: Full-Stack Developer, Automation Engineer
+   - Webhook server for Bubble.io automation lead data
+   - APIs to feed Webflow dynamic components and return page URLs to Bubble.io
+   - Modular reusable sections for unified landing pages
+   - PM2 deployments, structured API logging, cross-platform error handling
+
+7. **DocuAI Pro** (Development)
+   - Coming soon; GitHub: https://github.com/abhishek-mehta-dev/DocuAI-Pro
+   - AI document chatbot with Retrieval-Augmented Generation (RAG)
+   - Stack: FastAPI, Next.js, PostgreSQL, PayPal, PyMuPDF, FAISS, LangChain, Hugging Face
+   - Roles: AI Engineer, Backend Developer, Frontend Developer
+   - LangChain + FAISS document processing and vector search
+   - FastAPI + PyMuPDF parsing; Hugging Face NLU models
+   - Next.js ChatGPT-like UI; OAuth + PayPal subscriptions
+   - PostgreSQL schema for users and documents
+
+8. **Stripe Connect Integration** (Completed)
+   - Coming soon; GitHub: https://github.com/abhishek-mehta-dev/stripe_connect
+   - Multi-vendor Stripe Connect app with onboarding and payment flows
+   - Stack: Next.js, React, Stripe Connect, Node.js, MongoDB
+   - Roles: Payment Integration Specialist, Full-Stack Developer, API Developer
+   - Secure vendor onboarding/verification
+   - Payment management/analytics dashboard
+   - MongoDB for vendors and transactions
 
 **Experience:**
 - **Current Role:** MERN Stack Developer (2024 - Present)
@@ -125,6 +187,13 @@ You are a helpful assistant for Abhishek Mehta's portfolio website. Here's compr
 Please answer questions about Abhishek's background, skills, experience, and projects in a helpful, professional, and encouraging manner. If someone asks about contacting Abhishek, direct them to the contact section of the portfolio. Be specific about his projects and technical expertise when relevant.
 `;
 
+const quickQuestions = [
+  "What are Abhishek's main skills?",
+  "Tell me about his featured projects",
+  "What's his professional experience?",
+  "Show me his GitHub activity",
+];
+
 export default function Chatbot() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -133,7 +202,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "👋 Hi there! I'm Abhishek's AI assistant. I can tell you all about his skills, projects, and experience. What would you like to know?",
+      text: "Hi — I'm Abhishek's portfolio agent. Ask about skills, projects, servers, or experience.",
       isUser: false,
       timestamp: new Date(),
     },
@@ -144,26 +213,22 @@ export default function Chatbot() {
   const [isOfflineMode, setIsOfflineMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Wandering animation state
+  // Wandering floating FAB
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    // Start wandering only if not open and not hovering
     if (isOpen || isHovering) {
       setPosition({ x: 0, y: 0 });
       return;
     }
 
     const moveInterval = setInterval(() => {
-      // Calculate random positions within a larger range
-      // Moving left (negative x) and up (negative y)
-      // Range: x: 0 to -500px, y: 0 to -400px to travel more across the screen
-      const randomX = Math.floor(Math.random() * -500); 
-      const randomY = Math.floor(Math.random() * -400); 
-      
-      setPosition({ x: randomX, y: randomY });
-    }, 5000); // New target every 5 seconds
+      setPosition({
+        x: Math.floor(Math.random() * -500),
+        y: Math.floor(Math.random() * -400),
+      });
+    }, 5000);
 
     return () => clearInterval(moveInterval);
   }, [isOpen, isHovering]);
@@ -174,14 +239,15 @@ export default function Chatbot() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isTyping]);
 
-  const sendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
+  const sendMessage = async (preset?: string) => {
+    const text = (preset ?? inputValue).trim();
+    if (!text || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: inputValue,
+      text,
       isUser: true,
       timestamp: new Date(),
     };
@@ -194,49 +260,45 @@ export default function Chatbot() {
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: inputValue,
+          message: text,
           context: PORTFOLIO_CONTEXT,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to get response");
-      }
+      if (!response.ok) throw new Error("Failed to get response");
 
       const data = await response.json();
-
-      // Update offline mode status based on response
       setIsOfflineMode(data.isFromFallback || false);
 
-      // Simulate typing delay for better UX
-      setTimeout(() => {
-        const botMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          text: data.response,
-          isUser: false,
-          timestamp: new Date(),
-        };
-
-        setMessages((prev) => [...prev, botMessage]);
+      window.setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            text: data.response,
+            isUser: false,
+            timestamp: new Date(),
+          },
+        ]);
         setIsTyping(false);
-      }, 1000);
+      }, 700);
     } catch (error) {
       console.error("Error sending message:", error);
       setIsOfflineMode(true);
-      setTimeout(() => {
-        const errorMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          text: "🔌 **Connection Issue** 🔌\n\nI'm having trouble connecting to my AI service, but I can still help you with information about Abhishek's skills, projects, and experience using my offline knowledge base!\n\n💡 Try asking about:\n• His technical skills and expertise\n• Featured projects like DAHN or Taxificient\n• His educational background\n• GitHub repositories and contributions",
-          isUser: false,
-          timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, errorMessage]);
+      window.setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            text: "Connection issue — using offline knowledge. Ask about skills, projects (DAHN, Signature K9, Taxificient), or experience.",
+            isUser: false,
+            timestamp: new Date(),
+          },
+        ]);
         setIsTyping(false);
-      }, 1000);
+      }, 700);
     } finally {
       setIsLoading(false);
     }
@@ -245,591 +307,352 @@ export default function Chatbot() {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      void sendMessage();
     }
   };
 
-  const quickQuestions = [
-    "What are Abhishek's main skills?",
-    "Tell me about his featured projects",
-    "What's his professional experience?",
-    "Show me his GitHub activity",
-  ];
-
-  // Hide component completely on admin routes
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <>
-      {/* Floating Chat Button */}
+      {/* Floating FAB — wanders until open / hovered */}
       <motion.div
         className="fixed bottom-6 right-6 z-50"
         initial={{ scale: 0, rotate: -180, x: 0, y: 0 }}
-        animate={{ 
-          scale: 1, 
-          // Add a slight rotation tilt based on movement direction logic could be complex, 
-          // simply adding a continuous gentle wobble rotation
+        animate={{
+          scale: 1,
           rotate: [0, 5, -5, 0],
           x: isOpen ? 0 : position.x,
-          y: isOpen ? 0 : [position.y, position.y - 10, position.y], // Add floating effect on Y
+          y: isOpen ? 0 : [position.y, position.y - 10, position.y],
         }}
         transition={{
-          x: {
-            duration: 5,
-            ease: "easeInOut",
-          },
-          y: {
-            duration: 5, // Main movement
-            ease: "easeInOut",
-          },
-          rotate: {
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }
+          x: { duration: 5, ease: "easeInOut" },
+          y: { duration: 5, ease: "easeInOut" },
+          rotate: { duration: 4, repeat: Infinity, ease: "easeInOut" },
         }}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
         <motion.div
           className="relative"
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
         >
-          {/* Pulsing ring effect */}
           <motion.div
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-20"
-            animate={{
-              scale: [1, 1.4, 1],
-              opacity: [0.2, 0, 0.2],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            className="absolute inset-0 rounded-full bg-brand/25"
+            animate={{ scale: [1, 1.35, 1], opacity: [0.35, 0, 0.35] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />
 
-          {/* Tooltip */}
           <motion.div
-            className="absolute bottom-full right-0 mb-4 whitespace-nowrap bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-xl border border-blue-200/50"
-            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            className="absolute bottom-full right-0 mb-3 whitespace-nowrap rounded-md border border-line bg-card px-3 py-1.5 font-mono text-xs text-muted-foreground shadow-lg"
+            initial={{ opacity: 0, y: 8, scale: 0.95 }}
             animate={{
               opacity: [0, 1, 1, 0],
-              y: [10, 0, 0, 10],
-              scale: [0.9, 1, 1, 0.9],
+              y: [8, 0, 0, 8],
+              scale: [0.95, 1, 1, 0.95],
             }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              repeatDelay: 5,
-            }}
+            transition={{ duration: 5, repeat: Infinity, repeatDelay: 5 }}
           >
-            <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Ask me about Abhishek! 🤖
-            </span>
-            {/* Triangle pointing down */}
-            <div className="absolute -bottom-2 right-6 border-8 border-transparent border-t-white/90" />
+            Ask me about Abhishek
+            <span className="absolute -bottom-1.5 right-5 h-0 w-0 border-x-[6px] border-t-[6px] border-x-transparent border-t-card" />
           </motion.div>
 
-          {/* Main button */}
-          <Button
-            onClick={() => setIsOpen(true)}
-            className="h-16 w-16 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 border-2 border-white/20 backdrop-blur-sm relative overflow-hidden group"
-            size="icon"
+          <button
+            type="button"
+            onClick={() => {
+              setIsOpen(true);
+              setIsMinimized(false);
+            }}
+            className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border-2 border-line bg-card shadow-[0_12px_40px_-12px_color-mix(in_oklch,var(--brand)_45%,transparent)]"
+            aria-label="Open AI assistant"
           >
-            {/* Animated background gradient */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              animate={{
-                background: [
-                  "linear-gradient(45deg, #06b6d4, #3b82f6, #8b5cf6)",
-                  "linear-gradient(45deg, #8b5cf6, #06b6d4, #3b82f6)",
-                  "linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4)",
-                ],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-
-            <motion.div
-              animate={{
-                rotate: [0, 5, -5, 0],
-                scale: [1, 1.05, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              className="relative h-12 w-12 overflow-hidden rounded-full"
+              animate={{ rotate: [0, 4, -4, 0], scale: [1, 1.04, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="relative h-12 w-12 rounded-full overflow-hidden bg-white/10 shadow-inner border border-white/20">
-                <Image
-                  src="/assets/robo-teddy.png"
-                  alt="AI Assistant"
-                  fill
-                  sizes="48px"
-                  className="object-cover transform hover:scale-110 transition-transform duration-300"
-                />
-              </div>
+              <Image
+                src="/assets/robo-teddy.png"
+                alt="AI Assistant"
+                fill
+                sizes="48px"
+                className="object-cover"
+                priority
+              />
             </motion.div>
-
-            {/* Sparkle effects */}
             <motion.div
-              className="absolute top-2 right-2"
-              animate={{
-                scale: [0, 1, 0],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                delay: 0.5,
-              }}
+              className="absolute top-1.5 right-1.5"
+              animate={{ scale: [0, 1, 0], rotate: [0, 180, 360] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
             >
-              <Sparkles className="h-3 w-3 text-yellow-300" />
+              <Sparkles className="h-3 w-3 text-brand" />
             </motion.div>
-          </Button>
+          </button>
 
-          {/* Notification badge */}
           <motion.div
-            className="absolute -top-1 -right-1 h-5 w-5 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg"
+            className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded border border-line bg-brand px-1 font-mono text-[9px] font-bold text-brand-foreground"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: 2, type: "spring", stiffness: 500 }}
+            transition={{ delay: 1.2, type: "spring", stiffness: 500 }}
           >
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
-              AI
-            </motion.div>
+            AI
           </motion.div>
         </motion.div>
       </motion.div>
 
-      {/* Chat Interface */}
+      {/* Panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20, rotateX: -15 }}
-            animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20, rotateX: -15 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`fixed ${
-              isMinimized
-                ? "bottom-24 right-6 w-80 h-16"
-                : isExpanded
-                ? "inset-4 md:inset-x-32 md:inset-y-20 lg:inset-x-40 lg:inset-y-24"
-                : "bottom-24 right-6 w-96 h-[600px]"
-            } z-50 transition-all duration-500 ease-in-out`}
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.96 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className={`fixed z-50 ${
+              isExpanded
+                ? "inset-4 sm:inset-8 md:inset-12"
+                : "bottom-24 right-6 w-[min(100vw-1.5rem,400px)]"
+            }`}
           >
-            {/* Glassmorphism container */}
-            <div className="relative h-full w-full">
-              {/* Background with glassmorphism */}
-              <div className="absolute inset-0 bg-white/10 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-2xl transition-all duration-500">
-                {/* Animated gradient background */}
-                <motion.div
-                  className="absolute inset-0 rounded-2xl opacity-5"
-                  animate={{
-                    background: [
-                      "linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4)",
-                      "linear-gradient(45deg, #06b6d4, #3b82f6, #8b5cf6)",
-                      "linear-gradient(45deg, #8b5cf6, #06b6d4, #3b82f6)",
-                    ],
-                  }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                />
-              </div>
-
-              {/* Main content */}
-              <div className="relative h-full flex flex-col bg-white/80 backdrop-blur-xl rounded-2xl border border-white/30 shadow-xl transition-all duration-500">
-                {/* Header */}
-                <div className={`flex items-center justify-between ${isMinimized ? "p-3" : "p-4"} border-b border-white/20 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-indigo-500/10 rounded-t-2xl transition-all duration-300`}>
-                  <div className="flex items-center space-x-3">
-                    <motion.div
-                      className="relative h-10 w-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg"
-                      animate={{
-                        boxShadow: [
-                          "0 0 20px rgba(59, 130, 246, 0.3)",
-                          "0 0 30px rgba(139, 92, 246, 0.4)",
-                          "0 0 20px rgba(59, 130, 246, 0.3)",
-                        ],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: 8,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      >
-                        <Brain className="h-5 w-5 text-white" />
-                      </motion.div>
-
-                      {/* AI indicator */}
-                      <motion.div
-                        className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white ${
-                          isOfflineMode ? 'bg-orange-500' : 'bg-green-500'
-                        }`}
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      />
-                    </motion.div>
-
-                    <div>
-                      <h3 className="font-bold text-gray-800 flex items-center gap-2">
-                        <span>AI Assistant</span>
-                        <motion.div
-                          animate={{ rotate: [0, 360] }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "linear",
-                          }}
-                        >
-                          <Zap className="h-4 w-4 text-yellow-500" />
-                        </motion.div>
-                      </h3>
-                      {!isMinimized && (
-                        <div className="text-xs text-gray-600 flex items-center gap-1">
-                          <motion.div
-                            className={`h-2 w-2 rounded-full ${
-                              isOfflineMode ? 'bg-orange-500' : 'bg-green-500'
-                            }`}
-                            animate={{ opacity: [1, 0.3, 1] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                          />
-                          {isOfflineMode ? 'Offline Mode • Knowledge Base' : 'Online • Powered by Gemini AI'}
-                        </div>
-                      )}
-                    </div>
+            <div
+              className={`flex flex-col overflow-hidden rounded-lg border border-line bg-card shadow-[0_24px_60px_-20px_rgba(0,0,0,0.5)] ${
+                isMinimized
+                  ? "h-auto"
+                  : isExpanded
+                    ? "h-full"
+                    : "h-[min(70vh,560px)]"
+              }`}
+            >
+              {/* Title bar */}
+              <div className="flex items-center justify-between gap-3 border-b border-line bg-surface/80 px-3.5 py-2.5 shrink-0">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full border border-line bg-card">
+                    <Image
+                      src="/assets/robo-teddy.png"
+                      alt=""
+                      fill
+                      sizes="36px"
+                      className="object-cover"
+                    />
+                    <span
+                      className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-card ${
+                        isOfflineMode ? "bg-amber-500" : "bg-brand"
+                      }`}
+                    />
                   </div>
-
-                  <div className="flex items-center space-x-2">
-                    {/* Expand/Collapse Button */}
-                    {!isMinimized && (
-                      <Button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 hover:bg-white/20 transition-colors duration-200 hidden md:flex"
-                        title={isExpanded ? "Restore" : "Maximize"}
-                      >
-                        {isExpanded ? (
-                          <Minimize2 className="h-4 w-4 text-gray-600" />
-                        ) : (
-                          <Maximize2 className="h-4 w-4 text-gray-600" />
-                        )}
-                      </Button>
-                    )}
-
-                    {/* Minimize Button */}
-                    <Button
-                      onClick={() => {
-                        setIsMinimized(!isMinimized);
-                        if (!isMinimized) setIsExpanded(false); // Reset expansion when minimizing
-                      }}
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 hover:bg-white/20 transition-colors duration-200"
-                      title={isMinimized ? "Restore" : "Minimize"}
-                    >
-                      {isMinimized ? (
-                        <Maximize2 className="h-4 w-4 text-gray-600" />
-                      ) : (
-                        <Minus className="h-4 w-4 text-gray-600" />
-                      )}
-                    </Button>
-
-                    {/* Close Button */}
-                    <Button
-                      onClick={() => setIsOpen(false)}
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 hover:bg-red-500/20 hover:text-red-600 transition-colors duration-200"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
+                  <div className="min-w-0">
+                    <p className="font-mono text-xs text-foreground truncate flex items-center gap-1.5">
+                      <Terminal className="h-3.5 w-3.5 text-brand shrink-0" />
+                      agent — portfolio
+                    </p>
+                    <p className="font-mono text-[10px] text-muted-foreground flex items-center gap-1.5">
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${
+                          isOfflineMode ? "bg-amber-500" : "bg-brand animate-pulse"
+                        }`}
+                      />
+                      {isOfflineMode ? "offline fallback" : "gemini online"}
+                    </p>
                   </div>
                 </div>
 
-                {!isMinimized && (
-                  <>
-                    {/* Quick Questions */}
-                    {messages.length === 1 && (
-                      <motion.div
-                        className="p-4 border-b border-white/10"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                      >
-                        <p className="text-sm text-gray-600 mb-3 font-medium">
-                          💡 Quick questions to get started:
-                        </p>
-                        <div className="grid grid-cols-1 gap-2">
-                          {quickQuestions.map((question, index) => (
-                            <motion.button
-                              key={index}
-                              onClick={() => setInputValue(question)}
-                              className="text-left text-sm p-2 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 border border-blue-200/50 hover:border-blue-300/50 transition-all duration-200 text-gray-700 hover:text-gray-800"
-                              whileHover={{ scale: 1.02, x: 5 }}
-                              whileTap={{ scale: 0.98 }}
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: 0.1 * index + 0.5 }}
-                            >
-                              {question}
-                            </motion.button>
-                          ))}
-                        </div>
-                      </motion.div>
+                <div className="flex items-center gap-0.5 shrink-0">
+                  <button
+                    type="button"
+                    className="hidden md:flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background hover:text-foreground transition-colors"
+                    onClick={() => setIsExpanded((v) => !v)}
+                    aria-label={isExpanded ? "Collapse" : "Expand"}
+                  >
+                    {isExpanded ? (
+                      <Minimize2 className="h-4 w-4" />
+                    ) : (
+                      <Maximize2 className="h-4 w-4" />
                     )}
+                  </button>
+                  <button
+                    type="button"
+                    className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background hover:text-foreground transition-colors"
+                    onClick={() => setIsMinimized((v) => !v)}
+                    aria-label={isMinimized ? "Restore" : "Minimize"}
+                  >
+                    {isMinimized ? (
+                      <Maximize2 className="h-4 w-4" />
+                    ) : (
+                      <Minus className="h-4 w-4" />
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background hover:text-foreground transition-colors"
+                    onClick={() => {
+                      setIsOpen(false);
+                      setIsExpanded(false);
+                      setIsMinimized(false);
+                    }}
+                    aria-label="Close"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
 
-                    {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-                      {messages.map((message, index) => (
-                        <motion.div
-                          key={message.id}
-                          initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{ delay: index * 0.1 }}
-                          className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
-                        >
-                          <div
-                            className={`max-w-[85%] rounded-2xl p-4 shadow-lg backdrop-blur-sm border ${
-                              message.isUser
-                                ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white border-blue-300/30 ml-4"
-                                : "bg-white/90 text-gray-800 border-white/40 mr-4"
-                            }`}
+              {!isMinimized && (
+                <>
+                  {/* Quick prompts */}
+                  {messages.length <= 1 && (
+                    <div className="shrink-0 border-b border-line px-3.5 py-3 bg-surface/40">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2 flex items-center gap-1.5">
+                        <Sparkles className="h-3 w-3 text-brand" />
+                        quick prompts
+                      </p>
+                      <div className="flex flex-col gap-1.5">
+                        {quickQuestions.map((q) => (
+                          <button
+                            key={q}
+                            type="button"
+                            onClick={() => void sendMessage(q)}
+                            className="text-left rounded-md border border-line bg-background/70 px-3 py-2 font-mono text-xs text-muted-foreground hover:border-brand/40 hover:text-foreground transition-colors"
                           >
-                            <div className="flex items-start space-x-3">
-                              {!message.isUser && (
-                                <motion.div
-                                  className="flex-shrink-0 h-6 w-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mt-0.5"
-                                  animate={{ rotate: [0, 360] }}
-                                  transition={{
-                                    duration: 10,
-                                    repeat: Infinity,
-                                    ease: "linear",
-                                  }}
-                                >
-                                  <Bot className="h-3 w-3 text-white" />
-                                </motion.div>
-                              )}
-                              {message.isUser && (
-                                <motion.div
-                                  className="flex-shrink-0 h-6 w-6 bg-white/20 rounded-full flex items-center justify-center mt-0.5"
-                                  whileHover={{ scale: 1.1 }}
-                                >
-                                  <User className="h-3 w-3 text-white" />
-                                </motion.div>
-                              )}
-                              <div className="flex-1">
-                                <div className="text-sm leading-relaxed">
-                                  <ReactMarkdown
-                                    remarkPlugins={[remarkGfm]}
-                                    components={{
-                                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                      ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
-                                      ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
-                                      li: ({ children }) => <li className="mb-1">{children}</li>,
-                                      h1: ({ children }) => <h1 className="text-lg font-bold mb-2 mt-4 first:mt-0">{children}</h1>,
-                                      h2: ({ children }) => <h2 className="text-base font-bold mb-2 mt-3 first:mt-0">{children}</h2>,
-                                      h3: ({ children }) => <h3 className="text-sm font-bold mb-2 mt-2 first:mt-0">{children}</h3>,
-                                      strong: ({ children }) => <span className="font-bold text-inherit">{children}</span>,
-                                      em: ({ children }) => <span className="italic text-inherit">{children}</span>,
-                                      code: ({ className, children, ...props }) => {
-                                        const match = /language-(\w+)/.exec(className || "");
-                                        const isInline = !match;
-                                        return isInline ? (
-                                          <code className="bg-black/10 dark:bg-white/10 px-1 py-0.5 rounded text-xs font-mono" {...props}>
-                                            {children}
-                                          </code>
-                                        ) : (
-                                          <div className="relative my-2 rounded-lg overflow-hidden bg-gray-900 border border-white/10">
-                                            <div className="px-4 py-2 bg-gray-800/50 border-b border-white/10 text-xs text-gray-400 font-mono">
-                                              {match?.[1] || "code"}
-                                            </div>
-                                            <pre className="p-4 overflow-x-auto text-sm text-gray-100 font-mono scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
-                                              <code>{children}</code>
-                                            </pre>
-                                          </div>
-                                        );
-                                      },
-                                      blockquote: ({ children }) => (
-                                        <blockquote className="border-l-4 border-blue-500/50 pl-4 py-1 my-2 bg-blue-500/5 rounded-r italic">
-                                          {children}
-                                        </blockquote>
-                                      ),
-                                      a: ({ href, children }) => (
-                                        <a 
-                                          href={href} 
-                                          target="_blank" 
-                                          rel="noopener noreferrer" 
-                                          className="text-blue-600 hover:text-blue-500 underline decoration-blue-400/30 hover:decoration-blue-500 transition-colors"
+                            $ {q}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Messages */}
+                  <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-3.5 py-3 space-y-3">
+                    {messages.map((message) => (
+                      <div
+                        key={message.id}
+                        className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
+                      >
+                        <div
+                          className={`max-w-[88%] rounded-md border px-3 py-2.5 text-sm leading-relaxed ${
+                            message.isUser
+                              ? "border-brand/40 bg-brand text-brand-foreground"
+                              : "border-line bg-surface text-foreground"
+                          }`}
+                        >
+                          <div className="mb-1.5 flex items-center gap-1.5 font-mono text-[10px] opacity-70">
+                            {message.isUser ? (
+                              <User className="h-3 w-3" />
+                            ) : (
+                              <Bot className="h-3 w-3" />
+                            )}
+                            {message.isUser ? "you" : "agent"}
+                            <span className="ml-auto">
+                              {message.timestamp.toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
+                          </div>
+                          {message.isUser ? (
+                            <p>{message.text}</p>
+                          ) : (
+                            <div className="prose-chat">
+                              <ReactMarkdown
+                                remarkPlugins={[remarkGfm]}
+                                components={{
+                                  p: ({ children }) => (
+                                    <p className="mb-2 last:mb-0">{children}</p>
+                                  ),
+                                  ul: ({ children }) => (
+                                    <ul className="mb-2 list-disc space-y-1 pl-4">
+                                      {children}
+                                    </ul>
+                                  ),
+                                  ol: ({ children }) => (
+                                    <ol className="mb-2 list-decimal space-y-1 pl-4">
+                                      {children}
+                                    </ol>
+                                  ),
+                                  strong: ({ children }) => (
+                                    <strong className="font-semibold text-brand">
+                                      {children}
+                                    </strong>
+                                  ),
+                                  code: ({ className, children, ...props }) => {
+                                    const block = /language-/.test(
+                                      className || "",
+                                    );
+                                    if (!block) {
+                                      return (
+                                        <code
+                                          className="rounded bg-background/80 px-1 py-0.5 font-mono text-xs"
+                                          {...props}
                                         >
                                           {children}
-                                        </a>
-                                      ),
-                                    }}
-                                  >
-                                    {message.text}
-                                  </ReactMarkdown>
-                                </div>
-                                <p
-                                  className={`text-xs mt-2 opacity-70 ${message.isUser ? "text-white/70" : "text-gray-500"}`}
-                                >
-                                  {message.timestamp.toLocaleTimeString([], {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  })}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-
-                      {/* Typing indicator */}
-                      {isTyping && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="flex justify-start"
-                        >
-                          <div className="max-w-[85%] rounded-2xl p-4 bg-white/90 border border-white/40 shadow-lg backdrop-blur-sm mr-4">
-                            <div className="flex items-center space-x-3">
-                              <motion.div
-                                className="h-6 w-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center"
-                                animate={{ rotate: 360 }}
-                                transition={{
-                                  duration: 2,
-                                  repeat: Infinity,
-                                  ease: "linear",
+                                        </code>
+                                      );
+                                    }
+                                    return (
+                                      <pre className="my-2 overflow-x-auto rounded-md border border-line bg-background p-3 font-mono text-xs">
+                                        <code {...props}>{children}</code>
+                                      </pre>
+                                    );
+                                  },
+                                  a: ({ href, children }) => (
+                                    <a
+                                      href={href}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-brand underline underline-offset-2"
+                                    >
+                                      {children}
+                                    </a>
+                                  ),
                                 }}
                               >
-                                <Bot className="h-3 w-3 text-white" />
-                              </motion.div>
-                              <div className="flex space-x-1">
-                                {[0, 1, 2].map((i) => (
-                                  <motion.div
-                                    key={i}
-                                    className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-                                    animate={{
-                                      scale: [1, 1.5, 1],
-                                      opacity: [0.5, 1, 0.5],
-                                    }}
-                                    transition={{
-                                      duration: 1,
-                                      repeat: Infinity,
-                                      delay: i * 0.2,
-                                    }}
-                                  />
-                                ))}
-                              </div>
-                              <span className="text-sm text-gray-600">
-                                AI is thinking...
-                              </span>
+                                {message.text}
+                              </ReactMarkdown>
                             </div>
-                          </div>
-                        </motion.div>
-                      )}
-                      <div ref={messagesEndRef} />
-                    </div>
-
-                    {/* Input */}
-                    <div className="p-4 border-t border-white/20 bg-gradient-to-r from-blue-50/50 via-purple-50/50 to-indigo-50/50 rounded-b-2xl">
-                      <div className="flex space-x-3">
-                        <div className="flex-1 relative">
-                          <Input
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            placeholder="Ask me anything about Abhishek..."
-                            className="w-full bg-white/80 backdrop-blur-sm border-white/40 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl px-4 py-3 text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-200"
-                            disabled={isLoading}
-                          />
-                          {/* Input decoration */}
-                          <motion.div
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                            animate={{ rotate: [0, 360] }}
-                            transition={{
-                              duration: 20,
-                              repeat: Infinity,
-                              ease: "linear",
-                            }}
-                          >
-                            <Sparkles className="h-4 w-4 text-gray-400" />
-                          </motion.div>
+                          )}
                         </div>
-                        <motion.div
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Button
-                            onClick={sendMessage}
-                            disabled={!inputValue.trim() || isLoading}
-                            className="h-12 w-12 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-200 border border-white/20"
-                            size="icon"
-                          >
-                            <motion.div
-                              animate={isLoading ? { rotate: 360 } : {}}
-                              transition={
-                                isLoading
-                                  ? {
-                                      duration: 1,
-                                      repeat: Infinity,
-                                      ease: "linear",
-                                    }
-                                  : {}
-                              }
-                            >
-                              <Send className="h-5 w-5 text-white" />
-                            </motion.div>
-                          </Button>
-                        </motion.div>
                       </div>
+                    ))}
 
-                      {/* Footer */}
-                      <motion.div
-                        className="flex items-center justify-center mt-3 text-xs text-gray-500"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1 }}
+                    {isTyping && (
+                      <div className="flex justify-start">
+                        <div className="rounded-md border border-line bg-surface px-3 py-2.5 font-mono text-xs text-muted-foreground">
+                          agent is typing
+                          <span className="caret-blink ml-1 inline-block w-1.5 h-3 bg-brand align-middle" />
+                        </div>
+                      </div>
+                    )}
+                    <div ref={messagesEndRef} />
+                  </div>
+
+                  {/* Input */}
+                  <div className="shrink-0 border-t border-line bg-surface/50 p-3">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleKeyPress}
+                        placeholder="$ ask about skills, projects…"
+                        disabled={isLoading}
+                        className="flex-1 rounded-md border border-line bg-background px-3 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-brand/50"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => void sendMessage()}
+                        disabled={!inputValue.trim() || isLoading}
+                        className="inline-flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground disabled:opacity-40 transition-opacity"
+                        aria-label="Send"
                       >
-                        <span className="flex items-center gap-1">
-                          Powered by
-                          <motion.span
-                            className="font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-                            animate={{ opacity: [0.7, 1, 0.7] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          >
-                            Gemini AI
-                          </motion.span>
-                          <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          >
-                            ✨
-                          </motion.div>
-                        </span>
-                      </motion.div>
+                        <Send className="h-4 w-4" />
+                      </button>
                     </div>
-                  </>
-                )}
-              </div>
+                    <p className="mt-2 text-center font-mono text-[10px] text-muted-foreground/70">
+                      powered by gemini
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </motion.div>
         )}

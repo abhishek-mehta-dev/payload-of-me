@@ -1,134 +1,85 @@
 export default function Loading() {
+  const lines = [
+    { prefix: "info", text: "booting portfolio runtime…" },
+    { prefix: "ok", text: "theme tokens resolved" },
+    { prefix: "ok", text: "lenis / gsap ready" },
+    { prefix: "info", text: "hydrating sections…" },
+    { prefix: "wait", text: "fetching route payload" },
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-950 via-slate-900 to-blue-900 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <div className="grid grid-cols-12 grid-rows-8 h-full w-full gap-1">
-          {Array.from({ length: 96 }).map((_, i) => (
-            <div
-              key={i}
-              className="border border-blue-400/30 animate-pulse"
-              style={{
-                animationDelay: `${i * 0.05}s`,
-                animationDuration: "2s",
-              }}
-            />
-          ))}
-        </div>
-      </div>
+    <div className="relative min-h-screen overflow-hidden blueprint-grid noise-overlay flex items-center justify-center bg-background">
+      <div
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[28rem] w-[50rem] rounded-full blur-3xl opacity-15"
+        style={{ background: "var(--brand)" }}
+      />
 
-      <div className="text-center z-10 relative">
-        <div className="relative mb-8">
-          {/* Server rack visualization */}
-          <div className="w-32 h-40 mx-auto relative">
-            {/* Server rack frame */}
-            <div className="absolute inset-0 border-2 border-blue-400/50 rounded-lg bg-slate-800/30">
-              {/* Server units */}
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-5 mx-2 my-1 rounded border border-blue-300/40 relative overflow-hidden"
-                  style={{ animationDelay: `${i * 0.3}s` }}
+      <div className="relative z-10 w-full max-w-lg px-4">
+        <p className="section-label mb-4 text-center sm:text-left">
+          00 / loading
+        </p>
+
+        <div className="panel overflow-hidden shadow-[0_24px_60px_-28px_rgba(0,0,0,0.45)]">
+          {/* Title bar */}
+          <div className="flex items-center gap-3 border-b border-line bg-surface/80 px-3.5 py-2.5">
+            <div className="flex gap-1.5">
+              <span className="term-dot bg-red-500/80" />
+              <span className="term-dot bg-yellow-500/80" />
+              <span className="term-dot bg-brand" />
+            </div>
+            <p className="font-mono text-xs text-muted-foreground truncate">
+              abhishek@portfolio:~$ boot
+            </p>
+          </div>
+
+          {/* Boot log */}
+          <div className="space-y-2.5 bg-background/40 px-4 py-5 font-mono text-xs sm:text-sm">
+            {lines.map((line, i) => (
+              <div
+                key={line.text}
+                className="loader-line flex gap-2 text-muted-foreground"
+                style={{ animationDelay: `${0.15 + i * 0.22}s` }}
+              >
+                <span
+                  className={
+                    line.prefix === "ok"
+                      ? "text-brand shrink-0"
+                      : line.prefix === "wait"
+                        ? "text-amber-500 shrink-0"
+                        : "text-muted-foreground/70 shrink-0"
+                  }
                 >
-                  {/* Server activity indicator */}
-                  <div
-                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500 to-cyan-400 animate-pulse"
-                    style={{
-                      width: `${20 + i * 15}%`,
-                      animationDelay: `${i * 0.2}s`,
-                      animationDuration: "1.5s",
-                    }}
-                  />
-                  {/* Status lights */}
-                  <div className="absolute right-1 top-1/2 transform -translate-y-1/2 flex space-x-1">
-                    <div
-                      className="w-1 h-1 bg-green-400 rounded-full animate-ping"
-                      style={{ animationDelay: `${i * 0.1}s` }}
-                    />
-                    <div
-                      className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"
-                      style={{ animationDelay: `${i * 0.15}s` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Data flow lines */}
-            <div className="absolute -left-8 top-1/2 transform -translate-y-1/2">
-              <div className="w-6 h-0.5 bg-blue-400 animate-pulse" />
-              <div
-                className="w-4 h-0.5 bg-cyan-400 animate-pulse mt-1"
-                style={{ animationDelay: "0.5s" }}
-              />
-              <div
-                className="w-5 h-0.5 bg-blue-300 animate-pulse mt-1"
-                style={{ animationDelay: "1s" }}
-              />
-            </div>
-
-            <div className="absolute -right-8 top-1/2 transform -translate-y-1/2">
-              <div className="w-6 h-0.5 bg-blue-400 animate-pulse" />
-              <div
-                className="w-4 h-0.5 bg-cyan-400 animate-pulse mt-1"
-                style={{ animationDelay: "0.3s" }}
-              />
-              <div
-                className="w-5 h-0.5 bg-blue-300 animate-pulse mt-1"
-                style={{ animationDelay: "0.8s" }}
-              />
-            </div>
-          </div>
-
-          <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 border border-blue-400 rounded animate-spin" />
-              <div className="w-8 h-0.5 bg-gradient-to-r from-blue-400 to-transparent animate-pulse" />
-              <div className="w-4 h-4 border border-cyan-400 rounded-sm animate-pulse flex items-center justify-center">
-                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-ping" />
+                  [{line.prefix}]
+                </span>
+                <span className="text-foreground/90">{line.text}</span>
               </div>
+            ))}
+
+            <div
+              className="loader-line flex items-center gap-2 pt-1"
+              style={{ animationDelay: "1.25s" }}
+            >
+              <span className="text-brand">$</span>
+              <span className="text-foreground">open --route</span>
+              <span className="caret-blink inline-block h-3.5 w-1.5 bg-brand align-middle" />
+            </div>
+          </div>
+
+          {/* Progress */}
+          <div className="border-t border-line bg-surface/50 px-4 py-3">
+            <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              <span>compiling</span>
+              <span className="text-brand">please wait</span>
+            </div>
+            <div className="h-1 overflow-hidden rounded-full bg-line/80">
+              <div className="loader-bar h-full rounded-full bg-brand" />
             </div>
           </div>
         </div>
 
-        <div className="mt-8 w-64 mx-auto">
-          <div className="h-1 bg-slate-700 rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full animate-pulse w-full origin-left transform scale-x-0 animate-[scaleX_4s_ease-in-out_infinite]"></div>
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute top-20 left-20 text-blue-500/30 text-lg font-mono animate-float">
-        {"API"}
-      </div>
-      <div
-        className="absolute top-32 right-32 text-blue-500/30 text-lg font-mono animate-float"
-        style={{ animationDelay: "1s" }}
-      >
-        {"DB"}
-      </div>
-      <div
-        className="absolute bottom-32 left-32 text-cyan-500/30 text-lg font-mono animate-float"
-        style={{ animationDelay: "2s" }}
-      >
-        {"SQL"}
-      </div>
-      <div
-        className="absolute bottom-20 right-20 text-blue-500/30 text-lg font-mono animate-float"
-        style={{ animationDelay: "1.5s" }}
-      >
-        {"REST"}
-      </div>
-      <div
-        className="absolute top-1/2 left-10 text-cyan-500/30 text-sm font-mono animate-float"
-        style={{ animationDelay: "0.5s" }}
-      >
-        {"JSON"}
-      </div>
-      <div
-        className="absolute top-1/2 right-10 text-blue-500/30 text-sm font-mono animate-float"
-        style={{ animationDelay: "2.5s" }}
-      >
-        {"HTTP"}
+        <p className="mt-5 text-center font-mono text-[10px] tracking-wider text-muted-foreground/70">
+          // abhishek.mehta — portfolio runtime
+        </p>
       </div>
     </div>
   );

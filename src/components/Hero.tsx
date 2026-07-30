@@ -1,20 +1,12 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import {
-  motion,
-  type TargetAndTransition,
-  useScroll,
-  useTransform,
-  type Variants,
-  AnimatePresence,
-} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
   Github,
   Linkedin,
   Mail,
   Download,
-  ChevronDown,
+  ArrowDown,
   Code,
   Database,
   Server,
@@ -23,7 +15,6 @@ import {
   Award,
   Layers,
   GitBranch,
-  Terminal,
 } from "lucide-react";
 import {
   SiDjango,
@@ -38,7 +29,12 @@ import {
   SiDocker,
   SiNestjs,
   SiPostgresql,
+  SiRedis,
 } from "react-icons/si";
+import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { scrollToSection } from "@/lib/lenis-store";
+import HeroLogStream from "@/components/HeroLogStream";
+import SkillsConstellation from "@/components/SkillsConstellation";
 
 const techStack = [
   { name: "Node.js", icon: SiNodedotjs },
@@ -48,6 +44,7 @@ const techStack = [
   { name: "Next.js", icon: SiNextdotjs },
   { name: "MongoDB", icon: SiMongodb },
   { name: "PostgreSQL", icon: SiPostgresql },
+  { name: "Redis", icon: SiRedis },
   { name: "Docker", icon: SiDocker },
   { name: "TypeScript", icon: SiTypescript },
   { name: "Django", icon: SiDjango },
@@ -56,46 +53,40 @@ const techStack = [
 ];
 
 const stats = [
-  { number: "10+", label: "Fullstack Projects", icon: Code },
-  { number: "1+", label: "Years Experience", icon: Award },
-  { number: "6+", label: "Technologies Used", icon: Layers },
-  { number: "15+", label: "Contributions / PRs", icon: GitBranch },
+  { value: 10, suffix: "+", label: "Fullstack Projects", icon: Code },
+  { value: 1, suffix: "+", label: "Years Experience", icon: Award },
+  { value: 6, suffix: "+", label: "Technologies Used", icon: Layers },
+  { value: 15, suffix: "+", label: "Contributions / PRs", icon: GitBranch },
 ];
 
 const services = [
   {
+    code: "01",
     title: "Full-Stack Development",
     icon: Globe,
-    description: "End-to-End System Engineering",
+    description: "End-to-end apps from API to UI",
   },
   {
+    code: "02",
     title: "Backend APIs",
     icon: Server,
-    description: "Scalable server solutions",
+    description: "REST & services built to scale",
   },
   {
+    code: "03",
     title: "Database Design",
     icon: Database,
-    description: "Optimized data architecture",
+    description: "Schemas tuned for real traffic",
   },
   {
+    code: "04",
     title: "Server Architecture",
     icon: Cpu,
-    description: "Robust server infrastructure",
+    description: "Nginx, PM2, SSH & prod hardening",
   },
 ];
 
-type Particle = {
-  id: number;
-  left: string;
-  top: string;
-  y: number[];
-  x: number[];
-  opacity: number[];
-  color: string;
-  duration: number;
-  delay: number;
-};
+const titles = ["Full Stack Developer", "Backend Engineer", "Tech Enthusiast"];
 
 const codeSnippets = [
   "import express from 'express';",
@@ -106,684 +97,477 @@ const codeSnippets = [
   "docker pull ubuntu:latest",
 ];
 
+const socials = [
+  {
+    icon: Github,
+    href: "https://github.com/abhishek-mehta-dev",
+    label: "GitHub",
+  },
+  {
+    icon: Linkedin,
+    href: "https://www.linkedin.com/in/abhishek-mehta-0724ab256/",
+    label: "LinkedIn",
+  },
+  { icon: Mail, href: "mailto:mehtaabhishek.dev@gmail.com", label: "Email" },
+  {
+    icon: SiDocker,
+    href: "https://hub.docker.com/u/abhishekmehtadev/",
+    label: "Docker Hub",
+  },
+];
+
 export default function Hero() {
-  const [currentTitle, setCurrentTitle] = useState(0);
-  const { scrollY } = useScroll();
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [terminalText, setTerminalText] = useState("");
-  const [currentSnippet, setCurrentSnippet] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  const fullText = codeSnippets[currentSnippet];
+  const rootRef = useRef<HTMLElement>(null);
+  const [snippetIndex, setSnippetIndex] = useState(0);
+  const [typed, setTyped] = useState("");
 
+  // Terminal typewriter loop
   useEffect(() => {
-    const newParticles = [...Array(25)].map((_, i) => {
-      const colors = [
-        "bg-blue-400/20",
-        "bg-cyan-400/15",
-        "bg-purple-400/18",
-        "bg-teal-400/12",
-        "bg-indigo-400/16",
-        "bg-violet-400/14",
-      ];
-      return {
-        id: i,
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        y: [0, -Math.random() * 100 - 50, 0],
-        x: [0, Math.random() * 40 - 20, 0],
-        opacity: [0.2, 1, 0.2],
-        color: colors[Math.floor(Math.random() * colors.length)],
-        duration: Math.random() * 4 + 4,
-        delay: Math.random() * 2,
-      };
-    });
-    setParticles(newParticles);
-  }, []);
-
-  const titles = useMemo(
-    () => ["Full Stack Developer", "Backend Engineer", "Tech Enthusiast"],
-    [],
-  );
-
-  // Parallax effects
-  const backgroundY = useTransform(scrollY, [0, 500], [0, 150]);
-  const textY = useTransform(scrollY, [0, 500], [0, 100]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTitle((prev) => (prev + 1) % titles.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [titles.length]);
-
-  useEffect(() => {
-    setMounted(true);
-    if (!mounted) return;
-
+    const snippet = codeSnippets[snippetIndex];
     let i = 0;
-    const snippet = codeSnippets[currentSnippet];
-
     const interval = setInterval(() => {
-      setTerminalText(snippet.slice(0, i));
       i++;
-
-      if (i > snippet.length) {
+      setTyped(snippet.slice(0, i));
+      if (i >= snippet.length) {
         clearInterval(interval);
-
         setTimeout(() => {
-          setCurrentSnippet((prev) => (prev + 1) % codeSnippets.length);
-          setTerminalText("");
-        }, 1000);
+          setTyped("");
+          setSnippetIndex((prev) => (prev + 1) % codeSnippets.length);
+        }, 1400);
       }
-    }, 90);
-
+    }, 60);
     return () => clearInterval(interval);
-  }, [currentSnippet, mounted]);
+  }, [snippetIndex]);
 
-  // const letters = titles[currentTitle].split("");
+  useGSAP(
+    () => {
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
-  const scrollToNext = () => {
-    const nextSection = document.getElementById("about");
-    nextSection?.scrollIntoView({ behavior: "smooth" });
-  };
+      // --- Intro timeline (delayed slightly so the preloader wipes first) ---
+      const split = new SplitText(".hero-name", {
+        type: "chars",
+        mask: "chars",
+        charsClass: "hero-char",
+      });
 
-  // Animation variants
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
+      const intro = gsap.timeline({
+        delay: reduced ? 0 : 2.1,
+        defaults: { ease: "power4.out" },
+      });
+
+      intro
+        .from(".hero-eyebrow", { opacity: 0, y: 20, duration: 0.6 })
+        .from(
+          split.chars,
+          {
+            yPercent: 115,
+            rotate: 6,
+            duration: 0.9,
+            stagger: 0.028,
+          },
+          "-=0.3",
+        )
+        .from(
+          ".hero-rotator-wrap",
+          { opacity: 0, y: 24, duration: 0.6 },
+          "-=0.45",
+        )
+        .from(".hero-terminal", { opacity: 0, y: 30, duration: 0.7 }, "-=0.35")
+        .from(
+          ".hero-cta > *",
+          { opacity: 0, y: 20, stagger: 0.1, duration: 0.5 },
+          "-=0.4",
+        )
+        .from(
+          ".hero-social",
+          {
+            opacity: 0,
+            scale: 0.6,
+            stagger: 0.07,
+            duration: 0.4,
+            ease: "back.out(2)",
+          },
+          "-=0.3",
+        )
+        .from(".hero-scroll-hint", { opacity: 0, duration: 0.8 }, "-=0.1");
+
+      // --- Rotating job titles ---
+      const rotatorItems =
+        gsap.utils.toArray<HTMLElement>(".hero-rotator-item");
+      if (rotatorItems.length > 1 && !reduced) {
+        const rotator = gsap.timeline({ repeat: -1, delay: 3 });
+        rotatorItems.forEach((item, i) => {
+          const next = rotatorItems[(i + 1) % rotatorItems.length];
+          rotator
+            .to(
+              item,
+              { yPercent: -100, opacity: 0, duration: 0.55, ease: "power3.in" },
+              `+=2.6`,
+            )
+            .fromTo(
+              next,
+              { yPercent: 100, opacity: 0 },
+              { yPercent: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+              "<0.1",
+            );
+        });
+      }
+
+      // --- Stats counters on scroll ---
+      const statsRoot = rootRef.current?.querySelector(".hero-stats");
+      if (statsRoot) {
+        gsap.from(".hero-stat", {
+          opacity: 0,
+          y: 36,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: statsRoot,
+            start: "top 85%",
+            once: true,
+          },
+        });
+
+        gsap.utils
+          .toArray<HTMLElement>(".hero-stat-num")
+          .forEach((numEl, i) => {
+            const target = Number(numEl.dataset.value ?? 0);
+            if (reduced) {
+              numEl.textContent = String(target);
+              return;
+            }
+            const counter = { v: 0 };
+            gsap.to(counter, {
+              v: target,
+              duration: 1.5,
+              delay: i * 0.1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: statsRoot,
+                start: "top 85%",
+                once: true,
+              },
+              onUpdate: () => {
+                numEl.textContent = String(Math.round(counter.v));
+              },
+            });
+          });
+      }
+
+      // --- Services reveal ---
+      gsap.from(".hero-service", {
+        opacity: 0,
+        y: 48,
+        rotateX: 8,
+        transformOrigin: "top center",
+        stagger: 0.12,
+        duration: 0.75,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".hero-services",
+          start: "top 85%",
+          once: true,
+        },
+      });
+
+      gsap.from(".hero-section-label", {
+        opacity: 0,
+        x: -16,
+        duration: 0.55,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".hero-metrics-block",
+          start: "top 88%",
+          once: true,
+        },
+      });
+
+      // --- Marquee reveal ---
+      gsap.from(".hero-marquee", {
+        opacity: 0,
+        y: 24,
+        duration: 0.9,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".hero-marquee",
+          start: "top 95%",
+          once: true,
+        },
+      });
+
+      // --- Magnetic social buttons (desktop) ---
+      if (window.matchMedia("(pointer: fine)").matches && !reduced) {
+        gsap.utils.toArray<HTMLElement>(".hero-social").forEach((btn) => {
+          const xTo = gsap.quickTo(btn, "x", {
+            duration: 0.4,
+            ease: "power3.out",
+          });
+          const yTo = gsap.quickTo(btn, "y", {
+            duration: 0.4,
+            ease: "power3.out",
+          });
+          btn.addEventListener("mousemove", (e) => {
+            const rect = btn.getBoundingClientRect();
+            xTo((e.clientX - rect.left - rect.width / 2) * 0.4);
+            yTo((e.clientY - rect.top - rect.height / 2) * 0.4);
+          });
+          btn.addEventListener("mouseleave", () => {
+            xTo(0);
+            yTo(0);
+          });
+        });
+      }
     },
-  };
-
-  const fadeInUp: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 60,
-      scale: 0.9,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        type: "spring",
-        stiffness: 100,
-      },
-    }),
-  };
-
-  const slideInLeft: Variants = {
-    hidden: {
-      opacity: 0,
-      x: -100,
-      rotate: -5,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      x: 0,
-      rotate: 0,
-      transition: {
-        delay: i * 0.15,
-        duration: 0.7,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 120,
-      },
-    }),
-  };
-
-  const slideInRight: Variants = {
-    hidden: {
-      opacity: 0,
-      x: 100,
-      rotate: 5,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      x: 0,
-      rotate: 0,
-      transition: {
-        delay: i * 0.15,
-        duration: 0.7,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 120,
-      },
-    }),
-  };
-
-  const scaleIn: Variants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.5,
-      rotate: -10,
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      rotate: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.6,
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 150,
-      },
-    }),
-  };
-
-  const floatingAnimation: TargetAndTransition = {
-    y: [0, -20, 0],
-    transition: {
-      duration: 3,
-      repeat: Number.POSITIVE_INFINITY,
-      ease: "easeInOut",
-    },
-  };
+    { scope: rootRef },
+  );
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      ref={rootRef}
+      className="relative overflow-hidden blueprint-grid noise-overlay"
     >
-      {/* Animated Background with Parallax */}
-      <motion.div className="absolute inset-0" style={{ y: backgroundY }}>
-        {/* Base gradient layers */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-white dark:from-slate-950 dark:via-blue-950 dark:to-slate-900"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-        />
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-tr from-blue-100/50 via-transparent to-cyan-100/30 dark:from-blue-900/50 dark:via-transparent dark:to-cyan-900/30"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 0.5 }}
-        />
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-bl from-transparent via-purple-900/20 to-pink-900/10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2.5, delay: 1 }}
-        />
+      {/* Ambient brand glow */}
+      <div
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[70rem] h-[36rem] rounded-full blur-3xl opacity-10"
+        style={{ background: "var(--brand)" }}
+      />
 
-        {/* Animated gradient orbs */}
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/15 to-cyan-500/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 0.8, 0.5],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/12 to-pink-500/8 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.4, 0.7, 0.4],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-teal-500/8 to-emerald-500/6 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        />
-
-        {/* Floating elements with motion */}
-        <motion.div
-          className="absolute top-10 right-20 w-64 h-64 bg-gradient-to-br from-indigo-500/10 to-blue-600/8 rounded-full blur-2xl"
-          animate={floatingAnimation}
-        />
-        <motion.div
-          className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-violet-500/8 to-purple-600/6 rounded-full blur-2xl"
-          animate={{
-            y: [0, -30, 0],
-            x: [0, 20, 0],
-            transition: {
-              duration: 4,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "easeInOut",
-              delay: 1,
-            },
-          }}
-        />
-
-        {/* Animated particles */}
-        {particles.map((particle) => (
-          <motion.div
-            key={particle.id}
-            className={`absolute w-1 h-1 ${particle.color} rounded-full`}
-            style={{
-              left: particle.left,
-              top: particle.top,
-            }}
-            animate={{
-              y: particle.y,
-              x: particle.x,
-              opacity: particle.opacity,
-            }}
-            transition={{
-              duration: particle.duration,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "easeInOut",
-              delay: particle.delay,
-            }}
-          />
-        ))}
-
-        {/* Grid pattern */}
-        <motion.div
-          className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 3, delay: 1.5 }}
-        />
-      </motion.div>
-
-      <motion.div
-        className="relative z-10 w-full max-w-7xl mx-auto px-4 py-16"
-        style={{ y: textY }}
+      {/* Left accent — constellation (behind copy, fades into content) */}
+      <div
+        className="pointer-events-none absolute top-[18%] left-0 z-[1] hidden lg:block w-[min(420px,34vw)] h-[min(420px,34vw)] opacity-40"
+        style={{
+          maskImage: "linear-gradient(to right, black 40%, transparent 92%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, black 40%, transparent 92%)",
+        }}
       >
-        {/* Terminal header */}
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8 sm:mb-10 lg:mb-12 flex justify-center"
-        >
-          <div className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-emerald-500/30 rounded-full shadow-lg hover:shadow-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/50" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/50" />
-              <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50" />
-            </div>
-            <span className="text-emerald-600 dark:text-emerald-400 font-mono text-xs sm:text-sm font-semibold tracking-wide truncate">
-              ~/👋 Hello, I&apos;m Abhishek Mehta
+        <SkillsConstellation />
+      </div>
+
+      {/* Right — server logs (full, clearly visible) */}
+      <div className="pointer-events-none absolute top-[8%] right-0 z-[1] hidden md:block h-[min(78vh,720px)] w-[min(520px,48vw)] lg:w-[min(560px,46vw)] opacity-80 lg:opacity-100">
+        <HeroLogStream />
+      </div>
+
+      <div className="container-responsive relative z-10 min-h-screen flex flex-col justify-center pt-32 pb-16">
+        {/* Eyebrow */}
+        <p className="hero-eyebrow font-mono text-sm sm:text-base text-brand mb-6">
+          <span className="text-muted-foreground">$ whoami</span>
+          <span className="mx-3 text-line">|</span>
+          ~/👋 Hello, I&apos;m
+        </p>
+
+        {/* Massive name */}
+        <h1 className="hero-name font-display font-bold tracking-tight leading-[0.95] text-[13vw] sm:text-7xl lg:text-8xl xl:text-9xl mb-6">
+          Abhishek Mehta<span className="text-brand"></span>
+        </h1>
+
+        {/* Rotating titles */}
+        <div className="hero-rotator-wrap flex items-center gap-3 mb-10 h-10 sm:h-12 max-w-3xl">
+          <span className="font-mono text-brand text-xl">→</span>
+          <div className="relative h-full flex-1 overflow-hidden">
+            {titles.map((title, i) => (
+              <span
+                key={title}
+                className="hero-rotator-item absolute inset-0 flex items-center font-display text-2xl sm:text-3xl lg:text-4xl font-semibold text-muted-foreground"
+                style={{ opacity: i === 0 ? 1 : 0 }}
+              >
+                {title}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Terminal panel */}
+        <div className="hero-terminal panel max-w-3xl overflow-hidden mb-10">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-line bg-surface">
+            <span className="font-mono text-xs text-muted-foreground">
+              terminal — bash
             </span>
-          </div>
-        </motion.div>
-
-        {/* Terminal body */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mx-auto max-w-2xl sm:max-w-3xl lg:max-w-4xl"
-        >
-          <div className="bg-white/80 dark:bg-slate-900/95 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-xl sm:shadow-2xl overflow-hidden hover:shadow-cyan-500/10 hover:border-cyan-500/50 dark:hover:border-slate-600/80 transition-all duration-500">
-            {/* Top bar */}
-            <div className="bg-gradient-to-r from-gray-100/90 to-gray-200/90 dark:from-slate-800/90 dark:to-slate-800/80 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between border-b border-gray-200 dark:border-slate-700/50">
-              <div className="flex items-center gap-3">
-                <Terminal className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-gray-700 dark:text-slate-300 text-sm font-mono font-semibold">
-                  terminal
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors shadow-sm" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors shadow-sm" />
-                <div className="w-3 h-3 rounded-full bg-emerald-500 hover:bg-emerald-400 transition-colors shadow-sm" />
-              </div>
-            </div>
-
-            {/* Terminal content */}
-            <div className="p-6 sm:p-8 lg:p-10 font-mono space-y-4 sm:space-y-6">
-              <div className="text-emerald-600 dark:text-emerald-400 text-sm font-semibold tracking-wide">
-                <span className="text-cyan-600 dark:text-cyan-400">$ </span>
-                whoami
-              </div>
-
-              <div className="text-gray-900 dark:text-white text-4xl md:text-6xl font-bold tracking-tight">
-                Abhishek Mehta
-              </div>
-
-              {/* Animated title */}
-              <div className="h-12 flex items-center">
-                <span className="text-emerald-600 dark:text-emerald-400 mr-3 text-lg">
-                  →
-                </span>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentTitle}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 via-cyan-600 to-emerald-600 dark:from-emerald-300 dark:via-cyan-300 dark:to-emerald-400 bg-clip-text text-transparent"
-                  >
-                    {titles[currentTitle]}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Terminal typing */}
-              <div className="relative text-gray-700 dark:text-slate-300 font-medium tracking-wide text-base sm:text-lg whitespace-nowrap overflow-hidden">
-                {/* Invisible full text for stable layout */}
-                <span className="opacity-0 pointer-events-none">
-                  {fullText}
-                </span>
-
-                {/* Typing animation appears on top */}
-                <div className="absolute top-0 left-0 flex items-center h-full">
-                  {/* Typed text */}
-                  <span className="text-gray-800 dark:text-emerald-300">
-                    {terminalText}
-                  </span>
-
-                  {/* Cursor */}
-                  <motion.span
-                    animate={{ opacity: [1, 0] }}
-                    transition={{ duration: 0.8, repeat: Infinity }}
-                    className="inline-block w-1.5 h-4 sm:w-2 sm:h-6 bg-emerald-600 dark:bg-emerald-400 ml-1"
-                  />
-                </div>
-              </div>
-
-              {/* Description */}
-              <div className="text-gray-600 dark:text-slate-200 text-base md:text-lg leading-relaxed space-y-2 max-w-2xl font-medium">
-                <div>
-                  <span className="text-gray-400 dark:text-slate-500"># </span>
-                  <span>
-                    Building scalable applications with modern tech stacks
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-gray-400 dark:text-slate-500"># </span>
-                  <span>
-                    Transforming ideas into elegant, performant solutions
-                  </span>
-                </div>
-              </div>
-
-              {/* Buttons - CHANGE: Enhanced button styling */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8 sm:mt-10 pt-4 border-t border-gray-200 dark:border-slate-700/50">
-                <motion.button
-                  whileHover={{ scale: 1.08, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    document
-                      .getElementById("experience")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="px-5 sm:px-7 py-2.5 sm:py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/30 hover:shadow-emerald-400/50 text-sm sm:text-base"
-                >
-                  <Mail className="w-4 h-4" />$ contact --now
-                </motion.button>
-
-                <motion.a
-                  whileHover={{ scale: 1.08, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="/assets/images/Abhishek_Mehta_Resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 sm:px-7 py-2.5 sm:py-3 border-2 border-emerald-400/60 text-emerald-300 hover:text-emerald-200 bg-emerald-500/5 hover:bg-emerald-500/15 font-mono font-semibold rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-500/10 hover:shadow-emerald-400/30 hover:border-emerald-300 text-sm sm:text-base"
-                >
-                  <Download className="w-4 h-4" />$ download --resume
-                </motion.a>
-              </div>
+            <div className="flex gap-1.5">
+              <span className="term-dot bg-red-500/80" />
+              <span className="term-dot bg-yellow-500/80" />
+              <span className="term-dot bg-brand" />
             </div>
           </div>
-        </motion.div>
+          <div className="p-5 sm:p-6 font-mono text-sm sm:text-base space-y-3">
+            <div className="whitespace-nowrap overflow-hidden text-foreground">
+              <span className="text-brand">$ </span>
+              {typed}
+              <span className="caret-blink inline-block w-2 h-4 sm:h-5 bg-brand align-middle ml-0.5" />
+            </div>
+            <div className="text-muted-foreground">
+              <span className="text-line"># </span>
+              Building scalable applications with modern tech stacks
+            </div>
+            <div className="text-muted-foreground">
+              <span className="text-line"># </span>
+              Transforming ideas into elegant, performant solutions
+            </div>
+          </div>
+        </div>
 
-        {/* Social Links */}
-        <motion.div
-          className="flex justify-center space-x-4 sm:space-x-6 my-12 sm:my-16"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {[
-            {
-              icon: Github,
-              href: "https://github.com/abhishek-mehta-dev",
-              label: "GitHub",
-            },
-            {
-              icon: Linkedin,
-              href: "https://www.linkedin.com/in/abhishek-mehta-0724ab256/",
-              label: "LinkedIn",
-            },
-            {
-              icon: Mail,
-              href: "mailto:mehtaabhishek.dev@gmail.com",
-              label: "Email",
-            },
-            {
-              icon: SiDocker,
-              href: "https://hub.docker.com/u/abhishekmehtadev/",
-              label: "Docker Hub",
-            },
-          ].map(({ icon: Icon, href, label }, index) => (
-            <motion.a
+        {/* CTAs */}
+        <div className="hero-cta flex flex-col sm:flex-row gap-4 mb-12">
+          <button
+            onClick={() => scrollToSection("#contact")}
+            className="btn-brand"
+          >
+            <Mail className="w-4 h-4" />$ contact --now
+          </button>
+          <a
+            href="/assets/images/Abhishek_Mehta_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost-brand"
+          >
+            <Download className="w-4 h-4" />$ download --resume
+          </a>
+        </div>
+
+        {/* Socials */}
+        <div className="flex items-center gap-4">
+          {socials.map(({ icon: Icon, href, label }) => (
+            <a
               key={label}
               href={href}
-              className="group p-3 sm:p-4 rounded-full bg-slate-800/50 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-blue-500/20 transition-all duration-300 backdrop-blur-md border border-slate-600/40 hover:border-cyan-400/60 shadow-lg hover:shadow-cyan-400/30"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={label}
-              variants={scaleIn}
-              custom={index}
-              whileHover={{
-                scale: 1.25,
-                rotate: 360,
-                boxShadow: "0 0 30px rgba(6, 182, 212, 0.5)",
-              }}
-              whileTap={{ scale: 0.9 }}
+              className="hero-social group p-3.5 rounded-full border border-line bg-card hover:border-brand transition-colors duration-300"
             >
-              <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-slate-300 group-hover:text-cyan-300 transition-all duration-300" />
-            </motion.a>
+              <Icon className="h-5 w-5 text-muted-foreground group-hover:text-brand transition-colors duration-300" />
+            </a>
           ))}
-        </motion.div>
-
-        {/* Stats Section */}
-        <motion.div
-          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={containerVariants}
-        >
-          {stats.map(({ number, label, icon: Icon }, index) => (
-            <motion.div
-              key={label}
-              variants={slideInLeft}
-              custom={index}
-              className="text-center p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-md border border-slate-200 dark:border-slate-600/40 hover:border-cyan-500/50 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-cyan-500/20"
-              whileHover={{
-                scale: 1.08,
-                y: -12,
-                boxShadow: "0 20px 50px rgba(0,0,0,0.2)",
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{
-                  duration: 20,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                }}
-              >
-                <Icon className="h-8 w-8 text-cyan-400 mx-auto mb-3" />
-              </motion.div>
-              <motion.div
-                className="text-3xl font-bold text-white mb-2"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                transition={{
-                  delay: index * 0.1 + 0.5,
-                  type: "spring",
-                  stiffness: 200,
-                }}
-              >
-                {number}
-              </motion.div>
-              <div className="text-sm text-gray-600 dark:text-slate-300 font-medium">
-                {label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Tech Stack */}
-        <motion.div
-          className="text-center mb-12 sm:mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={containerVariants}
-        >
-          <motion.h3
-            className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 tracking-tight"
-            variants={fadeInUp}
-            custom={0}
-          >
-            Tech Stack & Expertise
-          </motion.h3>
-          <motion.div
-            className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 sm:mb-12"
-            variants={containerVariants}
-          >
-            {techStack.map(({ name, icon: Icon }, index) => (
-              <motion.div
-                key={name}
-                variants={scaleIn}
-                custom={index}
-                className="flex items-center space-x-2 sm:space-x-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/70 dark:bg-slate-800/60 backdrop-blur-md rounded-full border border-slate-200 dark:border-slate-600/50 hover:border-cyan-500/50 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-cyan-500/20"
-                whileHover={{
-                  scale: 1.12,
-                  y: -8,
-                  boxShadow: "0 15px 40px rgba(6, 182, 212, 0.25)",
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{
-                    duration: 10,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "linear",
-                  }}
-                >
-                  <Icon className="text-2xl text-cyan-600 dark:text-cyan-300" />
-                </motion.div>
-                <span className="text-gray-700 dark:text-slate-200 font-semibold">
-                  {name}
-                </span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Services Grid */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={containerVariants}
-        >
-          {services.map(({ title, icon: Icon, description }, index) => (
-            <motion.div
-              key={title}
-              variants={slideInRight}
-              custom={index}
-              className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-md border border-slate-200 dark:border-slate-600/40 hover:border-cyan-500/50 transition-all duration-300 group shadow-lg hover:shadow-xl hover:shadow-cyan-500/15"
-              whileHover={{
-                scale: 1.08,
-                y: -12,
-                rotateY: 5,
-                boxShadow: "0 25px 60px rgba(0,0,0,0.2)",
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <motion.div
-                animate={{
-                  y: [0, -12, 0],
-                  rotate: [0, 8, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                  delay: index * 0.5,
-                }}
-              >
-                <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-cyan-400 mb-3 sm:mb-4 group-hover:text-cyan-300 transition-all duration-300" />
-              </motion.div>
-              <h4 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1.5 sm:mb-2">
-                {title}
-              </h4>
-              <p className="text-gray-600 dark:text-slate-300 text-xs sm:text-sm font-medium">
-                {description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 1 }}
-        >
-          <motion.button
-            onClick={scrollToNext}
-            className="group transition-all duration-300"
+          <button
+            onClick={() => scrollToSection("#about")}
             aria-label="Scroll to next section"
-            animate={{ y: [0, -10, 0] }}
-            transition={{
-              duration: 2,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "easeInOut",
-            }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            className="hero-scroll-hint ml-auto hidden sm:flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground hover:text-brand transition-colors"
           >
-            <div className="flex flex-col items-center space-y-1.5 sm:space-y-2 text-slate-400 hover:text-cyan-300 transition-colors duration-300">
-              <span className="text-xs sm:text-sm font-medium">
-                <ChevronDown size={40} />
-              </span>
-              <motion.div
-                animate={{ y: [0, 5, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-              >
-                <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 group-hover:scale-110 transition-transform duration-300" />
-              </motion.div>
+            scroll
+            <ArrowDown className="h-4 w-4 animate-bounce" />
+          </button>
+        </div>
+      </div>
+
+      {/* Metrics + capabilities */}
+      <div className="hero-metrics-block relative border-t border-line">
+        <div className="container-responsive py-16 sm:py-20 space-y-14 sm:space-y-16">
+          {/* Stats */}
+          <div>
+            <p className="hero-section-label font-mono text-xs sm:text-sm text-brand mb-6 tracking-wide">
+              <span className="text-muted-foreground">$</span> metrics --summary
+            </p>
+            <div className="hero-stats grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {stats.map(({ value, suffix, label, icon: Icon }, i) => (
+                <div
+                  key={label}
+                  className="hero-stat group relative overflow-hidden rounded-lg border border-line bg-card/60 p-5 sm:p-7 transition-colors duration-300 hover:border-brand/50"
+                >
+                  <div
+                    className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background:
+                        "radial-gradient(120% 80% at 0% 0%, color-mix(in oklch, var(--brand) 12%, transparent), transparent 55%)",
+                    }}
+                  />
+                  <div className="relative flex items-start justify-between gap-3 mb-5">
+                    <Icon className="h-5 w-5 text-brand transition-transform duration-300 group-hover:scale-110" />
+                    <span className="font-mono text-[10px] sm:text-xs text-muted-foreground/70 tabular-nums">
+                      0{i + 1}
+                    </span>
+                  </div>
+                  <div className="relative font-display text-4xl sm:text-5xl font-bold tracking-tight">
+                    <span className="hero-stat-num" data-value={value}>
+                      {value}
+                    </span>
+                    <span className="text-brand">{suffix}</span>
+                  </div>
+                  <p className="relative mt-2.5 text-xs sm:text-sm text-muted-foreground font-mono leading-snug">
+                    {label}
+                  </p>
+                </div>
+              ))}
             </div>
-          </motion.button>
-        </motion.div>
-      </motion.div>
+          </div>
+
+          {/* Services */}
+          <div>
+            <p className="hero-section-label font-mono text-xs sm:text-sm text-brand mb-6 tracking-wide">
+              <span className="text-muted-foreground">$</span> services --list
+            </p>
+            <div className="hero-services grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {services.map(({ code, title, icon: Icon, description }) => (
+                <div
+                  key={title}
+                  className="hero-service group relative overflow-hidden rounded-lg border border-line bg-card/60 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]"
+                >
+                  <div className="absolute left-0 top-0 h-full w-[2px] origin-top scale-y-0 bg-brand transition-transform duration-300 group-hover:scale-y-100" />
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line bg-background/60 text-brand transition-colors duration-300 group-hover:border-brand/40 group-hover:bg-brand/10">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="font-mono text-xs text-muted-foreground/60 group-hover:text-brand transition-colors">
+                      {code}
+                    </span>
+                  </div>
+                  <h4 className="font-display font-semibold text-base sm:text-[1.05rem] mb-1.5 leading-snug">
+                    {title}
+                  </h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tech stack marquee */}
+      <div className="hero-marquee border-y border-line bg-card/30 overflow-hidden">
+        <div className="container-responsive pt-5 pb-2">
+          <p className="hero-section-label font-mono text-xs text-muted-foreground">
+            <span className="text-brand">$</span> stack --watch
+          </p>
+        </div>
+        <div className="py-3 overflow-hidden">
+          <div className="marquee-track gap-10 px-5">
+            {[...techStack, ...techStack].map(({ name, icon: Icon }, i) => (
+              <span
+                key={`a-${name}-${i}`}
+                className="flex items-center gap-3 font-mono text-sm sm:text-base text-muted-foreground whitespace-nowrap"
+              >
+                <Icon className="text-xl text-brand" />
+                {name}
+                <span className="ml-6 text-line select-none">{"//"}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="pb-5 overflow-hidden border-t border-line/60">
+          <div className="marquee-track marquee-track-reverse gap-10 px-5 pt-3">
+            {[...techStack]
+              .reverse()
+              .concat([...techStack].reverse())
+              .map(({ name, icon: Icon }, i) => (
+                <span
+                  key={`b-${name}-${i}`}
+                  className="flex items-center gap-3 font-mono text-sm sm:text-base text-muted-foreground/80 whitespace-nowrap"
+                >
+                  <Icon className="text-lg text-brand/80" />
+                  {name}
+                  <span className="ml-6 text-line select-none">{"//"}</span>
+                </span>
+              ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

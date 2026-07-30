@@ -1,14 +1,29 @@
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
+import SmoothScroll from "@/components/SmoothScroll";
+import Cursor from "@/components/Cursor";
 import { ThemeProvider } from "@/components/theme-provider";
 import { supabase } from "@/lib/supabase";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display-var",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono-var",
+});
 
 export const metadata: Metadata = {
   title: "Abhishek Mehta - Full Stack & Backend Developer",
@@ -28,25 +43,30 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   // Check if there are any published blogs to show in the navbar
   const { count } = await supabase
-    .from('blogs')
-    .select('*', { count: 'exact', head: true })
-    .eq('published', true);
-    
+    .from("blogs")
+    .select("*", { count: "exact", head: true })
+    .eq("published", true);
+
   const hasBlogs = count ? count > 0 : false;
 
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.className}`}
+      >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar hasBlogs={hasBlogs} />
-          <main className="pt-20">{children}</main>
-          <Footer />
-          <Chatbot />
+          <SmoothScroll>
+            <Navbar hasBlogs={hasBlogs} />
+            <main>{children}</main>
+            <Footer />
+            <Chatbot />
+            <Cursor />
+          </SmoothScroll>
         </ThemeProvider>
       </body>
     </html>
