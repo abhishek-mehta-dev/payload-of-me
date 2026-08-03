@@ -29,6 +29,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
 
   const headerRef = useRef<HTMLElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const pendingScrollRef = useRef<string | number | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("Home");
@@ -102,23 +103,45 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
       });
     }
 
-    return () => unlockPageScroll();
+    return () => {
+      unlockPageScroll();
+      // Navigate only after menu unlocks — otherwise Lenis is still stopped
+      const target = pendingScrollRef.current;
+      if (target === null) return;
+      pendingScrollRef.current = null;
+      window.setTimeout(() => {
+        scrollToSection(target);
+      }, 40);
+    };
   }, [isOpen]);
 
-  const handleNavClick = (e: React.MouseEvent, href: string) => {
-    setIsOpen(false);
+  const handleNavClick = (e: React.MouseEvent, href: string, label: string) => {
+    // External page links (e.g. /blogs) — close menu and allow default nav
+    if (!href.includes("#")) {
+      setIsOpen(false);
+      return;
+    }
 
-    if (!href.includes("#")) return; // e.g. /blogs — normal navigation
-
+    // On another route — close menu and let browser go to /#section
     if (window.location.pathname !== "/") {
-      // Navigate to homepage first; browser handles the hash
+      setIsOpen(false);
       return;
     }
 
     e.preventDefault();
+    setActiveSection(label);
+
     const id = href.split("#")[1];
-    if (id === "home") scrollToSection(0);
-    else scrollToSection(`#${id}`);
+    const target: string | number = id === "home" ? 0 : `#${id}`;
+
+    // Menu open: queue scroll for after unlock. Menu closed: scroll now.
+    if (isOpen) {
+      pendingScrollRef.current = target;
+      setIsOpen(false);
+      return;
+    }
+
+    scrollToSection(target);
   };
 
   return (
@@ -126,7 +149,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
       <header
         ref={headerRef}
         className={clsx(
-          "fixed top-0 left-0 w-full z-50 transition-[background-color,border-color,backdrop-filter] duration-300 border-b",
+          "fixed top-0 left-0 w-full max-w-[100%] z-50 transition-[background-color,border-color,backdrop-filter] duration-300 border-b",
           scrolled
             ? "bg-background/85 backdrop-blur-xl border-line"
             : "bg-transparent border-transparent",
@@ -145,7 +168,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  onClick={(e) => handleNavClick(e, item.href, item.label)}
                   className={clsx(
                     "group relative px-2.5 xl:px-3.5 py-2 font-mono text-sm transition-colors duration-300",
                     isActive
@@ -198,7 +221,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
               <a
                 key={item.href}
                 href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
+                onClick={(e) => handleNavClick(e, item.href, item.label)}
                 className={clsx(
                   "mobile-link flex min-h-14 items-baseline gap-4 py-3.5 border-b border-line font-display text-2xl sm:text-3xl font-semibold transition-colors",
                   isActive ? "text-brand" : "text-foreground hover:text-brand",

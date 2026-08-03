@@ -9,7 +9,7 @@ import Preloader from "@/components/Preloader";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground pb-[env(safe-area-inset-bottom)]">
+    <div className="min-h-screen max-w-full overflow-x-hidden bg-background text-foreground pb-[env(safe-area-inset-bottom)]">
       <Preloader />
       <Hero />
       <About />

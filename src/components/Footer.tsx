@@ -55,19 +55,22 @@ function useFitWatermark(
     const zone = zoneRef.current;
     if (!zone) return;
 
+    const host = document.createElement("div");
+    host.style.cssText =
+      "position:fixed;left:0;top:0;width:0;height:0;overflow:hidden;visibility:hidden;pointer-events:none;";
     const measure = document.createElement("span");
     measure.className =
-      "font-display font-bold tracking-tight whitespace-nowrap absolute opacity-0 pointer-events-none";
+      "font-display font-bold tracking-tight whitespace-nowrap";
     measure.style.fontSize = "100px";
     measure.textContent = text;
-    document.body.appendChild(measure);
+    host.appendChild(measure);
+    document.body.appendChild(host);
 
     const fit = () => {
       const pad = Math.max(24, zone.clientWidth * 0.04);
       const available = zone.clientWidth - pad * 2;
       const at100 = measure.getBoundingClientRect().width;
       if (at100 <= 0) return;
-      // Slightly underfill so stroke edges aren't clipped
       setFontSize((available / at100) * 100 * 0.98);
     };
 
@@ -79,7 +82,7 @@ function useFitWatermark(
     return () => {
       ro.disconnect();
       window.removeEventListener("resize", fit);
-      measure.remove();
+      host.remove();
     };
   }, [zoneRef, text]);
 
@@ -166,7 +169,7 @@ export default function Footer() {
   return (
     <footer
       ref={rootRef}
-      className="relative overflow-hidden border-t border-line bg-surface/40 noise-overlay"
+      className="relative overflow-hidden max-w-full border-t border-line bg-surface/40 noise-overlay"
     >
       <div className="container-responsive relative pt-12 pb-8 sm:pt-16 fab-clearance">
         {/* Main columns — shared top alignment */}

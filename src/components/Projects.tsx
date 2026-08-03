@@ -210,7 +210,7 @@ export default function Projects() {
     <section
       id="projects"
       ref={rootRef}
-      className="relative overflow-hidden bg-surface/40"
+      className="relative overflow-hidden max-w-full bg-surface/40"
     >
       <div className="container-responsive pt-16 sm:pt-24 lg:pt-32">
         <SectionHeading

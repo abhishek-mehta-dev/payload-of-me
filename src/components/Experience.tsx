@@ -202,7 +202,7 @@ export default function Experience() {
     >
       {/* Soft background accent */}
       <div
-        className="pointer-events-none absolute -right-32 top-1/4 h-80 w-80 rounded-full blur-3xl opacity-[0.07]"
+        className="pointer-events-none absolute right-0 top-1/4 h-64 w-64 sm:h-80 sm:w-80 translate-x-1/3 rounded-full blur-3xl opacity-[0.07]"
         style={{ background: "var(--brand)" }}
       />
 
