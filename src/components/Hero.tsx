@@ -472,8 +472,8 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Socials */}
-        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+        {/* Socials — centered on mobile, left-aligned from sm up */}
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4">
           {socials.map(({ icon: Icon, href, label }) => (
             <a
               key={label}
