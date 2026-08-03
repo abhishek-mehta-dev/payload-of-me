@@ -34,20 +34,20 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     <article className="project-card panel overflow-hidden flex flex-col lg:w-[min(560px,68vw)] xl:w-[min(720px,70vw)] lg:shrink-0 lg:h-full lg:max-h-[min(70vh,560px)] xl:max-h-[78vh]">
       {/* Browser-chrome image — capped so actions stay visible */}
       <div className="relative border-b border-line bg-surface shrink-0">
-        <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-line">
+        <div className="flex flex-wrap items-center gap-1.5 px-3 sm:px-4 py-2.5 border-b border-line">
           <span className="term-dot bg-red-500/80" />
           <span className="term-dot bg-yellow-500/80" />
           <span className="term-dot bg-brand" />
-          <span className="ml-3 font-mono text-xs text-muted-foreground truncate">
+          <span className="ml-2 sm:ml-3 font-mono text-[10px] sm:text-xs text-muted-foreground truncate max-w-[45%] sm:max-w-none min-w-0 flex-1">
             {project.liveUrl.replace(/^https?:\/\//, "")}
           </span>
           <span
-            className={`ml-auto font-mono text-xs px-2.5 py-0.5 rounded border ${statusClasses(project.status)}`}
+            className={`ml-auto font-mono text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded border shrink-0 ${statusClasses(project.status)}`}
           >
             {project.status}
           </span>
         </div>
-        <div className="relative aspect-[16/9] lg:aspect-[2.4/1] lg:max-h-[140px] xl:aspect-[2.2/1] xl:max-h-[220px] overflow-hidden group">
+        <div className="relative aspect-[16/9] lg:aspect-[2.4/1] lg:max-h-[120px] xl:aspect-[2.2/1] xl:max-h-[220px] overflow-hidden group">
           <Image
             src={project.image || "/placeholder.svg"}
             alt={project.title}
@@ -62,7 +62,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       </div>
 
       {/* Body */}
-      <div className="p-4 sm:p-5 lg:p-4 xl:p-6 flex flex-col gap-3 lg:gap-3 xl:gap-4 flex-1 min-h-0">
+      <div className="p-4 sm:p-5 lg:p-4 xl:p-6 flex flex-col gap-3 lg:gap-3 xl:gap-4 flex-1 min-h-0 overflow-y-auto">
         <div className="flex items-start justify-between gap-4 shrink-0">
           <h3 className="font-display text-lg sm:text-xl lg:text-xl xl:text-2xl font-bold leading-tight">
             {project.title}
@@ -267,7 +267,7 @@ export default function Projects() {
       </div>
 
       {/* Stack-mode bottom CTA */}
-      <div className="lg:hidden text-center pb-24 sm:pb-16 px-4">
+      <div className="lg:hidden text-center fab-clearance px-4">
         <div className="inline-flex max-w-[calc(100%-2rem)] flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-3.5 rounded-full border border-line bg-card font-mono text-xs sm:text-sm">
           <Code2 className="h-5 w-5 text-brand" />
           <span className="text-muted-foreground">More Projects Coming Soon</span>

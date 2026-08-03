@@ -367,7 +367,7 @@ export default function Hero() {
 
       {/* Left accent — constellation (desktop from lg, scaled for 1024) */}
       <div
-        className="pointer-events-none absolute top-[16%] left-0 z-[1] hidden lg:block w-[min(280px,26vw)] xl:w-[min(420px,34vw)] h-[min(280px,26vw)] xl:h-[min(420px,34vw)] opacity-30 xl:opacity-40"
+        className="pointer-events-none absolute top-[16%] left-0 z-[1] hidden lg:block w-[min(240px,22vw)] xl:w-[min(420px,34vw)] h-[min(240px,22vw)] xl:h-[min(420px,34vw)] opacity-20 xl:opacity-40"
         style={{
           maskImage: "linear-gradient(to right, black 35%, transparent 90%)",
           WebkitMaskImage:
@@ -379,7 +379,7 @@ export default function Hero() {
 
       {/* Right — server logs (desktop from lg, faded so copy stays readable) */}
       <div
-        className="pointer-events-none absolute top-[6%] right-0 z-[1] hidden lg:block h-[min(72vh,640px)] w-[min(340px,34vw)] xl:w-[min(560px,42vw)] opacity-55 xl:opacity-90"
+        className="pointer-events-none absolute top-[6%] right-0 z-[1] hidden lg:block h-[min(72vh,640px)] w-[min(280px,28vw)] xl:w-[min(560px,42vw)] opacity-35 xl:opacity-90"
         style={{
           maskImage: "linear-gradient(to left, black 45%, transparent 100%)",
           WebkitMaskImage:
@@ -390,29 +390,29 @@ export default function Hero() {
       </div>
 
       <div className="container-responsive relative z-10 min-h-[100svh] lg:min-h-screen flex flex-col justify-center pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-14 lg:pb-16">
-        <div className="relative z-10 max-w-xl lg:max-w-[52%] xl:max-w-3xl">
+        <div className="relative z-10 w-full max-w-full sm:max-w-2xl lg:max-w-[52%] xl:max-w-3xl">
         {/* Eyebrow */}
-        <p className="hero-eyebrow font-mono text-sm sm:text-base text-brand mb-4 sm:mb-5 lg:mb-6">
+        <p className="hero-eyebrow font-mono text-xs sm:text-sm md:text-base text-brand mb-4 sm:mb-5 lg:mb-6">
           <span className="text-muted-foreground">$ whoami</span>
-          <span className="mx-3 text-line">|</span>
-          ~/👋 Hello, I&apos;m
+          <span className="mx-2 sm:mx-3 text-line">|</span>
+          <span className="inline">~/👋 Hello, I&apos;m</span>
         </p>
 
         {/* Massive name */}
-        <h1 className="hero-name font-display font-bold tracking-tight leading-[0.95] text-[11vw] sm:text-6xl md:text-7xl lg:text-[3.35rem] xl:text-8xl 2xl:text-9xl mb-4 sm:mb-5 lg:mb-6 break-words">
+        <h1 className="hero-name font-display font-bold tracking-tight leading-[0.95] text-[clamp(2.35rem,11vw,4.5rem)] sm:text-6xl md:text-7xl lg:text-[3.35rem] xl:text-8xl 2xl:text-9xl mb-4 sm:mb-5 lg:mb-6 break-words">
           Abhishek Mehta<span className="text-brand"></span>
         </h1>
 
         {/* Rotating titles */}
-        <div className="hero-rotator-wrap flex items-start sm:items-center gap-2 sm:gap-3 mb-7 sm:mb-8 lg:mb-10 min-h-10 sm:h-12 lg:h-12 xl:h-14 max-w-3xl">
-          <span className="font-mono text-brand text-lg sm:text-xl shrink-0 mt-1 sm:mt-0">
+        <div className="hero-rotator-wrap flex items-center gap-2 sm:gap-3 mb-7 sm:mb-8 lg:mb-10 min-h-11 sm:h-12 lg:h-12 xl:h-14 w-full">
+          <span className="font-mono text-brand text-lg sm:text-xl shrink-0">
             →
           </span>
-          <div className="relative min-h-10 sm:h-full flex-1 overflow-hidden">
+          <div className="relative min-h-11 sm:h-full flex-1 overflow-hidden">
             {titles.map((title, i) => (
               <span
                 key={title}
-                className="hero-rotator-item absolute inset-0 flex items-center font-display text-xl sm:text-2xl md:text-3xl lg:text-[1.65rem] xl:text-4xl font-semibold text-muted-foreground leading-tight"
+                className="hero-rotator-item absolute inset-0 flex items-center font-display text-lg sm:text-2xl md:text-3xl lg:text-[1.65rem] xl:text-4xl font-semibold text-muted-foreground leading-snug"
                 style={{ opacity: i === 0 ? 1 : 0 }}
               >
                 {title}
@@ -422,18 +422,18 @@ export default function Hero() {
         </div>
 
         {/* Terminal panel */}
-        <div className="hero-terminal panel max-w-3xl overflow-hidden mb-10">
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-line bg-surface">
-            <span className="font-mono text-xs text-muted-foreground">
+        <div className="hero-terminal panel w-full max-w-3xl overflow-hidden mb-8 sm:mb-10">
+          <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 border-b border-line bg-surface">
+            <span className="font-mono text-[10px] sm:text-xs text-muted-foreground truncate">
               terminal — bash
             </span>
-            <div className="flex gap-1.5">
+            <div className="flex gap-1.5 shrink-0">
               <span className="term-dot bg-red-500/80" />
               <span className="term-dot bg-yellow-500/80" />
               <span className="term-dot bg-brand" />
             </div>
           </div>
-            <div className="p-4 sm:p-6 font-mono text-xs sm:text-base space-y-3">
+          <div className="p-3.5 sm:p-5 md:p-6 font-mono text-xs sm:text-sm md:text-base space-y-2.5 sm:space-y-3">
             <div className="overflow-x-auto text-foreground">
               <span className="whitespace-nowrap">
                 <span className="text-brand">$ </span>
@@ -453,8 +453,9 @@ export default function Hero() {
         </div>
 
         {/* CTAs */}
-        <div className="hero-cta flex flex-col sm:flex-row gap-4 mb-12">
+        <div className="hero-cta flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 w-full sm:w-auto">
           <button
+            type="button"
             onClick={() => scrollToSection("#contact")}
             className="btn-brand"
           >
@@ -471,7 +472,7 @@ export default function Hero() {
         </div>
 
         {/* Socials */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           {socials.map(({ icon: Icon, href, label }) => (
             <a
               key={label}
@@ -479,12 +480,13 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="hero-social group p-3.5 rounded-full border border-line bg-card hover:border-brand transition-colors duration-300"
+              className="hero-social group p-3 sm:p-3.5 rounded-full border border-line bg-card hover:border-brand transition-colors duration-300"
             >
               <Icon className="h-5 w-5 text-muted-foreground group-hover:text-brand transition-colors duration-300" />
             </a>
           ))}
           <button
+            type="button"
             onClick={() => scrollToSection("#about")}
             aria-label="Scroll to next section"
             className="hero-scroll-hint ml-auto hidden sm:flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground hover:text-brand transition-colors"

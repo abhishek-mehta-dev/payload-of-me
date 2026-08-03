@@ -230,7 +230,7 @@ export default function Skills() {
       className="section-responsive relative overflow-hidden bg-surface/40"
     >
       {/* Orbiting stack constellation — desktop */}
-      <div className="pointer-events-none absolute top-24 right-0 w-[min(360px,32vw)] h-[min(360px,32vw)] opacity-70 hidden lg:block xl:w-[min(420px,38vw)] xl:h-[min(420px,38vw)] xl:opacity-80">
+      <div className="pointer-events-none absolute top-24 right-0 w-[min(300px,28vw)] h-[min(300px,28vw)] opacity-25 hidden lg:block xl:w-[min(420px,38vw)] xl:h-[min(420px,38vw)] xl:opacity-55 2xl:opacity-80">
         <SkillsConstellation active={active} />
       </div>
 

@@ -320,7 +320,7 @@ export default function Chatbot() {
     <>
       {/* Floating FAB — wanders until open / hovered */}
       <motion.div
-        className="fixed z-50 bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1.25rem,env(safe-area-inset-right))]"
+        className="fixed z-50 bottom-[max(1.25rem,calc(env(safe-area-inset-bottom,0px)+0.75rem))] right-[max(1rem,calc(env(safe-area-inset-right,0px)+0.75rem))]"
         initial={{ scale: 0, rotate: -180, x: 0, y: 0 }}
         animate={{
           scale: 1,
@@ -415,7 +415,7 @@ export default function Chatbot() {
             className={`fixed z-50 ${
               isExpanded
                 ? "inset-4 sm:inset-8 md:inset-12"
-                : "bottom-[max(5.5rem,env(safe-area-inset-bottom)+4.5rem)] right-[max(0.75rem,env(safe-area-inset-right))] left-[max(0.75rem,env(safe-area-inset-left))] w-auto max-w-[400px] ml-auto"
+                : "bottom-[max(5.5rem,calc(env(safe-area-inset-bottom,0px)+4.5rem))] right-[max(0.75rem,calc(env(safe-area-inset-right,0px)+0.75rem))] left-[max(0.75rem,calc(env(safe-area-inset-left,0px)+0.75rem))] w-auto max-w-[400px] ml-auto"
             }`}
           >
             <div
@@ -424,7 +424,7 @@ export default function Chatbot() {
                   ? "h-auto"
                   : isExpanded
                     ? "h-full"
-                    : "h-[min(70vh,560px)]"
+                    : "h-[min(70dvh,560px)] max-h-[calc(100dvh-8rem)]"
               }`}
             >
               {/* Title bar */}

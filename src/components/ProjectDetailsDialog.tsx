@@ -94,13 +94,13 @@ export default function ProjectDetailsDialog({
 
       <DialogContent
         showCloseButton
-        className="p-0 gap-0 overflow-hidden border-line bg-card sm:max-w-3xl max-h-[90vh] h-[min(90vh,820px)] flex flex-col"
+        className="p-0 gap-0 overflow-hidden border-line bg-card w-[calc(100%-1.5rem)] sm:max-w-3xl max-h-[min(90dvh,820px)] h-auto min-h-[min(70dvh,520px)] flex flex-col"
         onWheel={(e) => e.stopPropagation()}
         onTouchMove={(e) => e.stopPropagation()}
       >
         {/* Media header */}
         <div className="relative shrink-0 border-b border-line">
-          <div className="relative h-36 sm:h-44 overflow-hidden">
+          <div className="relative h-28 sm:h-36 md:h-44 overflow-hidden max-[500px]:h-24">
             <Image
               src={project.image || "/placeholder.svg"}
               alt={project.title}
