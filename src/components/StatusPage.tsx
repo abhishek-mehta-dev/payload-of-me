@@ -36,11 +36,12 @@ export default function StatusPage({
 
   return (
     <section className="relative min-h-[calc(100dvh-4.5rem)] overflow-hidden blueprint-grid noise-overlay flex items-start sm:items-center py-16 sm:py-0">
-      <div
-        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[min(50rem,100vw)] h-[28rem] rounded-full blur-3xl opacity-15"
-        style={{ background: "var(--brand)" }}
-      />
-
+      <div className="pointer-events-none absolute inset-x-0 -top-32 h-[28rem] overflow-hidden">
+        <div
+          className="absolute left-1/2 top-0 h-full w-[min(50rem,140%)] -translate-x-1/2 rounded-full blur-3xl opacity-15"
+          style={{ background: "var(--brand)" }}
+        />
+      </div>
       <div className="container-responsive relative z-10 py-12 sm:py-20 lg:py-28">
         <div className="max-w-3xl mx-auto">
           <p className="section-label mb-6">

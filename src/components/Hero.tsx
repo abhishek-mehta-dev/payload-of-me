@@ -357,14 +357,15 @@ export default function Hero() {
     <section
       id="home"
       ref={rootRef}
-      className="relative overflow-hidden blueprint-grid noise-overlay"
+      className="relative overflow-hidden max-w-full blueprint-grid noise-overlay"
     >
-      {/* Ambient brand glow */}
-      <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[70rem] h-[36rem] rounded-full blur-3xl opacity-10"
-        style={{ background: "var(--brand)" }}
-      />
-
+      {/* Ambient brand glow — clipped so it never widens the page */}
+      <div className="pointer-events-none absolute inset-x-0 -top-40 h-[36rem] overflow-hidden">
+        <div
+          className="absolute left-1/2 top-0 h-full w-[min(70rem,140%)] -translate-x-1/2 rounded-full blur-3xl opacity-10"
+          style={{ background: "var(--brand)" }}
+        />
+      </div>
       {/* Left accent — constellation (desktop from lg, scaled for 1024) */}
       <div
         className="pointer-events-none absolute top-[16%] left-0 z-[1] hidden lg:block w-[min(240px,22vw)] xl:w-[min(420px,34vw)] h-[min(240px,22vw)] xl:h-[min(420px,34vw)] opacity-20 xl:opacity-40"
@@ -573,13 +574,13 @@ export default function Hero() {
       </div>
 
       {/* Tech stack marquee */}
-      <div className="hero-marquee border-y border-line bg-card/30 overflow-hidden">
+      <div className="hero-marquee border-y border-line bg-card/30 overflow-hidden max-w-full">
         <div className="container-responsive pt-5 pb-2">
           <p className="hero-section-label font-mono text-xs text-muted-foreground">
             <span className="text-brand">$</span> stack --watch
           </p>
         </div>
-        <div className="py-3 overflow-hidden">
+        <div className="py-3 overflow-hidden max-w-full">
           <div className="marquee-track gap-10 px-5">
             {[...techStack, ...techStack].map(({ name, icon: Icon }, i) => (
               <span
@@ -593,7 +594,7 @@ export default function Hero() {
             ))}
           </div>
         </div>
-        <div className="pb-5 overflow-hidden border-t border-line/60">
+        <div className="pb-5 overflow-hidden max-w-full border-t border-line/60">
           <div className="marquee-track marquee-track-reverse gap-10 px-5 pt-3">
             {[...techStack]
               .reverse()

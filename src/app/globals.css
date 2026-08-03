@@ -142,7 +142,8 @@
     scrollbar-width: thin;
     scrollbar-color: color-mix(in oklch, var(--brand) 55%, transparent)
       transparent;
-    overflow-x: clip;
+    overflow-x: hidden;
+    max-width: 100%;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
@@ -150,8 +151,10 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body), system-ui, sans-serif;
-    overflow-x: clip;
+    overflow-x: hidden;
+    max-width: 100%;
     min-width: 0;
+    position: relative;
   }
 
   img,
@@ -298,7 +301,9 @@
 .marquee-track {
   display: flex;
   width: max-content;
+  max-width: none;
   animation: marquee-x 30s linear infinite;
+  will-change: transform;
 }
 
 .marquee-track-reverse {

@@ -9,11 +9,12 @@ export default function Loading() {
 
   return (
     <div className="relative min-h-screen overflow-hidden blueprint-grid noise-overlay flex items-center justify-center bg-background">
-      <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[28rem] w-[50rem] rounded-full blur-3xl opacity-15"
-        style={{ background: "var(--brand)" }}
-      />
-
+      <div className="pointer-events-none absolute inset-x-0 -top-40 h-[28rem] overflow-hidden">
+        <div
+          className="absolute left-1/2 top-0 h-full w-[min(50rem,140%)] -translate-x-1/2 rounded-full blur-3xl opacity-15"
+          style={{ background: "var(--brand)" }}
+        />
+      </div>
       <div className="relative z-10 w-full max-w-lg px-4">
         <p className="section-label mb-4 text-center sm:text-left">
           00 / loading

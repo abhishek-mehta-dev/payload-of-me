@@ -72,7 +72,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         >
           <SmoothScroll>
             <Navbar hasBlogs={hasBlogs} />
-            <main className="min-w-0 overflow-x-clip">{children}</main>
+            <main className="min-w-0 max-w-full overflow-x-hidden">{children}</main>
             <Footer />
             <Chatbot />
             <Cursor />
