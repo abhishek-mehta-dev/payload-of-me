@@ -72,14 +72,20 @@ export default function About() {
       const cardsRoot = rootRef.current?.querySelector(".about-cards");
       const cards = gsap.utils.toArray<HTMLElement>(".about-card");
       if (cardsRoot && cards.length) {
-        gsap.from(cards, {
-          opacity: 0,
-          x: 60,
-          stagger: 0.15,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: { trigger: cardsRoot, start: "top 80%", once: true },
-        });
+        // Use y (not x) so cards never shift/clip past the container on mobile
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 36 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.15,
+            duration: 0.7,
+            ease: "power3.out",
+            clearProps: "transform",
+            scrollTrigger: { trigger: cardsRoot, start: "top 80%", once: true },
+          },
+        );
       }
 
       const pill = rootRef.current?.querySelector(".about-pill");
@@ -100,14 +106,14 @@ export default function About() {
     <section
       id="about"
       ref={rootRef}
-      className="section-responsive relative overflow-hidden"
+      className="section-responsive relative overflow-x-clip"
     >
       <div className="container-responsive">
         <SectionHeading index="01" label="About" title="About" accent="Me" />
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
           {/* Bio */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 min-w-0">
             <h3 className="about-subtitle font-display text-2xl sm:text-3xl font-semibold mb-8">
               Dedicated Full-Stack{" "}
               <span className="text-brand">Developer</span>
@@ -124,30 +130,33 @@ export default function About() {
             </div>
 
             <div className="about-pill mt-10 inline-flex max-w-full flex-wrap items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3 rounded-full border border-line bg-card font-mono text-xs sm:text-sm">
-              <Code className="h-4 w-4 text-brand" />
+              <Code className="h-4 w-4 shrink-0 text-brand" />
               <span className="text-muted-foreground">
                 Always Learning, Always Growing
               </span>
-              <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
+              <span className="w-2 h-2 shrink-0 rounded-full bg-brand animate-pulse" />
             </div>
           </div>
 
-          {/* Info cards */}
-          <div className="about-cards lg:col-span-2 space-y-4">
+          {/* Info cards — keep aligned with bio padding; no horizontal GSAP shift */}
+          <div className="about-cards lg:col-span-2 w-full min-w-0 space-y-4">
             {infoCards.map(({ icon: Icon, title, primary, secondary }, i) => (
-              <div key={title} className="about-card panel panel-hover p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <span className="p-2.5 rounded-md bg-brand/10 border border-brand/25">
+              <div
+                key={title}
+                className="about-card panel panel-hover w-full max-w-full p-5 sm:p-6"
+              >
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className="shrink-0 p-2.5 rounded-md bg-brand/10 border border-brand/25">
                       <Icon className="h-5 w-5 text-brand" />
                     </span>
                     <h4 className="font-display font-semibold">{title}</h4>
                   </div>
-                  <span className="font-mono text-xs text-muted-foreground">
+                  <span className="font-mono text-xs text-muted-foreground shrink-0">
                     0{i + 1}
                   </span>
                 </div>
-                <p className="font-medium text-foreground">{primary}</p>
+                <p className="font-medium text-foreground break-words">{primary}</p>
                 <p className="text-sm text-muted-foreground mt-1">{secondary}</p>
               </div>
             ))}
