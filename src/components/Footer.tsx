@@ -168,7 +168,7 @@ export default function Footer() {
       ref={rootRef}
       className="relative overflow-hidden border-t border-line bg-surface/40 noise-overlay"
     >
-      <div className="container-responsive relative pt-12 pb-8 sm:pt-16 sm:pb-10">
+      <div className="container-responsive relative pt-12 pb-8 sm:pt-16 fab-clearance">
         {/* Main columns — shared top alignment */}
         <div className="footer-grid grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6 lg:gap-10">
           <div className="footer-col md:col-span-5 flex flex-col">

@@ -1,6 +1,6 @@
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -40,6 +40,16 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f6f8" },
+    { media: "(prefers-color-scheme: dark)", color: "#12151c" },
+  ],
+};
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   // Check if there are any published blogs to show in the navbar
   const { count } = await supabase
@@ -62,7 +72,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         >
           <SmoothScroll>
             <Navbar hasBlogs={hasBlogs} />
-            <main>{children}</main>
+            <main className="min-w-0 overflow-x-clip">{children}</main>
             <Footer />
             <Chatbot />
             <Cursor />

@@ -143,12 +143,23 @@
     scrollbar-color: color-mix(in oklch, var(--brand) 55%, transparent)
       transparent;
     overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body), system-ui, sans-serif;
     overflow-x: clip;
+    min-width: 0;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
   }
 
   section[id] {
@@ -164,6 +175,35 @@
   ::selection {
     background-color: var(--brand);
     color: var(--brand-foreground);
+  }
+}
+
+/* Short viewports (mobile landscape / 1024×793 laptop height) */
+@media (max-height: 720px) {
+  #home > .container-responsive {
+    min-height: 0 !important;
+    justify-content: flex-start !important;
+    padding-top: 5.5rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  #home .hero-terminal {
+    margin-bottom: 1.25rem !important;
+  }
+
+  #home .hero-cta {
+    margin-bottom: 1.25rem !important;
+  }
+}
+
+/* Comfortable FAB clearance on touch layouts */
+.fab-clearance {
+  padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 1024px) {
+  .fab-clearance {
+    padding-bottom: 4rem;
   }
 }
 
@@ -442,11 +482,11 @@
    Misc / retained utilities
 --------------------------------------------------------------------------- */
 .container-responsive {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10;
+  @apply w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10;
 }
 
 .section-responsive {
-  @apply py-16 sm:py-24 lg:py-32;
+  @apply py-14 sm:py-20 md:py-24 lg:py-32;
 }
 
 /* SplitText reveal masking */

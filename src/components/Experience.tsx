@@ -216,7 +216,7 @@ export default function Experience() {
         />
 
         {/* Quick milestone strip */}
-        <div className="exp-milestones grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-12 sm:mb-16">
+        <div className="exp-milestones grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 mb-12 sm:mb-16">
           {milestones.map(({ icon: Icon, label, detail }) => (
             <div
               key={label}

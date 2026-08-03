@@ -159,11 +159,11 @@ export default function Contact() {
     <section
       id="contact"
       ref={rootRef}
-      className="section-responsive relative overflow-hidden pb-24 sm:pb-16"
+      className="section-responsive relative overflow-hidden fab-clearance"
     >
       <div className="container-responsive">
         <SectionHeading
-          index="05"
+          index="06"
           label="Contact"
           title="Let's"
           accent="Connect"
@@ -191,16 +191,16 @@ export default function Contact() {
                   href={href}
                   target={label === "Location" ? "_blank" : undefined}
                   rel={label === "Location" ? "noopener noreferrer" : undefined}
-                  className="panel panel-hover flex items-center gap-4 p-4 group"
+                  className="panel panel-hover flex items-center gap-3 sm:gap-4 p-3.5 sm:p-4 group min-w-0"
                 >
-                  <span className="p-2.5 rounded-md bg-brand/10 border border-brand/25">
+                  <span className="p-2.5 rounded-md bg-brand/10 border border-brand/25 shrink-0">
                     <Icon className="h-5 w-5 text-brand" />
                   </span>
-                  <span>
+                  <span className="min-w-0 flex-1">
                     <span className="block font-mono text-xs uppercase tracking-widest text-muted-foreground">
                       {label}
                     </span>
-                    <span className="block font-medium group-hover:text-brand transition-colors duration-300">
+                    <span className="block font-medium group-hover:text-brand transition-colors duration-300 break-all sm:break-words">
                       {value}
                     </span>
                   </span>

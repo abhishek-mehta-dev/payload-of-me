@@ -153,7 +153,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
                       : "text-muted-foreground hover:text-foreground",
                   )}
                 >
-                  <span className="text-brand/60 text-xs mr-1.5">
+                  <span className="text-brand/60 text-xs mr-1.5 hidden xl:inline">
                     0{index + 1}
                   </span>
                   {item.label}
@@ -190,7 +190,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
           id="mobile-menu"
           role="navigation"
           aria-label="Mobile Navigation"
-          className="fixed inset-0 z-40 lg:hidden bg-background/97 backdrop-blur-xl flex flex-col justify-center px-6 sm:px-8 overflow-y-auto overscroll-contain pt-24 pb-10"
+          className="fixed inset-0 z-[60] lg:hidden bg-background/97 backdrop-blur-xl flex flex-col justify-center px-6 sm:px-8 overflow-y-auto overscroll-contain pt-24 pb-10"
         >
           {navLinks.map((item, index) => {
             const isActive = activeSection === item.label;
