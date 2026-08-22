@@ -380,7 +380,7 @@ export default function Hero() {
 
       {/* Right — server logs (desktop from lg, faded so copy stays readable) */}
       <div
-        className="pointer-events-none absolute top-[6%] right-0 z-[1] hidden lg:block h-[min(72vh,640px)] w-[min(280px,28vw)] xl:w-[min(560px,42vw)] opacity-35 xl:opacity-90"
+        className="pointer-events-none absolute top-[6%] right-0 z-[1] hidden lg:block h-[min(72vh,640px)] w-[min(260px,26vw)] xl:w-[min(540px,40vw)] opacity-25 lg:opacity-30 xl:opacity-85"
         style={{
           maskImage: "linear-gradient(to left, black 45%, transparent 100%)",
           WebkitMaskImage:
@@ -391,7 +391,7 @@ export default function Hero() {
       </div>
 
       <div className="container-responsive relative z-10 min-h-[100svh] lg:min-h-screen flex flex-col justify-center pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-14 lg:pb-16">
-        <div className="relative z-10 w-full max-w-full sm:max-w-2xl lg:max-w-[52%] xl:max-w-3xl">
+        <div className="relative z-10 w-full max-w-full sm:max-w-2xl lg:max-w-[62%] xl:max-w-3xl 2xl:max-w-4xl">
         {/* Eyebrow */}
         <p className="hero-eyebrow font-mono text-xs sm:text-sm md:text-base text-brand mb-4 sm:mb-5 lg:mb-6">
           <span className="text-muted-foreground">$ whoami</span>
@@ -400,7 +400,7 @@ export default function Hero() {
         </p>
 
         {/* Massive name */}
-        <h1 className="hero-name font-display font-bold tracking-tight leading-[0.95] text-[clamp(2.35rem,11vw,4.5rem)] sm:text-6xl md:text-7xl lg:text-[3.35rem] xl:text-8xl 2xl:text-9xl mb-4 sm:mb-5 lg:mb-6 break-words">
+        <h1 className="hero-name font-display font-bold tracking-tight leading-[0.95] text-[clamp(2.2rem,8vw,4.5rem)] sm:text-6xl md:text-7xl lg:text-5xl xl:text-8xl 2xl:text-9xl mb-4 sm:mb-5 lg:mb-6 whitespace-nowrap break-normal">
           Abhishek Mehta<span className="text-brand"></span>
         </h1>
 

@@ -33,6 +33,7 @@ export default function SectionHeading({
         scrollTrigger: {
           trigger: ref.current,
           start: "top 82%",
+          end: "bottom top",
           once: true,
         },
       });

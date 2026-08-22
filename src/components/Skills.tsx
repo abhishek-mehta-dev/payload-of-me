@@ -141,8 +141,11 @@ export default function Skills() {
           scrollTrigger: {
             trigger: lane,
             start: "top 82%",
+            end: "bottom top",
             once: true,
-            onEnter: () => setActive(i),
+            onEnter: () => {
+              setTimeout(() => setActive(i), 0);
+            },
           },
         });
 
@@ -192,6 +195,7 @@ export default function Skills() {
           scrollTrigger: {
             trigger: pill,
             start: "top 92%",
+            end: "bottom top",
             once: true,
           },
         });
@@ -220,7 +224,7 @@ export default function Skills() {
         });
       }
     },
-    { scope: rootRef },
+    { scope: rootRef, dependencies: [] },
   );
 
   return (
