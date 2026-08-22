@@ -197,7 +197,7 @@ export default function Projects() {
               y: 50,
               duration: 0.7,
               ease: "power3.out",
-              scrollTrigger: { trigger: card, start: "top 88%", once: true },
+              scrollTrigger: { trigger: card, start: "top 88%", end: "bottom top", once: true },
             });
           });
         },
