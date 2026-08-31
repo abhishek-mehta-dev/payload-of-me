@@ -47,12 +47,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {project.status}
           </span>
         </div>
-        <div className="relative aspect-[16/9] lg:aspect-[2.4/1] lg:max-h-[120px] xl:aspect-[2.2/1] xl:max-h-[220px] overflow-hidden group">
+        <div className="relative w-full aspect-[16/9] lg:aspect-auto lg:h-[140px] xl:h-[220px] overflow-hidden group">
           <Image
             src={project.image || "/placeholder.svg"}
             alt={project.title}
             fill
-            sizes="(min-width: 1024px) 68vw, 100vw"
+            sizes="(min-width: 1280px) 720px, (min-width: 1024px) 560px, 100vw"
             className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
           />
           <span className="absolute bottom-3 left-3 font-mono text-xs px-2.5 py-1 rounded bg-background/85 backdrop-blur border border-line text-muted-foreground">

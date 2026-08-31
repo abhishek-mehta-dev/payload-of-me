@@ -1,9 +1,18 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { supabase } from '@/lib/supabase';
+import {
+  getSupabaseAdmin,
+  getSupabaseConfigError,
+  isSupabaseConfigured,
+  formatSupabaseError,
+} from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+
+export async function getSupabaseSetupError() {
+  return getSupabaseConfigError();
+}
 
 export async function loginAction(password: string) {
   const adminPassword = process.env.ADMIN_PASSWORD;
@@ -38,22 +47,30 @@ export async function checkAuth() {
 }
 
 export async function getBlogs() {
+  if (!isSupabaseConfigured()) {
+    console.error('Error fetching blogs:', getSupabaseConfigError());
+    return { data: [], error: getSupabaseConfigError() };
+  }
+
+  const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('blogs')
     .select('*')
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching blogs:', error);
-    return [];
+    console.error('Error fetching blogs:', formatSupabaseError(error));
+    return { data: [], error: formatSupabaseError(error) };
   }
-  return data;
+
+  return { data: data ?? [], error: null };
 }
 
 export async function deleteBlog(id: number) {
   const isAuthenticated = await checkAuth();
   if (!isAuthenticated) throw new Error('Unauthorized');
 
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase.from('blogs').delete().eq('id', id);
 
   if (error) {
@@ -75,6 +92,7 @@ export async function saveBlog(data: {
   const isAuthenticated = await checkAuth();
   if (!isAuthenticated) throw new Error('Unauthorized');
 
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase.from('blogs').insert([data]);
 
   if (error) {
@@ -93,6 +111,7 @@ export async function updateBlog(
   const isAuthenticated = await checkAuth();
   if (!isAuthenticated) throw new Error('Unauthorized');
 
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase.from('blogs').update(data).eq('id', id);
 
   if (error) return { error: error.message };
@@ -107,6 +126,7 @@ export async function togglePublishBlog(id: number, currentStatus: boolean) {
   const isAuthenticated = await checkAuth();
   if (!isAuthenticated) throw new Error('Unauthorized');
 
+  const supabase = getSupabaseAdmin();
   const { error } = await supabase
     .from('blogs')
     .update({ published: !currentStatus })

@@ -2,24 +2,16 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Clock, CalendarDays } from "lucide-react";
+import { ArrowRight, Bug, Terminal } from "lucide-react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import SectionHeading from "@/components/SectionHeading";
+import BlogPostCard, { type BlogCardData } from "@/components/BlogPostCard";
+import BuildStoryArc from "@/components/BuildStoryArc";
+import { BUILD_STORIES } from "@/content/build-stories";
 
-type BlogType = {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt: string;
-  created_at: string;
-};
-
-function readingTime(excerpt: string) {
-  return Math.max(1, Math.ceil(excerpt.split(" ").length / 40)) + " min read";
-}
-
-export default function BlogsList({ blogs }: { blogs: BlogType[] }) {
+export default function BlogsList({ blogs }: { blogs: BlogCardData[] }) {
   const rootRef = useRef<HTMLElement>(null);
+  const [featured, ...rest] = blogs;
 
   useGSAP(
     () => {
@@ -27,9 +19,9 @@ export default function BlogsList({ blogs }: { blogs: BlogType[] }) {
       if (!cards.length) return;
       gsap.from(cards, {
         opacity: 0,
-        y: 36,
-        stagger: 0.1,
-        duration: 0.65,
+        y: 40,
+        stagger: 0.12,
+        duration: 0.7,
         ease: "power3.out",
         immediateRender: false,
         scrollTrigger: {
@@ -44,7 +36,7 @@ export default function BlogsList({ blogs }: { blogs: BlogType[] }) {
 
   return (
     <section
-      id="blogs"
+      id={BUILD_STORIES.sectionId}
       ref={rootRef}
       className="section-responsive relative overflow-hidden bg-surface/30"
     >
@@ -52,73 +44,57 @@ export default function BlogsList({ blogs }: { blogs: BlogType[] }) {
         className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full blur-3xl opacity-10"
         style={{ background: "var(--brand)" }}
       />
+      <div
+        className="pointer-events-none absolute bottom-10 left-0 h-48 w-48 rounded-full blur-3xl opacity-[0.06]"
+        style={{ background: "var(--brand)" }}
+      />
 
       <div className="container-responsive relative z-10">
         <SectionHeading
-          index="05"
-          label="Writing"
-          title="Latest"
-          accent="Writing"
-          subtitle="Thoughts, deep-dives, and technical articles on things I find worth writing about."
+          index={BUILD_STORIES.sectionIndex}
+          label={BUILD_STORIES.sectionLabel}
+          title={BUILD_STORIES.homeTitle}
+          accent={BUILD_STORIES.homeAccent}
+          subtitle={BUILD_STORIES.homeSubtitle}
         />
 
-        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 mb-10 sm:mb-12">
-          {blogs.map((blog, i) => (
-            <Link
-              key={blog.id}
-              href={`/blogs/${blog.slug}`}
-              className="blog-card panel panel-hover group flex flex-col h-full overflow-hidden min-w-0"
-            >
-              <div className="flex items-center gap-2 px-4 py-2.5 border-b border-line bg-surface/70">
-                <span className="term-dot bg-red-500/80" />
-                <span className="term-dot bg-yellow-500/80" />
-                <span className="term-dot bg-brand" />
-                <span className="ml-2 font-mono text-[10px] sm:text-xs text-muted-foreground truncate">
-                  post/{String(i + 1).padStart(2, "0")} — {blog.slug}
-                </span>
-              </div>
+        <div className="mb-8 sm:mb-10 -mt-2 sm:-mt-4 space-y-4">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-card font-mono text-xs text-muted-foreground">
+              <Bug className="h-3.5 w-3.5 text-brand" />
+              {BUILD_STORIES.archiveCount(blogs.length)}
+            </span>
+            <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+              {BUILD_STORIES.homePrompt}
+            </span>
+          </div>
+          <BuildStoryArc compact />
+        </div>
 
-              <div className="flex flex-col flex-1 p-4 sm:p-5 min-w-0">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3 font-mono text-[10px] sm:text-xs text-muted-foreground">
-                  <span className="inline-flex items-center gap-1.5">
-                    <CalendarDays className="h-3.5 w-3.5 text-brand shrink-0" />
-                    {new Date(blog.created_at).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Clock className="h-3.5 w-3.5 text-brand shrink-0" />
-                    {readingTime(blog.excerpt)}
-                  </span>
-                </div>
+        <div className="space-y-5 sm:space-y-6 mb-10 sm:mb-12">
+          {featured && (
+            <BlogPostCard
+              blog={featured}
+              index={0}
+              featured
+              className="shadow-[0_0_0_1px_color-mix(in_oklch,var(--brand)_15%,transparent)]"
+            />
+          )}
 
-                <h3 className="font-display text-lg sm:text-xl font-bold mb-2.5 leading-snug group-hover:text-brand transition-colors line-clamp-2">
-                  {blog.title}
-                </h3>
-
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 flex-1 mb-5">
-                  {blog.excerpt}
-                </p>
-
-                <div className="mt-auto flex items-center justify-between pt-3 border-t border-line">
-                  <span className="font-mono text-xs text-muted-foreground group-hover:text-brand transition-colors">
-                    $ open --article
-                  </span>
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-line bg-background text-brand group-hover:border-brand/50 transition-colors">
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </div>
-              </div>
-            </Link>
-          ))}
+          {rest.length > 0 && (
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2">
+              {rest.map((blog, i) => (
+                <BlogPostCard key={blog.id} blog={blog} index={i + 1} />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex justify-center">
-          <Link href="/blogs" className="btn-ghost-brand">
-            <BookOpen className="h-4 w-4" />
-            View all articles
+          <Link href="/blogs" className="btn-brand">
+            <Terminal className="h-4 w-4" />
+            {BUILD_STORIES.homeCta}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

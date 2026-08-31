@@ -2,12 +2,8 @@ import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import Chatbot from "@/components/Chatbot";
-import SmoothScroll from "@/components/SmoothScroll";
-import Cursor from "@/components/Cursor";
 import { ThemeProvider } from "@/components/theme-provider";
+import SiteChrome from "@/components/SiteChrome";
 import { supabase } from "@/lib/supabase";
 
 const inter = Inter({
@@ -70,13 +66,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
-          <SmoothScroll>
-            <Navbar hasBlogs={hasBlogs} />
-            <main className="min-w-0 max-w-full overflow-x-hidden">{children}</main>
-            <Footer />
-            <Chatbot />
-            <Cursor />
-          </SmoothScroll>
+          <SiteChrome hasBlogs={hasBlogs}>{children}</SiteChrome>
         </ThemeProvider>
       </body>
     </html>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { loginAction } from './actions';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { adminInputClass, adminPanelClass } from './admin-ui';
 
 export default function LoginForm() {
   const [password, setPassword] = useState('');
@@ -33,12 +34,12 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-sm flex flex-col gap-4 p-6 border border-neutral-800 rounded-2xl bg-neutral-900/50"
+      className={`w-full max-w-sm flex flex-col gap-4 p-5 sm:p-6 ${adminPanelClass}`}
     >
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-neutral-400 mb-2"
+          className="block text-sm font-medium text-muted-foreground mb-2"
         >
           Password
         </label>
@@ -49,17 +50,22 @@ export default function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full px-4 py-2 bg-neutral-950 border border-neutral-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-700 text-neutral-100"
+          className={adminInputClass}
           placeholder="Enter admin password"
+          autoComplete="current-password"
         />
       </div>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && (
+        <p className="text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2">
+          {error}
+        </p>
+      )}
 
       <button
         type="submit"
         disabled={isPending}
-        className="w-full flex justify-center items-center py-2 px-4 bg-neutral-100 text-neutral-900 rounded-lg font-medium hover:bg-neutral-200 transition disabled:opacity-50"
+        className="btn-brand w-full justify-center !py-2.5 disabled:opacity-50"
       >
         {isPending ? <Loader2 className="animate-spin mr-2" size={18} /> : null}
         {isPending ? 'Authenticating...' : 'Login'}

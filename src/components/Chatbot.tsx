@@ -90,7 +90,7 @@ I believe great software is not defined by how quickly it is built, but by how r
 1. **DAHN – Hospice Nurse Documentation Support App** (Live)
    - Live: https://www.getdahn.com
    - Full-stack hospice nurse documentation app (MERN) with auth, payments, and admin dashboard
-   - Stack: React.js, Next.js, Node.js, Express.js, MongoDB, Stripe API
+   - Stack: React.js, Next.js, Node.js, Express.js, MongoDB, Stripe API, Plivo Verify API
    - Roles: Full-Stack Developer, DevOps Engineer
    - Built secure RBAC healthcare SaaS with Next.js, Node.js, Express.js, and MongoDB
    - HIPAA-compliant architecture with encrypted PHI/patient notes storage
@@ -98,6 +98,7 @@ I believe great software is not defined by how quickly it is built, but by how r
    - Clinical notes module: create, auto-draft, update, audit logging, soft-delete
    - RBAC for Admins, Agencies, and Nurses with permission-based workflows
    - Stripe subscriptions: plans, coupons, renewals, invoice generation
+   - Plivo Verify API (cx.plivo.com) for SMS OTP and phone number verification
    - Email MFA, secure sessions, multi-device login tracking
    - Secure media/file uploads for clinical documentation
    - TanStack React Query for frontend performance and sync
