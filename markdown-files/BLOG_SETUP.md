@@ -41,7 +41,12 @@ You need to create a Supabase project to store your blog data.
      published boolean default false,
      created_at timestamp with time zone default timezone('utc'::text, now()) not null
    );
+
+   -- Optional: disable RLS for a personal blog using server-side admin auth only
+   alter table public.blogs disable row level security;
    ```
+
+   > **Note:** New Supabase tables often have RLS enabled by default. If reads/writes fail with a permission error after adding env vars, either disable RLS (above) or add policies. For production, prefer `SUPABASE_SERVICE_ROLE_KEY` in `.env.local` for admin server actions (never expose this key to the browser).
 
    - Click **"Run"** to execute the query. Your table is now ready!
 
@@ -55,6 +60,7 @@ Update your `.env.local` file in the root of your project with the keys you just
 # Supabase Credentials
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
 
 # Admin Dashboard Authentication
 ADMIN_PASSWORD=your_super_secret_password_here

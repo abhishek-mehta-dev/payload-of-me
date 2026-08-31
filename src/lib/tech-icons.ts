@@ -38,7 +38,7 @@ import {
   SiOpenapiinitiative,
   SiChartdotjs,
 } from "react-icons/si";
-import { Code2, Server, Radio, FileText, Cpu, Cloud } from "lucide-react";
+import { Code2, Server, Radio, FileText, Cpu, Cloud, Phone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export type TechMeta = {
@@ -64,6 +64,8 @@ const TECH_MAP: Record<string, TechMeta> = {
   express: { icon: SiExpress, color: "#888888" },
   mongodb: { icon: SiMongodb, color: "#47A248" },
   "stripe api": { icon: SiStripe, color: "#635BFF" },
+  "plivo verify api": { icon: Phone, color: "#00A651" },
+  plivo: { icon: Phone, color: "#00A651" },
   "stripe connect": { icon: SiStripe, color: "#635BFF" },
   stripe: { icon: SiStripe, color: "#635BFF" },
   typescript: { icon: SiTypescript, color: "#3178C6" },

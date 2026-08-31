@@ -8,6 +8,7 @@ import NavbarLogo from "./NavbarLogo";
 import { ThemeToggle } from "./ThemeToggle";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { scrollToSection, lockPageScroll, unlockPageScroll } from "@/lib/lenis-store";
+import { BUILD_STORIES } from "@/content/build-stories";
 
 interface NavbarProps {
   hasBlogs?: boolean;
@@ -21,7 +22,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
       { label: "Skills", href: "/#skills" },
       { label: "Experience", href: "/#experience" },
       { label: "Projects", href: "/#projects" },
-      ...(hasBlogs ? [{ label: "Blogs", href: "/blogs" }] : []),
+      ...(hasBlogs ? [{ label: BUILD_STORIES.navLabel, href: "/blogs" }] : []),
       { label: "Contact", href: "/#contact" },
     ],
     [hasBlogs],
@@ -65,7 +66,7 @@ export default function Navbar({ hasBlogs = false }: NavbarProps) {
         if (window.location.pathname === "/") {
           setActiveSection("Home");
         } else if (window.location.pathname.startsWith("/blogs")) {
-          setActiveSection("Blogs");
+          setActiveSection(BUILD_STORIES.navLabel);
         }
         return;
       }

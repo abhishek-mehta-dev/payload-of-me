@@ -16,7 +16,7 @@ export const projects: Project[] = [
   {
     title: "DAHN – Hospice Nurse Documentation Support App",
     description:
-      "Full-stack Hospice Nurse Documentation application built with MERN stack featuring user authentication, payment integration, and admin dashboard.",
+      "Full-stack Hospice Nurse Documentation application built with MERN stack featuring user authentication, phone OTP verification via Plivo, payment integration, and admin dashboard.",
     image: "/assets/images/dahn.png?height=200&width=300",
     technologies: [
       "React.js",
@@ -25,6 +25,7 @@ export const projects: Project[] = [
       "Express.js",
       "MongoDB",
       "Stripe API",
+      "Plivo Verify API",
     ],
     liveUrl: "https://www.getdahn.com",
     githubUrl: "#",
@@ -39,6 +40,7 @@ export const projects: Project[] = [
       "Developed clinical notes module with create, auto-draft, update, audit logging, and soft-delete capabilities",
       "Implemented role-based access control (RBAC) for Admins, Agencies, and Nurses with permission-based workflows",
       "Integrated Stripe subscription billing with plan management, coupon codes, automated renewals, and invoice generation",
+      "Integrated Plivo Verify API for SMS OTP delivery and phone number verification during user authentication and onboarding",
       "Built multi-factor authentication (email MFA), secure session handling, and multi-device login tracking",
       "Added secure media/file upload workflows for clinical documentation and supporting records",
       "Optimized frontend performance and data synchronization using TanStack React Query with enhanced UX flows",
@@ -97,7 +99,8 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Taxificient – Enterprise Mobility & Intelligent Fleet Dispatch SaaS",
+    title:
+      "Taxificient – Enterprise Mobility & Intelligent Fleet Dispatch SaaS",
     description:
       "Full-scale SaaS platform for ride booking, dispatch automation, and fleet management built for taxi operators and mobility companies. Features multi-role access, live ride orchestration, driver tracking, real-time communication, subscription billing, and operational intelligence across the complete transportation lifecycle.",
     image: "/assets/images/taxificientimg.png?height=200&width=500",
@@ -112,7 +115,7 @@ export const projects: Project[] = [
       "Firebase Admin",
       "Google Maps API",
     ],
-    liveUrl: "https://backend.taxificient.ai/",
+    liveUrl: "https://backend.taxificient.ai",
     githubUrl: "#",
     featured: true,
     status: "In Progress",
@@ -137,7 +140,8 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "VentSpace AI – Mental Health Companion & Admin Intelligence Platform",
+    title:
+      "VentSpace AI – Mental Health Companion & Admin Intelligence Platform",
     description:
       "End-to-end AI microservice for an anonymous mental health companion app, including real-time chat, safety workflows, mood analytics, and a production Pyrl™ Admin dashboard—integrated with the main Laravel platform via SSO and deployed behind Nginx.",
     image: "/assets/images/ventspace-ai.png?height=200&width=300",
