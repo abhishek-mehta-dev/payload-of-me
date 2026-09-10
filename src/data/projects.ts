@@ -103,7 +103,7 @@ export const projects: Project[] = [
       "Taxificient – Enterprise Mobility & Intelligent Fleet Dispatch SaaS",
     description:
       "Full-scale SaaS platform for ride booking, dispatch automation, and fleet management built for taxi operators and mobility companies. Features multi-role access, live ride orchestration, driver tracking, real-time communication, subscription billing, and operational intelligence across the complete transportation lifecycle.",
-    image: "/assets/images/taxificientimg.png?height=200&width=500",
+    image: "/assets/images/taxificient.png?height=200&width=500",
     technologies: [
       "Next.js",
       "React.js",
